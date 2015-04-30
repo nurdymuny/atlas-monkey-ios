@@ -22,7 +22,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cmd-kv-UBj" userLabel="ViewMian">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ticketBackground.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="U9K-pC-FyI">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beyonce_blur_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="U9K-pC-FyI">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KxY-0V-xFG" userLabel="ViewMiddle">
@@ -49,39 +49,39 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TUESDAY 28April 2015" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3No-mT-CTn">
                                                         <rect key="frame" x="10" y="3" width="165" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Blok 102 Row Q" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9z-at-8b1">
                                                         <rect key="frame" x="10" y="23" width="165" height="23"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Past Bookers Presale" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9V-iU-x2z">
                                                         <rect key="frame" x="10" y="46" width="165" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="6:00pm" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEt-85-njm">
                                                         <rect key="frame" x="177" y="3" width="90" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 1100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gd0-bw-QXL">
                                                         <rect key="frame" x="177" y="23" width="90" height="23"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free $8.25" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbe-5s-i00">
                                                         <rect key="frame" x="177" y="46" width="90" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -155,13 +155,13 @@
                                                     <constraint firstAttribute="height" constant="60" id="Uba-vS-eBY"/>
                                                     <constraint firstAttribute="width" constant="60" id="cz2-nv-o70"/>
                                                 </constraints>
-                                                <state key="normal" image="menu.png">
+                                                <state key="normal" image="menu1.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beyonce Concert" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4M-Ow-ng2">
                                                 <rect key="frame" x="83" y="0.0" width="177" height="60"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -212,6 +212,7 @@
                         <outlet property="lblBlockNumber" destination="w9z-at-8b1" id="TOb-zi-PC6"/>
                         <outlet property="lblDateShow" destination="3No-mT-CTn" id="lrc-sb-5AA"/>
                         <outlet property="lblFee" destination="zbe-5s-i00" id="xgr-Zn-PqD"/>
+                        <outlet property="lblHeader" destination="n4M-Ow-ng2" id="JUB-nh-dtg"/>
                         <outlet property="lblSeatNumberShow" destination="Gd0-bw-QXL" id="HSv-wj-eZn"/>
                         <outlet property="lblTimeShow" destination="uEt-85-njm" id="4PN-W4-qhE"/>
                         <outlet property="vwCenterView" destination="KxY-0V-xFG" id="AD3-5m-sRh"/>
@@ -233,52 +234,104 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="beyonce_blur_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="nzc-Su-nuH">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="icA-53-jB3">
-                                <rect key="frame" x="-5" y="0.0" width="325" height="65"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kIM-0f-gjo">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bC-MA-Ik2">
-                                        <rect key="frame" x="18" y="18" width="28" height="24"/>
-                                        <state key="normal" image="menu1.png">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Beyonce Concert" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Fa-ON-zuT">
-                                        <rect key="frame" x="98" y="20" width="219" height="25"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beyonce_blur_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="nzc-Su-nuH">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="icA-53-jB3">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bC-MA-Ik2">
+                                                <rect key="frame" x="18" y="18" width="28" height="24"/>
+                                                <state key="normal" image="menu1.png">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="backBtnAction:" destination="Cjp-3P-I1P" eventType="touchUpInside" id="snd-G5-XN5"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Beyonce Concert" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Fa-ON-zuT">
+                                                <rect key="frame" x="98" y="20" width="219" height="25"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.90980392156862744" green="0.0" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="65" id="7E2-6w-2Gh"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Of-Eo-TAy">
+                                        <rect key="frame" x="0.0" y="65" width="320" height="49"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Granada" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K75-2w-bPd">
+                                                <rect key="frame" x="67" y="6" width="88" height="35"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Theatre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjj-99-cLY">
+                                                <rect key="frame" x="163" y="15" width="89" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.12941176470588234" green="0.12941176470588234" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="49" id="2uG-2X-T63"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SK1-yb-626" customClass="DrawPathView" customModule="Atlas" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="138" width="288" height="405"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TragicallyHipMap.png" translatesAutoresizingMaskIntoConstraints="NO" id="jxQ-Yo-LKU">
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="405"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="jxQ-Yo-LKU" secondAttribute="bottom" id="5VG-Sa-TIh"/>
+                                            <constraint firstItem="jxQ-Yo-LKU" firstAttribute="leading" secondItem="SK1-yb-626" secondAttribute="leading" id="Vr3-tm-BVu"/>
+                                            <constraint firstItem="jxQ-Yo-LKU" firstAttribute="top" secondItem="SK1-yb-626" secondAttribute="top" id="YvE-s1-mr9"/>
+                                            <constraint firstAttribute="trailing" secondItem="jxQ-Yo-LKU" secondAttribute="trailing" id="aIE-Rg-Hvu"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.90980392156862744" green="0.0" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="nzc-Su-nuH" firstAttribute="top" secondItem="kIM-0f-gjo" secondAttribute="top" id="6lF-cv-M7l"/>
+                                    <constraint firstItem="SK1-yb-626" firstAttribute="leading" secondItem="kIM-0f-gjo" secondAttribute="leading" constant="16" id="BT0-wl-qzD"/>
+                                    <constraint firstItem="icA-53-jB3" firstAttribute="leading" secondItem="kIM-0f-gjo" secondAttribute="leading" id="BVk-vI-h1M"/>
+                                    <constraint firstItem="SK1-yb-626" firstAttribute="top" secondItem="4Of-Eo-TAy" secondAttribute="bottom" constant="24" id="GZw-0c-4Fu"/>
+                                    <constraint firstItem="nzc-Su-nuH" firstAttribute="leading" secondItem="kIM-0f-gjo" secondAttribute="leading" id="H1v-9R-3TL"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Of-Eo-TAy" secondAttribute="trailing" id="HH7-FK-CUL"/>
+                                    <constraint firstAttribute="trailing" secondItem="nzc-Su-nuH" secondAttribute="trailing" id="THb-Ug-7hi"/>
+                                    <constraint firstItem="4Of-Eo-TAy" firstAttribute="top" secondItem="icA-53-jB3" secondAttribute="bottom" id="V08-CF-cGs"/>
+                                    <constraint firstAttribute="bottom" secondItem="nzc-Su-nuH" secondAttribute="bottom" id="Yvo-De-yE0"/>
+                                    <constraint firstAttribute="bottom" secondItem="SK1-yb-626" secondAttribute="bottom" constant="25" id="aKP-jJ-hEC"/>
+                                    <constraint firstAttribute="trailing" secondItem="icA-53-jB3" secondAttribute="trailing" id="qmn-Fy-QQa"/>
+                                    <constraint firstItem="4Of-Eo-TAy" firstAttribute="leading" secondItem="kIM-0f-gjo" secondAttribute="leading" id="toL-jn-4LK"/>
+                                    <constraint firstItem="icA-53-jB3" firstAttribute="top" secondItem="kIM-0f-gjo" secondAttribute="top" id="xVm-pg-gIJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="SK1-yb-626" secondAttribute="trailing" constant="16" id="y1t-zF-g81"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Of-Eo-TAy">
-                                <rect key="frame" x="0.0" y="65" width="320" height="49"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Granada" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K75-2w-bPd">
-                                        <rect key="frame" x="67" y="6" width="88" height="35"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Theatre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjj-99-cLY">
-                                        <rect key="frame" x="163" y="15" width="89" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.12941176470588234" green="0.12941176470588234" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TragicallyHipMap.png" translatesAutoresizingMaskIntoConstraints="NO" id="jxQ-Yo-LKU">
-                                <rect key="frame" x="16" y="137" width="288" height="405"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kIM-0f-gjo" firstAttribute="top" secondItem="7fP-kq-aTO" secondAttribute="topMargin" id="Wrd-vW-8Ym"/>
+                            <constraint firstItem="kIM-0f-gjo" firstAttribute="leading" secondItem="7fP-kq-aTO" secondAttribute="leadingMargin" constant="-16" id="iFf-iF-63T"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kIM-0f-gjo" secondAttribute="trailing" constant="-16" id="k6F-5u-Dcg"/>
+                            <constraint firstItem="e1I-T1-6Fl" firstAttribute="top" secondItem="kIM-0f-gjo" secondAttribute="bottom" id="zMN-hv-yxw"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="granadaTheatreMapView" destination="SK1-yb-626" id="DQM-gi-W1m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJg-XP-Wm3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -373,15 +426,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ObX-mb-f5v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="427" y="1081"/>
+            <point key="canvasLocation" x="216" y="917"/>
         </scene>
     </scenes>
     <resources>
         <image name="TragicallyHipMap.png" width="612" height="795"/>
         <image name="beyonce_blur_background.png" width="384" height="600"/>
         <image name="dancing.png" width="702" height="575"/>
-        <image name="menu.png" width="28" height="24"/>
         <image name="menu1.png" width="28" height="14"/>
-        <image name="ticketBackground.jpg" width="640" height="1136"/>
     </resources>
 </document>

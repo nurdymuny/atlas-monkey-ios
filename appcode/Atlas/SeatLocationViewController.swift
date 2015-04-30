@@ -43,38 +43,109 @@ class SeatLocationViewController: UIViewController {
     
     
     @IBOutlet var btnUser: CategoryForButtonClass!
+    @IBOutlet var granadaTheatreMapView: DrawPathView!
+    
+    
+    
+    //let screenSize: CGRect = UIScreen.mainScreen().bounds.width
+    
+    //288:405 == 1000:1500
+    //1:1 == 3.47:307
+    
+    let screenWidth = UIScreen.mainScreen().bounds.width  //320,375,414
+    let screenHeight = UIScreen.mainScreen().bounds.height //568,667,736
+    
+    var pathPointsArr : NSMutableArray!
     
     var locationId:Int = 0
     
+    var blockId = "A2"
+    
+    var pathPoints = [CGPoint]()
+    
     var outerPaths =  Dictionary<Int, LocationPoints>()
     
-    var userLocation = LocationPoints(lat: 228,lng: 492)
+    var iPhone6RatioLat : CGFloat = 1.20
+    var iPhone6RatioLong : CGFloat = 1.245
     
-    override func viewDidLoad() {
+    var userLocation = LocationPoints(lat: Int(140*1.20), lng: Int(380*1.245))
+    
+    //var userLocation = LocationPoints(lat: 140, lng: 380)
+    
+     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var latlong = LocationPoints(lat: 82,lng: 462)
+        print(userLocation)
         
-        outerPaths.updateValue(latlong, forKey: 0)
+        if screenWidth == 320 && screenHeight == 568
+        {
+            userLocation = LocationPoints(lat: Int(140), lng: Int(380))
+            
+            iPhone6RatioLat = 1.0
+            iPhone6RatioLong = 1.0
+            
+            var latlong = LocationPoints(lat: 65,lng: 320)
+            outerPaths.updateValue(latlong, forKey: 0)
+            
+            var latlong1 = LocationPoints(lat: 115, lng: 345)
+            outerPaths.updateValue(latlong1, forKey: 1)
+            
+            var latlong2 = LocationPoints(lat: 170, lng: 345)
+            outerPaths.updateValue(latlong2, forKey: 2)
+            
+            var latlong3 = LocationPoints(lat: 210, lng: 322)
+            outerPaths.updateValue(latlong3, forKey: 3)
+            
+        }
+        else if screenWidth == 375 && screenHeight == 667
+        {
+            userLocation = LocationPoints(lat: Int(140*1.20), lng: Int(380*1.245))
+            
+            iPhone6RatioLat = 1.20
+            iPhone6RatioLong = 1.245
+            
+            var latlong = LocationPoints(lat: Int(65*1.20), lng: Int(320*1.245))
+            outerPaths.updateValue(latlong, forKey: 0)
+            
+            var latlong1 = LocationPoints(lat: Int(115*1.20), lng: Int(345*1.245))
+            outerPaths.updateValue(latlong1, forKey: 1)
+            
+            var latlong2 = LocationPoints(lat: Int(170*1.20), lng: Int(345*1.245))
+            outerPaths.updateValue(latlong2, forKey: 2)
+            
+            var latlong3 = LocationPoints(lat: Int(210*1.20), lng: Int(322*1.245))
+            outerPaths.updateValue(latlong3, forKey: 3)
+        }
+        else
+        {
+            userLocation = LocationPoints(lat: Int(140*1.30), lng: Int(380*1.43))
+            
+            iPhone6RatioLat = 1.30
+            iPhone6RatioLong = 1.43
+            
+            var latlong = LocationPoints(lat: Int(65*1.30), lng: Int(320*1.43))
+            outerPaths.updateValue(latlong, forKey: 0)
+            
+            var latlong1 = LocationPoints(lat: Int(115*1.30), lng: Int(345*1.43))
+            outerPaths.updateValue(latlong1, forKey: 1)
+            
+            var latlong2 = LocationPoints(lat: Int(170*1.30), lng: Int(345*1.43))
+            outerPaths.updateValue(latlong2, forKey: 2)
+            
+            var latlong3 = LocationPoints(lat: Int(210*1.30), lng: Int(322*1.43))
+            outerPaths.updateValue(latlong3, forKey: 3)
+        }
         
-        var latlong1 = LocationPoints(lat: 132, lng: 483)
-        
-        outerPaths.updateValue(latlong1, forKey: 1)
-        
-        var latlong2 = LocationPoints(lat: 185, lng: 482)
-        
-        outerPaths.updateValue(latlong2, forKey: 2)
-        
-        var latlong3 = LocationPoints(lat: 229, lng: 459)
-        
-        outerPaths.updateValue(latlong3, forKey: 3)
         
         var(lat ,lng) = calulateMinDistancePoint()
         
-         var startPoint1 : CGPoint = CGPoint(x: userLocation.latitude, y: userLocation.longitude)
-         var endPoint1 : CGPoint = CGPoint(x: lat, y: lng)
+        var startPoint1 : CGPoint = CGPoint(x: userLocation.latitude, y: userLocation.longitude)
+        var endPoint1 : CGPoint = CGPoint(x: lat, y: lng)
+        
+        self.createPath(startPoint1, lastPoint: endPoint1)
         
         self.drawLineWithStartPoint(startPoint1, endPoint: endPoint1, myColor: UIColor.whiteColor())
+        
         
         //   var seatArr : NSArray = [btn101, btn102, btn103, btn104, btn105, btn106]
        // print(seatArr)
@@ -104,6 +175,8 @@ class SeatLocationViewController: UIViewController {
     func calulateMinDistancePoint() ->  (Int, Int)
     {
         var distanceDict =  Dictionary<Int, LocationPoints>()
+        
+        print(distanceDict)
         
         var i:Int = 0;
         
@@ -147,75 +220,110 @@ class SeatLocationViewController: UIViewController {
             }
         }
         
+        print("\(nearlat)","\(nearlng)")
+        
         return(nearlat,nearlng)
+        
     }
+    
+    func createPath(userPoisition : CGPoint,lastPoint : CGPoint)
+    {
+        print("\(lastPoint.x) ,\(lastPoint.y)")
+        if Int(lastPoint.x) == Int(115.0*iPhone6RatioLat) && Int(lastPoint.y) == Int(345.0*iPhone6RatioLong)
+        {
+            pathPoints = [userPoisition, lastPoint, CGPoint(x: 123.0*iPhone6RatioLat, y: 293.0*iPhone6RatioLong)]
+            self.blockToBlock("gateNo1")
+
+        }
+        else if Int(lastPoint.x) == Int(170.0*iPhone6RatioLat) && Int(lastPoint.y) == Int(345.0*iPhone6RatioLong)
+        {
+            pathPoints = [userPoisition, lastPoint, CGPoint(x: 160.0*iPhone6RatioLat, y: 293.0*iPhone6RatioLong)]
+            self.blockToBlock("gateNo2")
+        }
+    }
+    
+    func blockToBlock(gateNumberStr : String)
+    {
+        switch(gateNumberStr)
+        {
+        case "gateNo1":
+            if blockId == "A2"
+            {
+                pathPoints.append(CGPoint(x: 130.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+                pathPoints.append(CGPoint(x: 130.0*iPhone6RatioLat, y: 225.0*iPhone6RatioLong))
+            }
+            else if blockId == "B2"
+            {
+                pathPoints.append(CGPoint(x: 130.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+                pathPoints.append(CGPoint(x: 130.0*iPhone6RatioLat, y: 225.0*iPhone6RatioLong))
+            }
+            else if blockId == "A3"
+            {
+                pathPoints.append(CGPoint(x: 130.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+            }
+            else if blockId == "C2"
+            {
+                pathPoints.append(CGPoint(x: 155.0*iPhone6RatioLat, y: 222.0*iPhone6RatioLong))
+            }
+            else if blockId == "C3"
+            {
+                pathPoints.append(CGPoint(x: 155.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+            }
+            break
+            
+        case "gateNo2":
+            if blockId == "A2"
+            {
+                pathPoints.append(CGPoint(x: 130.0*iPhone6RatioLat, y: 225.0*iPhone6RatioLong))
+            }
+            else if blockId == "B2"
+            {
+                pathPoints.append(CGPoint(x: 155.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+                pathPoints.append(CGPoint(x: 155.0*iPhone6RatioLat, y: 222.0*iPhone6RatioLong))
+            }
+            else if blockId == "A3"
+            {
+                pathPoints.append(CGPoint(x: 130.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+            }
+            else if blockId == "C2"
+            {
+                pathPoints.append(CGPoint(x: 155.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+                pathPoints.append(CGPoint(x: 155.0*iPhone6RatioLat, y: 222.0*iPhone6RatioLong))
+            }
+            else if blockId == "C3"
+            {
+                pathPoints.append(CGPoint(x: 155.0*iPhone6RatioLat, y: 271.0*iPhone6RatioLong))
+            }
+            
+            break
+            
+        default:
+            break
+            
+        }
+    }
+    
     
     
     func drawLineWithStartPoint(startPoint : CGPoint, endPoint: CGPoint, myColor: UIColor)
     {
-    
-        
-        
-     /*   print(startPoint)
+        print(startPoint)
         print(endPoint)
         
-        var context  = UIGraphicsGetCurrentContext()
-        
-        CGContextSetStrokeColorWithColor(context, UIColor.redColor().CGColor);
-        
-        // Draw them with a 2.0 stroke width so they are a bit more visible.
-        CGContextSetLineWidth(context, 2.0);
-        
-        CGContextMoveToPoint(context, 50.0, 0.0); //start at this point
-        
-        CGContextAddLineToPoint(context, 100.0, 100.0); //draw to this point
-        
-        // and now draw the Path!
-        CGContextStrokePath(context);
-        */
-        var plusPath = UIBezierPath()
-        
-        //set the path's line width to the height of the stroke
-        plusPath.lineWidth = 10
-        
+        print(pathPoints)
+        //print(pathPoints[0].x)
     
-        //move the initial point of the path
-        //to the start of the horizontal stroke
-        plusPath.moveToPoint(startPoint)
+        granadaTheatreMapView.startPoints = startPoint
+        granadaTheatreMapView.endPoints = endPoint
         
-        //add a point to the path at the end of the stroke
-        plusPath.addLineToPoint(endPoint)
-        
-        UIColor.greenColor().setFill()
-        UIColor.whiteColor().setStroke()
-        UIColor.purpleColor().setStroke()
-        
-        plusPath.fill()
-        
-        //draw the stroke
-        plusPath.stroke()
-        
-        //set the stroke color
-       
-    }
-    
-    
-//    -(void)drawLineWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint WithColor:(UIColor *)color
-//    {
-//    UIBezierPath *aPath = [UIBezierPath bezierPath];
-//    
-//    // Set the starting point of the shape.
-//    [aPath moveToPoint:startpoint;
-//    
-//    // Draw the lines.
-//    [aPath addLineToPoint:endPoint;
-//    [aPath closePath];
-//    aPath.lineWidth = 2;
-//    [aPath fill];
-//    [aPath stroke];
-//    
-//    }
+        granadaTheatreMapView.pathPoints = pathPoints
+        granadaTheatreMapView.setNeedsDisplay()
 
+    }
+
+    @IBAction func backBtnAction(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

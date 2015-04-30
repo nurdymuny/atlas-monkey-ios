@@ -19,7 +19,17 @@ class DrawPathView: UIView {
     @IBInspectable var endColor: UIColor = UIColor.greenColor()
     
     
+    var startPoints : CGPoint!
+    var endPoints : CGPoint!
+    
+    var pathPoints: [CGPoint] = []
+    
+    
     override func drawRect(rect: CGRect) {
+        
+        print(pathPoints)
+        print(startPoints)
+        print(endPoints)
         
         var plusPath = UIBezierPath()
         
@@ -28,25 +38,46 @@ class DrawPathView: UIView {
         
         //move the initial point of the path
         //to the start of the horizontal stroke
-//        plusPath.moveToPoint(CGPoint(x: 20.0, y: 20.0))
-//        
-//        //add a point to the path at the end of the stroke
-//        plusPath.addLineToPoint(CGPoint(x: 170.0, y: 300.0))
-//        //plusPath.addLineToPoint(CGPoint(x: 170.0, y: 500.0))
-//        
+        //plusPath.moveToPoint(CGPoint(x: startPoints.x, y: startPoints.y))
+        
+        //add a point to the path at the end of the stroke
+        //plusPath.addLineToPoint(CGPoint(x: endPoints.x, y: endPoints.y))
+        
+        for i in 0..<pathPoints.count-1 {
+            
+            let startPointFrom = CGPoint(x:pathPoints[i].x,y:pathPoints[i].y)
+            
+            plusPath.moveToPoint(startPointFrom)
+            
+            let nextPoint = CGPoint(x:pathPoints[i+1].x,y:pathPoints[i+1].y)
+            print(nextPoint)
+            
+            plusPath.addLineToPoint(nextPoint)
+        }
+        
+        //plusPath.addLineToPoint(CGPoint(x: 170.0, y: 500.0))
+        
 //        plusPath.moveToPoint(CGPoint(x: 170.0, y: 300.0))
 //        
 //        //add a point to the path at the end of the stroke
 //        plusPath.addLineToPoint(CGPoint(x: 170.0, y: 500.0))
         
+        
+        //for (var i=0; i<pathPoints.)
+        
+        
         plusPath.fill()
         //draw the stroke
         plusPath.stroke()
         //set the stroke color
-        UIColor.blackColor().setFill()
-        UIColor.whiteColor().setStroke()
-        UIColor.purpleColor().setStroke()
+        UIColor.redColor().setFill()
+        UIColor.redColor().setStroke()
 
+    }
+    func drawPath() -> Void
+    {
+       // self.drawRect(self.bounds)
+        
     }
     
     

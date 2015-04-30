@@ -16,7 +16,6 @@
 		21C101171AE8C4B1005AA452 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21C101151AE8C4B1005AA452 /* LaunchScreen.xib */; };
 		21C101231AE8C4B1005AA452 /* AtlasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C101221AE8C4B1005AA452 /* AtlasTests.swift */; };
 		21C1012F1AE900AF005AA452 /* TicketPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C1012E1AE900AF005AA452 /* TicketPageViewController.swift */; };
-		21C101321AE90350005AA452 /* ticketBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 21C101311AE90350005AA452 /* ticketBackground.jpg */; };
 		21C101341AE905B6005AA452 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 21C101331AE905B6005AA452 /* menu.png */; };
 		21C101381AE92332005AA452 /* dancing.png in Resources */ = {isa = PBXBuildFile; fileRef = 21C101371AE92332005AA452 /* dancing.png */; };
 		21C1013A1AE9321E005AA452 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21C101391AE9321E005AA452 /* CoreLocation.framework */; };
@@ -49,7 +48,6 @@
 		21C101211AE8C4B1005AA452 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21C101221AE8C4B1005AA452 /* AtlasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasTests.swift; sourceTree = "<group>"; };
 		21C1012E1AE900AF005AA452 /* TicketPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketPageViewController.swift; sourceTree = "<group>"; };
-		21C101311AE90350005AA452 /* ticketBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ticketBackground.jpg; sourceTree = "<group>"; };
 		21C101331AE905B6005AA452 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		21C101371AE92332005AA452 /* dancing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dancing.png; sourceTree = "<group>"; };
 		21C101391AE9321E005AA452 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -141,7 +139,6 @@
 		21C101301AE90350005AA452 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				21C101311AE90350005AA452 /* ticketBackground.jpg */,
 				211658681AEE28590031903B /* beyonce_blur_background.png */,
 				211658661AEE236D0031903B /* TragicallyHipMap.png */,
 				2116586A1AEE3E670031903B /* menu1.png */,
@@ -239,7 +236,6 @@
 				21C101171AE8C4B1005AA452 /* LaunchScreen.xib in Resources */,
 				21C101141AE8C4B1005AA452 /* Images.xcassets in Resources */,
 				211658691AEE28590031903B /* beyonce_blur_background.png in Resources */,
-				21C101321AE90350005AA452 /* ticketBackground.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,9 +384,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
 				INFOPLIST_FILE = Atlas/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d3339e31-02f8-4be2-a7a6-b674aa9b244f";
 			};
 			name = Debug;
 		};
@@ -398,9 +398,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
 				INFOPLIST_FILE = Atlas/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d3339e31-02f8-4be2-a7a6-b674aa9b244f";
 			};
 			name = Release;
 		};

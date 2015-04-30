@@ -11,6 +11,7 @@ import CoreLocation
 
 class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
 
+    @IBOutlet var lblHeader: UILabel!
     @IBOutlet var vwCenterView: UIView!
     @IBOutlet var lblDateShow: UILabel!
     
@@ -19,11 +20,10 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet var lblTimeShow: UILabel!
     @IBOutlet var lblBlockNumber: UILabel!
     
-    //30.7800° N, 76.6900° E
+    //30.67151546° N, 76.73919589° E
     
     
     let locationManager = CLLocationManager()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,13 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
         self.drawLineWithStartPoint(startPoint1, endPoint: endPoint1, whiteColor: UIColor.purpleColor())
 
         vwCenterView.layer.cornerRadius = 10
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = kCLHeadingFilterNone
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
         // Do any additional setup after loading the view.
     }
 
@@ -42,13 +49,15 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        locationManager.stopUpdatingLocation()
+    }
+    override func viewWillDisappear(animated: Bool) {
+        locationManager.stopUpdatingLocation()
+    }
+    
     
     @IBAction func nextBtnClicked(sender: UIButton) {
-        
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
         
         self.performSegueWithIdentifier("SeatLocationVCSegue", sender: self)
     }
@@ -62,6 +71,27 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        
+        var locValue : CLLocationCoordinate2D = manager.location.coordinate
+        
+        var blockLocationValue : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 31.6715154579247, longitude: 76.739195887944)
+        
+        var myLocation : CLLocation = CLLocation(latitude: locValue.latitude, longitude: locValue.longitude)
+        var myBlockLocation : CLLocation = CLLocation(latitude: blockLocationValue.latitude, longitude: blockLocationValue.longitude)
+        var distance : CLLocationDistance = myLocation.distanceFromLocation(myBlockLocation)
+        
+        print(distance)
+        
+        //lblHeader.text = "\(distance)"
+        
+        //CLLocationDistance distance = [locA distanceFromLocation:locB];
+        
+        
+        
+        //lblHeader.text = "\(locValue.latitude)"+","+"\(locValue.longitude)"
+        print(" ---- \(locValue.latitude) " + ", ")
+        print(locValue.longitude)
+        
         CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)->Void in
             
             if (error != nil) {
@@ -90,6 +120,12 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
             println(postalCode)
             println(administrativeArea)
             println(country)
+            
+//            locationManager.delegate = self
+//            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+//            locationManager.distanceFilter = kCLHeadingFilterNone
+//            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
         }
         
     }
@@ -108,26 +144,6 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
         UIColor.greenColor().setFill()
         aPath.fill()
         aPath.stroke()
-//        print(startPoint)
-//        print(endPoint)
-//        
-//        var plusPath = UIBezierPath()
-//        
-//        //set the path's line width to the height of the stroke
-//        plusPath.lineWidth = 10
-//        
-//        //move the initial point of the path
-//        //to the start of the horizontal stroke
-//        plusPath.moveToPoint(startPoint)
-//        
-//        //add a point to the path at the end of the stroke
-//        plusPath.addLineToPoint(endPoint)
-//        
-//        //set the stroke color
-//        UIColor.purpleColor().setStroke()
-//        plusPath.fill()
-//        //draw the stroke
-//        plusPath.stroke()
     }
 
     
