@@ -24,9 +24,56 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
     
     
     let locationManager = CLLocationManager()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var ticketDetailDic : NSMutableDictionary = NSMutableDictionary()
+        ticketDetailDic.setValue("12", forKey: "unique_ticket_id")
+        
+        UserViewManager.sharedInstance.getTicketDetail(ticketDetailDic, success: {(responseDic) -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                print(responseDic)
+                
+                var successResult : Bool = responseDic.objectForKey("success") as! Bool
+                if successResult == true
+                {
+                    var responseArr : NSArray = NSArray(object: responseDic.objectForKey("user")!)
+                    print(responseArr)
+                }
+                else
+                {
+                    self.view.makeToast(message: "Seat Not Found")
+                }
+            })
+            
+            }, failure: {(error) -> Void in
+                
+                print("Error : \(error.localizedDescription)")
+        })
+
+        UserViewManager.sharedInstance.getAllBlocksDetail( {(responseDic) -> Void in
+        
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                print(responseDic)
+                
+                var successResult : Bool = responseDic.objectForKey("success") as! Bool
+                if successResult == true
+                {
+                    var responseArr : NSArray = NSArray(object: responseDic.objectForKey("data")!.objectForKey("venue")!)
+                    print(responseArr)
+                }
+                else
+                {
+                    self.view.makeToast(message: "Seat Not Found")
+                }
+            })
+        
+        }, failure: {(error) -> Void in
+                
+                print("Error : \(error.localizedDescription)")
+        })
+        
         
         var startPoint1 : CGPoint = CGPoint(x: lblDateShow.frame.origin.x, y: lblDateShow.frame.origin.y)
         var endPoint1 : CGPoint = CGPoint(x: lblFee.frame.origin.x, y: lblFee.frame.origin.y)
@@ -72,25 +119,21 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         
-        var locValue : CLLocationCoordinate2D = manager.location.coordinate
+        var locationValue : CLLocationCoordinate2D = manager.location.coordinate
         
-        var blockLocationValue : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 31.6715154579247, longitude: 76.739195887944)
+        var blockLocationValue : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 30.6715154579247, longitude: 76.739195887944)
         
-        var myLocation : CLLocation = CLLocation(latitude: locValue.latitude, longitude: locValue.longitude)
+        var userCurrnetLocation : CLLocation = CLLocation(latitude: locationValue.latitude, longitude: locationValue.longitude)
         var myBlockLocation : CLLocation = CLLocation(latitude: blockLocationValue.latitude, longitude: blockLocationValue.longitude)
-        var distance : CLLocationDistance = myLocation.distanceFromLocation(myBlockLocation)
+        var distance : CLLocationDistance = userCurrnetLocation.distanceFromLocation(myBlockLocation)
         
         print(distance)
         
-        //lblHeader.text = "\(distance)"
-        
-        //CLLocationDistance distance = [locA distanceFromLocation:locB];
-        
-        
+        lblHeader.text = "\(distance)"
         
         //lblHeader.text = "\(locValue.latitude)"+","+"\(locValue.longitude)"
-        print(" ---- \(locValue.latitude) " + ", ")
-        print(locValue.longitude)
+        print(" ---- \(locationValue.latitude) " + ", ")
+        print(locationValue.longitude)
         
         CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)->Void in
             
@@ -145,9 +188,6 @@ class TicketPageViewController: UIViewController, CLLocationManagerDelegate {
         aPath.fill()
         aPath.stroke()
     }
-
-    
-    
 
     /*
     // MARK: - Navigation

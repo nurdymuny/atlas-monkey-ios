@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>ACBAD1B1-4FD2-42C6-85CA-E4954E29FD91</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Atlas</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>A3F42A1F323B44502FA7B7CCE52DA69F5EC2A92B</key>
 		<string>https://github.com/nurdymuny/atlas-monkey-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>appcode/Atlas.xcodeproj/project.xcworkspace</string>
+	<string>appcode/Atlas.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A3F42A1F323B44502FA7B7CCE52DA69F5EC2A92B</key>

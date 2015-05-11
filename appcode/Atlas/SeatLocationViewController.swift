@@ -75,7 +75,7 @@ class SeatLocationViewController: UIViewController {
      override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(userLocation)
+//        print(userLocation)
         
         if screenWidth == 320 && screenHeight == 568
         {
@@ -182,7 +182,6 @@ class SeatLocationViewController: UIViewController {
         
         for point in outerPaths
         {
-            
             var lat:Int = point.1.latitude
             var lng:Int = point.1.longitude
             
@@ -303,15 +302,12 @@ class SeatLocationViewController: UIViewController {
         }
     }
     
-    
-    
     func drawLineWithStartPoint(startPoint : CGPoint, endPoint: CGPoint, myColor: UIColor)
     {
         print(startPoint)
         print(endPoint)
         
         print(pathPoints)
-        //print(pathPoints[0].x)
     
         granadaTheatreMapView.startPoints = startPoint
         granadaTheatreMapView.endPoints = endPoint

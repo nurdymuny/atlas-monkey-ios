@@ -22,6 +22,11 @@
 		21EC125F1AEA08D000924CD8 /* SeatLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EC125E1AEA08D000924CD8 /* SeatLocationViewController.swift */; };
 		21EC12611AEA148800924CD8 /* CategoryForButtonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EC12601AEA148800924CD8 /* CategoryForButtonClass.swift */; };
 		21EC12631AEA68BD00924CD8 /* DrawPathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EC12621AEA68BD00924CD8 /* DrawPathView.swift */; };
+		21FE97121B00912200AF8517 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FE97111B00912200AF8517 /* Constants.swift */; };
+		21FE97141B00914700AF8517 /* AtlasCommonMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FE97131B00914700AF8517 /* AtlasCommonMethod.swift */; };
+		21FE97161B00916A00AF8517 /* WebRequestViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FE97151B00916A00AF8517 /* WebRequestViewManager.swift */; };
+		21FE97181B009BAF00AF8517 /* UserViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FE97171B009BAE00AF8517 /* UserViewManager.swift */; };
+		21FE971A1B00D88200AF8517 /* HRToast+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FE97191B00D88200AF8517 /* HRToast+UIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +59,11 @@
 		21EC125E1AEA08D000924CD8 /* SeatLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatLocationViewController.swift; sourceTree = "<group>"; };
 		21EC12601AEA148800924CD8 /* CategoryForButtonClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryForButtonClass.swift; sourceTree = "<group>"; };
 		21EC12621AEA68BD00924CD8 /* DrawPathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawPathView.swift; sourceTree = "<group>"; };
+		21FE97111B00912200AF8517 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		21FE97131B00914700AF8517 /* AtlasCommonMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasCommonMethod.swift; sourceTree = "<group>"; };
+		21FE97151B00916A00AF8517 /* WebRequestViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebRequestViewManager.swift; sourceTree = "<group>"; };
+		21FE97171B009BAE00AF8517 /* UserViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewManager.swift; sourceTree = "<group>"; };
+		21FE97191B00D88200AF8517 /* HRToast+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HRToast+UIView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +89,8 @@
 			isa = PBXGroup;
 			children = (
 				21C101391AE9321E005AA452 /* CoreLocation.framework */,
+				21FE97101B0090FE00AF8517 /* ViewManager */,
+				21FE970F1B0090EF00AF8517 /* Common */,
 				21C101301AE90350005AA452 /* images */,
 				21C101091AE8C4B0005AA452 /* Atlas */,
 				21C1011F1AE8C4B1005AA452 /* AtlasTests */,
@@ -146,6 +158,25 @@
 				21C101331AE905B6005AA452 /* menu.png */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		21FE970F1B0090EF00AF8517 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				21FE97131B00914700AF8517 /* AtlasCommonMethod.swift */,
+				21FE97111B00912200AF8517 /* Constants.swift */,
+				21FE97191B00D88200AF8517 /* HRToast+UIView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		21FE97101B0090FE00AF8517 /* ViewManager */ = {
+			isa = PBXGroup;
+			children = (
+				21FE97171B009BAE00AF8517 /* UserViewManager.swift */,
+				21FE97151B00916A00AF8517 /* WebRequestViewManager.swift */,
+			);
+			path = ViewManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,10 +285,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				21EC12631AEA68BD00924CD8 /* DrawPathView.swift in Sources */,
+				21FE97181B009BAF00AF8517 /* UserViewManager.swift in Sources */,
 				21C1010D1AE8C4B1005AA452 /* AppDelegate.swift in Sources */,
+				21FE97141B00914700AF8517 /* AtlasCommonMethod.swift in Sources */,
+				21FE97161B00916A00AF8517 /* WebRequestViewManager.swift in Sources */,
 				21EC125F1AEA08D000924CD8 /* SeatLocationViewController.swift in Sources */,
+				21FE971A1B00D88200AF8517 /* HRToast+UIView.swift in Sources */,
 				21EC12611AEA148800924CD8 /* CategoryForButtonClass.swift in Sources */,
 				21C1012F1AE900AF005AA452 /* TicketPageViewController.swift in Sources */,
+				21FE97121B00912200AF8517 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,7 +426,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d3339e31-02f8-4be2-a7a6-b674aa9b244f";
+				PROVISIONING_PROFILE = "6cfc2170-bbfc-4d09-8863-fb2a658cae15";
 			};
 			name = Debug;
 		};
@@ -404,7 +440,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d3339e31-02f8-4be2-a7a6-b674aa9b244f";
+				PROVISIONING_PROFILE = "6cfc2170-bbfc-4d09-8863-fb2a658cae15";
 			};
 			name = Release;
 		};
