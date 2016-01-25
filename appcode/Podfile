@@ -1,0 +1,8 @@
+platform :ios, '9.0'
+
+# use_frameworks! is currently broken, see https://github.com/CocoaPods/CocoaPods/issues/3992
+# use_frameworks!
+
+pod 'MBProgressHUD', '~> 0.8'
+pod 'Reachability', '~> 3.1.1'
+

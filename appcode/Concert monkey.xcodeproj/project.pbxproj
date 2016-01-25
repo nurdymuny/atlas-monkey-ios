@@ -1,0 +1,655 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2102B7481BD6193000BDB969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7471BD6193000BDB969 /* AppDelegate.swift */; };
+		2102B74A1BD6193000BDB969 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7491BD6193000BDB969 /* ViewController.swift */; };
+		2102B74D1BD6193000BDB969 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2102B74B1BD6193000BDB969 /* Main.storyboard */; };
+		2102B74F1BD6193000BDB969 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2102B74E1BD6193000BDB969 /* Images.xcassets */; };
+		2102B7521BD6193000BDB969 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2102B7501BD6193000BDB969 /* LaunchScreen.xib */; };
+		2102B75E1BD6193000BDB969 /* atlasmonkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B75D1BD6193000BDB969 /* atlasmonkeyTests.swift */; };
+		2102B76B1BD624C200BDB969 /* AtlasCommonMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7681BD624C200BDB969 /* AtlasCommonMethod.swift */; };
+		2102B76C1BD624C200BDB969 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7691BD624C200BDB969 /* Constants.swift */; };
+		2102B7751BD624CB00BDB969 /* beyonce_blur_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2102B76F1BD624CB00BDB969 /* beyonce_blur_background.png */; };
+		2102B7761BD624CB00BDB969 /* dancing.png in Resources */ = {isa = PBXBuildFile; fileRef = 2102B7701BD624CB00BDB969 /* dancing.png */; };
+		2102B7771BD624CB00BDB969 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 2102B7711BD624CB00BDB969 /* menu.png */; };
+		2102B7781BD624CB00BDB969 /* menu1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2102B7721BD624CB00BDB969 /* menu1.png */; };
+		2102B7791BD624CB00BDB969 /* refreshBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 2102B7731BD624CB00BDB969 /* refreshBtn.png */; };
+		2102B77A1BD624CB00BDB969 /* TragicallyHipMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 2102B7741BD624CB00BDB969 /* TragicallyHipMap.png */; };
+		2102B77E1BD624D400BDB969 /* UserViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B77C1BD624D400BDB969 /* UserViewManager.swift */; };
+		2102B77F1BD624D400BDB969 /* WebRequestViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B77D1BD624D400BDB969 /* WebRequestViewManager.swift */; };
+		2102B7831BD625E100BDB969 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7801BD625E100BDB969 /* ForgotPasswordVC.swift */; };
+		2102B7841BD625E100BDB969 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7811BD625E100BDB969 /* LoginVC.swift */; };
+		2102B7851BD625E100BDB969 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7821BD625E100BDB969 /* SignUpVC.swift */; };
+		2102B7871BD6262D00BDB969 /* GMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2102B7861BD6262D00BDB969 /* GMapVC.swift */; };
+		210628B11BE8C944001FA591 /* UserSeatDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210628B01BE8C944001FA591 /* UserSeatDetailVC.swift */; };
+		21DFE1161C565DF40043F670 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DFE1151C565DF40043F670 /* CoreLocation.framework */; };
+		21DFE1181C565DFF0043F670 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DFE1171C565DFF0043F670 /* CoreBluetooth.framework */; };
+		21DFE11C1C5667A40043F670 /* ABTransmitters.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DFE11B1C5667A40043F670 /* ABTransmitters.m */; };
+		21DFE1281C5667B00043F670 /* libAprilBeaconSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DFE1271C5667B00043F670 /* libAprilBeaconSDK.a */; };
+		21ED7DCE1BD8C5CA00A91DE9 /* InfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ED7DCD1BD8C5CA00A91DE9 /* InfoWindow.swift */; };
+		85B2D5185AD36EB323485DA4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B53E2B230EF973BD1D75ED34 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2102B7581BD6193000BDB969 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2102B73A1BD6193000BDB969 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2102B7411BD6193000BDB969;
+			remoteInfo = atlasmonkey;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2102B7421BD6193000BDB969 /* Concert monkey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Concert monkey.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2102B7461BD6193000BDB969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2102B7471BD6193000BDB969 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2102B7491BD6193000BDB969 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2102B74C1BD6193000BDB969 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2102B74E1BD6193000BDB969 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2102B7511BD6193000BDB969 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		2102B7571BD6193000BDB969 /* Concert monkeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Concert monkeyTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2102B75C1BD6193000BDB969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2102B75D1BD6193000BDB969 /* atlasmonkeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = atlasmonkeyTests.swift; sourceTree = "<group>"; };
+		2102B7681BD624C200BDB969 /* AtlasCommonMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasCommonMethod.swift; sourceTree = "<group>"; };
+		2102B7691BD624C200BDB969 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2102B76F1BD624CB00BDB969 /* beyonce_blur_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beyonce_blur_background.png; sourceTree = "<group>"; };
+		2102B7701BD624CB00BDB969 /* dancing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dancing.png; sourceTree = "<group>"; };
+		2102B7711BD624CB00BDB969 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		2102B7721BD624CB00BDB969 /* menu1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu1.png; sourceTree = "<group>"; };
+		2102B7731BD624CB00BDB969 /* refreshBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refreshBtn.png; sourceTree = "<group>"; };
+		2102B7741BD624CB00BDB969 /* TragicallyHipMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TragicallyHipMap.png; sourceTree = "<group>"; };
+		2102B77C1BD624D400BDB969 /* UserViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewManager.swift; sourceTree = "<group>"; };
+		2102B77D1BD624D400BDB969 /* WebRequestViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebRequestViewManager.swift; sourceTree = "<group>"; };
+		2102B7801BD625E100BDB969 /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
+		2102B7811BD625E100BDB969 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		2102B7821BD625E100BDB969 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		2102B7861BD6262D00BDB969 /* GMapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMapVC.swift; sourceTree = "<group>"; };
+		210628B01BE8C944001FA591 /* UserSeatDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSeatDetailVC.swift; sourceTree = "<group>"; };
+		21DFE1151C565DF40043F670 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		21DFE1171C565DFF0043F670 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		21DFE11A1C5667A40043F670 /* ABTransmitters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABTransmitters.h; sourceTree = "<group>"; };
+		21DFE11B1C5667A40043F670 /* ABTransmitters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABTransmitters.m; sourceTree = "<group>"; };
+		21DFE11F1C5667B00043F670 /* ABBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBeacon.h; sourceTree = "<group>"; };
+		21DFE1201C5667B00043F670 /* ABBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBeaconManager.h; sourceTree = "<group>"; };
+		21DFE1211C5667B00043F670 /* ABBeaconRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBeaconRegion.h; sourceTree = "<group>"; };
+		21DFE1221C5667B00043F670 /* ABBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBluetoothManager.h; sourceTree = "<group>"; };
+		21DFE1231C5667B00043F670 /* ABDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABDefinitions.h; sourceTree = "<group>"; };
+		21DFE1241C5667B00043F670 /* ABError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABError.h; sourceTree = "<group>"; };
+		21DFE1251C5667B00043F670 /* ABSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSensor.h; sourceTree = "<group>"; };
+		21DFE1261C5667B00043F670 /* AprilBeaconSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AprilBeaconSDK.h; sourceTree = "<group>"; };
+		21DFE1271C5667B00043F670 /* libAprilBeaconSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAprilBeaconSDK.a; sourceTree = "<group>"; };
+		21DFE1291C5668C30043F670 /* monkey-bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "monkey-bridging-Header.h"; sourceTree = "<group>"; };
+		21ED7DCD1BD8C5CA00A91DE9 /* InfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoWindow.swift; sourceTree = "<group>"; };
+		B53E2B230EF973BD1D75ED34 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0D0A98D45713CD8EC25E5C9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		C579F87A4C2CF7D53B8D894E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2102B73F1BD6193000BDB969 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21DFE1181C565DFF0043F670 /* CoreBluetooth.framework in Frameworks */,
+				21DFE1161C565DF40043F670 /* CoreLocation.framework in Frameworks */,
+				85B2D5185AD36EB323485DA4 /* libPods.a in Frameworks */,
+				21DFE1281C5667B00043F670 /* libAprilBeaconSDK.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2102B7541BD6193000BDB969 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2102B7391BD6193000BDB969 = {
+			isa = PBXGroup;
+			children = (
+				21DFE1291C5668C30043F670 /* monkey-bridging-Header.h */,
+				2102B7441BD6193000BDB969 /* atlasmonkey */,
+				2102B75A1BD6193000BDB969 /* atlasmonkeyTests */,
+				2102B7431BD6193000BDB969 /* Products */,
+				B71CE9CDB895D9BABFF4F95E /* Pods */,
+				EFD13CB154B7CF1D458A5E2A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2102B7431BD6193000BDB969 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2102B7421BD6193000BDB969 /* Concert monkey.app */,
+				2102B7571BD6193000BDB969 /* Concert monkeyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2102B7441BD6193000BDB969 /* atlasmonkey */ = {
+			isa = PBXGroup;
+			children = (
+				21DFE11D1C5667B00043F670 /* AprilSDK */,
+				21DFE1191C5667A40043F670 /* ABTransmitters */,
+				2102B77B1BD624D400BDB969 /* ViewManager */,
+				2102B76E1BD624CB00BDB969 /* images */,
+				2102B7671BD624C200BDB969 /* Common */,
+				2102B7471BD6193000BDB969 /* AppDelegate.swift */,
+				2102B7491BD6193000BDB969 /* ViewController.swift */,
+				2102B7801BD625E100BDB969 /* ForgotPasswordVC.swift */,
+				2102B7811BD625E100BDB969 /* LoginVC.swift */,
+				2102B7821BD625E100BDB969 /* SignUpVC.swift */,
+				2102B74B1BD6193000BDB969 /* Main.storyboard */,
+				2102B74E1BD6193000BDB969 /* Images.xcassets */,
+				2102B7501BD6193000BDB969 /* LaunchScreen.xib */,
+				2102B7451BD6193000BDB969 /* Supporting Files */,
+				2102B7861BD6262D00BDB969 /* GMapVC.swift */,
+				21ED7DCD1BD8C5CA00A91DE9 /* InfoWindow.swift */,
+				210628B01BE8C944001FA591 /* UserSeatDetailVC.swift */,
+			);
+			path = atlasmonkey;
+			sourceTree = "<group>";
+		};
+		2102B7451BD6193000BDB969 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2102B7461BD6193000BDB969 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2102B75A1BD6193000BDB969 /* atlasmonkeyTests */ = {
+			isa = PBXGroup;
+			children = (
+				2102B75D1BD6193000BDB969 /* atlasmonkeyTests.swift */,
+				2102B75B1BD6193000BDB969 /* Supporting Files */,
+			);
+			path = atlasmonkeyTests;
+			sourceTree = "<group>";
+		};
+		2102B75B1BD6193000BDB969 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2102B75C1BD6193000BDB969 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2102B7671BD624C200BDB969 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				2102B7681BD624C200BDB969 /* AtlasCommonMethod.swift */,
+				2102B7691BD624C200BDB969 /* Constants.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		2102B76E1BD624CB00BDB969 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				2102B76F1BD624CB00BDB969 /* beyonce_blur_background.png */,
+				2102B7701BD624CB00BDB969 /* dancing.png */,
+				2102B7711BD624CB00BDB969 /* menu.png */,
+				2102B7721BD624CB00BDB969 /* menu1.png */,
+				2102B7731BD624CB00BDB969 /* refreshBtn.png */,
+				2102B7741BD624CB00BDB969 /* TragicallyHipMap.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		2102B77B1BD624D400BDB969 /* ViewManager */ = {
+			isa = PBXGroup;
+			children = (
+				2102B77C1BD624D400BDB969 /* UserViewManager.swift */,
+				2102B77D1BD624D400BDB969 /* WebRequestViewManager.swift */,
+			);
+			path = ViewManager;
+			sourceTree = "<group>";
+		};
+		21DFE1191C5667A40043F670 /* ABTransmitters */ = {
+			isa = PBXGroup;
+			children = (
+				21DFE11A1C5667A40043F670 /* ABTransmitters.h */,
+				21DFE11B1C5667A40043F670 /* ABTransmitters.m */,
+			);
+			path = ABTransmitters;
+			sourceTree = "<group>";
+		};
+		21DFE11D1C5667B00043F670 /* AprilSDK */ = {
+			isa = PBXGroup;
+			children = (
+				21DFE11E1C5667B00043F670 /* Headers */,
+				21DFE1271C5667B00043F670 /* libAprilBeaconSDK.a */,
+			);
+			path = AprilSDK;
+			sourceTree = "<group>";
+		};
+		21DFE11E1C5667B00043F670 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				21DFE11F1C5667B00043F670 /* ABBeacon.h */,
+				21DFE1201C5667B00043F670 /* ABBeaconManager.h */,
+				21DFE1211C5667B00043F670 /* ABBeaconRegion.h */,
+				21DFE1221C5667B00043F670 /* ABBluetoothManager.h */,
+				21DFE1231C5667B00043F670 /* ABDefinitions.h */,
+				21DFE1241C5667B00043F670 /* ABError.h */,
+				21DFE1251C5667B00043F670 /* ABSensor.h */,
+				21DFE1261C5667B00043F670 /* AprilBeaconSDK.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		B71CE9CDB895D9BABFF4F95E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C0D0A98D45713CD8EC25E5C9 /* Pods.debug.xcconfig */,
+				C579F87A4C2CF7D53B8D894E /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		EFD13CB154B7CF1D458A5E2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				21DFE1171C565DFF0043F670 /* CoreBluetooth.framework */,
+				21DFE1151C565DF40043F670 /* CoreLocation.framework */,
+				B53E2B230EF973BD1D75ED34 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2102B7411BD6193000BDB969 /* Concert monkey */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2102B7611BD6193000BDB969 /* Build configuration list for PBXNativeTarget "Concert monkey" */;
+			buildPhases = (
+				60ED12C1109D66E2670E595D /* Check Pods Manifest.lock */,
+				2102B73E1BD6193000BDB969 /* Sources */,
+				2102B73F1BD6193000BDB969 /* Frameworks */,
+				2102B7401BD6193000BDB969 /* Resources */,
+				1A4574EB69F6C75C4BA01E6B /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Concert monkey";
+			productName = atlasmonkey;
+			productReference = 2102B7421BD6193000BDB969 /* Concert monkey.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2102B7561BD6193000BDB969 /* Concert monkeyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2102B7641BD6193000BDB969 /* Build configuration list for PBXNativeTarget "Concert monkeyTests" */;
+			buildPhases = (
+				2102B7531BD6193000BDB969 /* Sources */,
+				2102B7541BD6193000BDB969 /* Frameworks */,
+				2102B7551BD6193000BDB969 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2102B7591BD6193000BDB969 /* PBXTargetDependency */,
+			);
+			name = "Concert monkeyTests";
+			productName = atlasmonkeyTests;
+			productReference = 2102B7571BD6193000BDB969 /* Concert monkeyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2102B73A1BD6193000BDB969 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = nurdymuny;
+				TargetAttributes = {
+					2102B7411BD6193000BDB969 = {
+						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 8STUH2S52C;
+					};
+					2102B7561BD6193000BDB969 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 2102B7411BD6193000BDB969;
+					};
+				};
+			};
+			buildConfigurationList = 2102B73D1BD6193000BDB969 /* Build configuration list for PBXProject "Concert monkey" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2102B7391BD6193000BDB969;
+			productRefGroup = 2102B7431BD6193000BDB969 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2102B7411BD6193000BDB969 /* Concert monkey */,
+				2102B7561BD6193000BDB969 /* Concert monkeyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2102B7401BD6193000BDB969 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2102B7761BD624CB00BDB969 /* dancing.png in Resources */,
+				2102B74D1BD6193000BDB969 /* Main.storyboard in Resources */,
+				2102B77A1BD624CB00BDB969 /* TragicallyHipMap.png in Resources */,
+				2102B7771BD624CB00BDB969 /* menu.png in Resources */,
+				2102B7521BD6193000BDB969 /* LaunchScreen.xib in Resources */,
+				2102B7791BD624CB00BDB969 /* refreshBtn.png in Resources */,
+				2102B7751BD624CB00BDB969 /* beyonce_blur_background.png in Resources */,
+				2102B74F1BD6193000BDB969 /* Images.xcassets in Resources */,
+				2102B7781BD624CB00BDB969 /* menu1.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2102B7551BD6193000BDB969 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A4574EB69F6C75C4BA01E6B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		60ED12C1109D66E2670E595D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2102B73E1BD6193000BDB969 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2102B77F1BD624D400BDB969 /* WebRequestViewManager.swift in Sources */,
+				2102B74A1BD6193000BDB969 /* ViewController.swift in Sources */,
+				2102B77E1BD624D400BDB969 /* UserViewManager.swift in Sources */,
+				2102B7481BD6193000BDB969 /* AppDelegate.swift in Sources */,
+				2102B7871BD6262D00BDB969 /* GMapVC.swift in Sources */,
+				2102B7841BD625E100BDB969 /* LoginVC.swift in Sources */,
+				210628B11BE8C944001FA591 /* UserSeatDetailVC.swift in Sources */,
+				2102B76B1BD624C200BDB969 /* AtlasCommonMethod.swift in Sources */,
+				2102B7831BD625E100BDB969 /* ForgotPasswordVC.swift in Sources */,
+				2102B7851BD625E100BDB969 /* SignUpVC.swift in Sources */,
+				2102B76C1BD624C200BDB969 /* Constants.swift in Sources */,
+				21DFE11C1C5667A40043F670 /* ABTransmitters.m in Sources */,
+				21ED7DCE1BD8C5CA00A91DE9 /* InfoWindow.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2102B7531BD6193000BDB969 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2102B75E1BD6193000BDB969 /* atlasmonkeyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2102B7591BD6193000BDB969 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2102B7411BD6193000BDB969 /* Concert monkey */;
+			targetProxy = 2102B7581BD6193000BDB969 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2102B74B1BD6193000BDB969 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2102B74C1BD6193000BDB969 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2102B7501BD6193000BDB969 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2102B7511BD6193000BDB969 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2102B75F1BD6193000BDB969 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2102B7601BD6193000BDB969 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2102B7621BD6193000BDB969 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0D0A98D45713CD8EC25E5C9 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
+				INFOPLIST_FILE = atlasmonkey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/atlasmonkey/AprilSDK",
+				);
+				PRODUCT_NAME = "Concert monkey";
+				PROVISIONING_PROFILE = "0dff4de7-8f7c-48d7-a12d-1e4ee8cb7d8f";
+				SWIFT_OBJC_BRIDGING_HEADER = "monkey-bridging-Header.h";
+			};
+			name = Debug;
+		};
+		2102B7631BD6193000BDB969 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C579F87A4C2CF7D53B8D894E /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
+				INFOPLIST_FILE = atlasmonkey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/atlasmonkey/AprilSDK",
+				);
+				PRODUCT_NAME = "Concert monkey";
+				PROVISIONING_PROFILE = "0dff4de7-8f7c-48d7-a12d-1e4ee8cb7d8f";
+				SWIFT_OBJC_BRIDGING_HEADER = "monkey-bridging-Header.h";
+			};
+			name = Release;
+		};
+		2102B7651BD6193000BDB969 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = atlasmonkeyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "Concert monkeyTests";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/atlasmonkey.app/atlasmonkey";
+			};
+			name = Debug;
+		};
+		2102B7661BD6193000BDB969 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = atlasmonkeyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "Concert monkeyTests";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/atlasmonkey.app/atlasmonkey";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2102B73D1BD6193000BDB969 /* Build configuration list for PBXProject "Concert monkey" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2102B75F1BD6193000BDB969 /* Debug */,
+				2102B7601BD6193000BDB969 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2102B7611BD6193000BDB969 /* Build configuration list for PBXNativeTarget "Concert monkey" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2102B7621BD6193000BDB969 /* Debug */,
+				2102B7631BD6193000BDB969 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2102B7641BD6193000BDB969 /* Build configuration list for PBXNativeTarget "Concert monkeyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2102B7651BD6193000BDB969 /* Debug */,
+				2102B7661BD6193000BDB969 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2102B73A1BD6193000BDB969 /* Project object */;
+}
