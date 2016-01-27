@@ -62,8 +62,6 @@ class WebRequestViewManager: NSObject {
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             
-            var err: NSError
-            
             if (error == nil)
             {
                 success(data)
@@ -86,8 +84,6 @@ class WebRequestViewManager: NSObject {
         let request:NSMutableURLRequest = self.requestWithMethodAndParam("POST", urlString: NSURL(string: baseURL)!.URLByAppendingPathComponent(urlString as String).absoluteString, parameters: parameters)
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
-            
-            var err: NSError
             
             if (error == nil)
             {
@@ -112,8 +108,6 @@ class WebRequestViewManager: NSObject {
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             
-            var err: NSError
-            
             if (error == nil)
             {
                 success(data)
@@ -132,11 +126,9 @@ class WebRequestViewManager: NSObject {
     
     func requestWithMethodAndParameter(method:NSString, urlString:NSString, parameters:NSDictionary, success:(NSData!) -> Void, failure:(NSError!) -> Void) -> Void
     {
-        var request:NSMutableURLRequest = self.requestWithMethodAndParam(method, urlString: urlString, parameters: parameters)
+        let request:NSMutableURLRequest = self.requestWithMethodAndParam(method, urlString: urlString, parameters: parameters)
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
-            
-            var err: NSError
             
             if (error == nil)
             {
@@ -252,8 +244,6 @@ class WebRequestViewManager: NSObject {
         let request:NSMutableURLRequest = self.requestWithHeaderMethodAndParam(method, urlString: urlString, header: header, parameters: parameters)
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             
-            var err: NSError
-            
             if (error == nil)
             {
                 success(data)
@@ -285,8 +275,6 @@ class WebRequestViewManager: NSObject {
         {
             mutableRequest.addValue(header, forHTTPHeaderField: "auth_token")
         }
-        
-        var err: NSError?
         
         if (parameters != nil)
         {

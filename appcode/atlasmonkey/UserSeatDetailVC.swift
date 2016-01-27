@@ -8,12 +8,9 @@
 
 import UIKit
 import CoreLocation
-//import GoogleMaps
 
-class UserSeatDetailVC: UIViewController, CLLocationManagerDelegate {
+class UserSeatDetailVC: UIViewController {
 
-    
-    
     @IBOutlet var lblVenue: UILabel!
     
     @IBOutlet var lblBlockNo: UILabel!
@@ -30,11 +27,9 @@ class UserSeatDetailVC: UIViewController, CLLocationManagerDelegate {
     
     var actInd : UIActivityIndicatorView = UIActivityIndicatorView()
     
-    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         actInd.frame = CGRectMake(0,0, screenWidth, screenHeight)
         actInd.center = self.view.center
@@ -59,19 +54,6 @@ class UserSeatDetailVC: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        
-        print(CLLocationManager.locationServicesEnabled())
-        
-        locationManager.requestAlwaysAuthorization()
-        
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled()
-        {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -111,74 +93,11 @@ class UserSeatDetailVC: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    //MARK:- Update user location delegate
-    /*
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        
-        //        print("didUpdateLocations Delegate")
-        //        var locValue:CLLocationCoordinate2D = manager.location.coordinate
-        //        print("locations = \(locValue.latitude) \(locValue.longitude)")
-        //
-        //        self.pathDraw(locValue.latitude, longitude: locValue.longitude)
-        //
-                manager.stopUpdatingLocation()
-        
-        print("location status : \(CLLocationManager.authorizationStatus())")
-        
-        let authstate = CLLocationManager.authorizationStatus()
-        
-        if(authstate == CLAuthorizationStatus.NotDetermined){
-            print("Not Authorised")
-            locationManager.requestWhenInUseAuthorization()
-        }
-        else if(authstate == CLAuthorizationStatus.Denied){
-            print("Not Authorised")
-            locationManager.requestWhenInUseAuthorization()
-        }
-        else if(authstate == CLAuthorizationStatus.Restricted){
-            print("Not Authorised")
-            locationManager.requestWhenInUseAuthorization()
-        }
-        else if(authstate == CLAuthorizationStatus.AuthorizedAlways){
-            print("Authorised")
-            locationManager.requestWhenInUseAuthorization()
-        }
-        
-        var location : CLLocation = locations.last as! CLLocation
-        
-    }*/
-    
-    
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("error : \(error.localizedDescription)")
-        
-        print(" location : \(CLLocationManager.locationServicesEnabled())")
-        
-        print("location status : \(CLLocationManager.authorizationStatus())")
-        
-        let authstate = CLLocationManager.authorizationStatus()
-        
-        if(authstate == CLAuthorizationStatus.NotDetermined){
-            print("Not Authorised")
-            locationManager.requestWhenInUseAuthorization()
-        }
-        else if(authstate == CLAuthorizationStatus.Denied){
-            print("Not Authorised")
-            locationManager.requestWhenInUseAuthorization()
-        }
-        else if(authstate == CLAuthorizationStatus.Restricted){
-            print("Not Authorised")
-            locationManager.requestWhenInUseAuthorization()
-        }
-        
-    }
-    
-    
     func getInfoOfSeat()
     {
         self.actInd.startAnimating()
         
-        var dictUserInfo : NSMutableDictionary = NSMutableDictionary()
+        let dictUserInfo : NSMutableDictionary = NSMutableDictionary()
         dictUserInfo.setObject(NSUserDefaults.standardUserDefaults().objectForKey("email_id") as! String, forKey: "email")
         
         UserViewManager.sharedInstance.getSeatsDetailUserLoggedIn(dictUserInfo, success: { (getResponseDic) -> Void in
@@ -201,7 +120,7 @@ class UserSeatDetailVC: UIViewController, CLLocationManagerDelegate {
                     
                     print(((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["seat_number"] as! NSString)
                     
-                    var userSeatNumber : NSString = ((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["seat_number"] as! NSString
+                    let userSeatNumber : NSString = ((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["seat_number"] as! NSString
                     
                     self.seat_id = userSeatNumber
                     
@@ -222,15 +141,16 @@ class UserSeatDetailVC: UIViewController, CLLocationManagerDelegate {
                 }
                 else
                 {
-                    self.btnViewSeat.userInteractionEnabled = false
+//                    self.btnViewSeat.userInteractionEnabled = false
                     
-                    AtlasCommonMethod.alertViewCustom("", messageStr: "No ticket found.")
+                    self.btnViewSeat.userInteractionEnabled = true
                     
+                    AtlasCommonMethod.alert("", message: "No ticket found.", view: self)
                 }
             })
             }, failure: { (error) -> Void in
                 
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
+                AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
         })
     }
     
@@ -239,7 +159,7 @@ class UserSeatDetailVC: UIViewController, CLLocationManagerDelegate {
     // MARK: -prepareForSegue
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        var vcObj = segue.destinationViewController as! ViewController
+        let vcObj = segue.destinationViewController as! ViewController
         
         vcObj.dictForUserSeatInfo = userSeatDict
         

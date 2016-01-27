@@ -60,20 +60,23 @@ class ForgotPasswordVC: UIViewController {
     }
     
 
-    @IBAction func backAction(sender: UIButton) {
+    @IBAction func backAction(sender: UIButton)
+    {
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
-    @IBAction func getPassword(sender: UIButton) {
-        
+    
+    
+    @IBAction func getPassword(sender: UIButton)
+    {
         let email : NSString = AtlasCommonMethod.trim(txtEmail.text!) as NSString
         
         if email.length == 0
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Please enter email id.")
+            AtlasCommonMethod.alert("", message: "Please enter email id.", view: self)
         }
         else if AtlasCommonMethod.isValidEmail(email as String) == false
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Please enter a valid email address.")
+            AtlasCommonMethod.alert("", message: "Please enter a valid email address.", view: self)
         }
         else
         {
@@ -104,23 +107,38 @@ class ForgotPasswordVC: UIViewController {
                 
                 if strResponse == true
                 {
-                    let alert = UIAlertView()
-                    alert.title = ""
-                    alert.message = getResponseDic.objectForKey("info") as? String
-                    alert.addButtonWithTitle("Ok")
-                    alert.delegate = self
-                    alert.show()
-                    
+                    if let _: AnyClass = NSClassFromString("UIAlertController")                                                     // iOS 8
+                    {
+                        let alert = UIAlertController(title: "", message: getResponseDic.objectForKey("info") as? String, preferredStyle: UIAlertControllerStyle.Alert)
+                        
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { action in
+                            
+                            self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+                            
+                        }))
+                        
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    else
+                    {
+                        let alert = UIAlertView()
+                        alert.title = ""
+                        alert.message = getResponseDic.objectForKey("info") as? String
+                        alert.addButtonWithTitle("Ok")
+                        alert.delegate = self
+                        alert.show()
+
+                    }
                 }
                 else
                 {
-                    AtlasCommonMethod.alertViewCustom("", messageStr: getResponseDic.objectForKey("info") as! String)
+                    AtlasCommonMethod.alert("", message: getResponseDic.objectForKey("info") as! String, view: self)
                 }
             })
             
             }, failure : { (error) -> Void in
                 print("Error : \(error)")
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
+                AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
         })
     }
     

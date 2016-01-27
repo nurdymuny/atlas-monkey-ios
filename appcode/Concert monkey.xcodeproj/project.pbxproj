@@ -31,7 +31,6 @@
 		21DFE1161C565DF40043F670 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DFE1151C565DF40043F670 /* CoreLocation.framework */; };
 		21DFE1181C565DFF0043F670 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DFE1171C565DFF0043F670 /* CoreBluetooth.framework */; };
 		21DFE11C1C5667A40043F670 /* ABTransmitters.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DFE11B1C5667A40043F670 /* ABTransmitters.m */; };
-		21DFE1281C5667B00043F670 /* libAprilBeaconSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DFE1271C5667B00043F670 /* libAprilBeaconSDK.a */; };
 		21ED7DCE1BD8C5CA00A91DE9 /* InfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ED7DCD1BD8C5CA00A91DE9 /* InfoWindow.swift */; };
 		85B2D5185AD36EB323485DA4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B53E2B230EF973BD1D75ED34 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -76,15 +75,6 @@
 		21DFE1171C565DFF0043F670 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		21DFE11A1C5667A40043F670 /* ABTransmitters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABTransmitters.h; sourceTree = "<group>"; };
 		21DFE11B1C5667A40043F670 /* ABTransmitters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABTransmitters.m; sourceTree = "<group>"; };
-		21DFE11F1C5667B00043F670 /* ABBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBeacon.h; sourceTree = "<group>"; };
-		21DFE1201C5667B00043F670 /* ABBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBeaconManager.h; sourceTree = "<group>"; };
-		21DFE1211C5667B00043F670 /* ABBeaconRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBeaconRegion.h; sourceTree = "<group>"; };
-		21DFE1221C5667B00043F670 /* ABBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBluetoothManager.h; sourceTree = "<group>"; };
-		21DFE1231C5667B00043F670 /* ABDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABDefinitions.h; sourceTree = "<group>"; };
-		21DFE1241C5667B00043F670 /* ABError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABError.h; sourceTree = "<group>"; };
-		21DFE1251C5667B00043F670 /* ABSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSensor.h; sourceTree = "<group>"; };
-		21DFE1261C5667B00043F670 /* AprilBeaconSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AprilBeaconSDK.h; sourceTree = "<group>"; };
-		21DFE1271C5667B00043F670 /* libAprilBeaconSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAprilBeaconSDK.a; sourceTree = "<group>"; };
 		21DFE1291C5668C30043F670 /* monkey-bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "monkey-bridging-Header.h"; sourceTree = "<group>"; };
 		21ED7DCD1BD8C5CA00A91DE9 /* InfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoWindow.swift; sourceTree = "<group>"; };
 		B53E2B230EF973BD1D75ED34 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,7 +90,6 @@
 				21DFE1181C565DFF0043F670 /* CoreBluetooth.framework in Frameworks */,
 				21DFE1161C565DF40043F670 /* CoreLocation.framework in Frameworks */,
 				85B2D5185AD36EB323485DA4 /* libPods.a in Frameworks */,
-				21DFE1281C5667B00043F670 /* libAprilBeaconSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +127,6 @@
 		2102B7441BD6193000BDB969 /* atlasmonkey */ = {
 			isa = PBXGroup;
 			children = (
-				21DFE11D1C5667B00043F670 /* AprilSDK */,
 				21DFE1191C5667A40043F670 /* ABTransmitters */,
 				2102B77B1BD624D400BDB969 /* ViewManager */,
 				2102B76E1BD624CB00BDB969 /* images */,
@@ -222,30 +210,6 @@
 				21DFE11B1C5667A40043F670 /* ABTransmitters.m */,
 			);
 			path = ABTransmitters;
-			sourceTree = "<group>";
-		};
-		21DFE11D1C5667B00043F670 /* AprilSDK */ = {
-			isa = PBXGroup;
-			children = (
-				21DFE11E1C5667B00043F670 /* Headers */,
-				21DFE1271C5667B00043F670 /* libAprilBeaconSDK.a */,
-			);
-			path = AprilSDK;
-			sourceTree = "<group>";
-		};
-		21DFE11E1C5667B00043F670 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				21DFE11F1C5667B00043F670 /* ABBeacon.h */,
-				21DFE1201C5667B00043F670 /* ABBeaconManager.h */,
-				21DFE1211C5667B00043F670 /* ABBeaconRegion.h */,
-				21DFE1221C5667B00043F670 /* ABBluetoothManager.h */,
-				21DFE1231C5667B00043F670 /* ABDefinitions.h */,
-				21DFE1241C5667B00043F670 /* ABError.h */,
-				21DFE1251C5667B00043F670 /* ABSensor.h */,
-				21DFE1261C5667B00043F670 /* AprilBeaconSDK.h */,
-			);
-			path = Headers;
 			sourceTree = "<group>";
 		};
 		B71CE9CDB895D9BABFF4F95E /* Pods */ = {
@@ -553,7 +517,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
 				INFOPLIST_FILE = atlasmonkey/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -573,7 +537,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sean Barker (7JWGBD6NFU)";
 				INFOPLIST_FILE = atlasmonkey/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

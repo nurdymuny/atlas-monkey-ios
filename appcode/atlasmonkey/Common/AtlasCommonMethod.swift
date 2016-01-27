@@ -10,36 +10,67 @@ import UIKit
 
 class AtlasCommonMethod: NSObject {
     
-    class func trim(stringVar : NSString) -> NSString{
+    class func trim(stringVar : NSString) -> NSString
+    {
         return stringVar.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
     }
+    
 
-    class func isValidEmail(testStr:String) -> Bool {
+    class func isValidEmail(testStr:String) -> Bool
+    {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
         let range = testStr.rangeOfString(emailRegEx, options:.RegularExpressionSearch)
         let result = range != nil ? true : false
         return result
     }
     
+    
     class func getAttributeString(allString : String, searchStringForRange : String) -> NSMutableAttributedString
     {
         let comboWord = allString
         let attributedText = NSMutableAttributedString(string:comboWord)
-        let attrs      = [NSFontAttributeName: UIFont.boldSystemFontOfSize(20), NSForegroundColorAttributeName: UIColor.whiteColor()]
+        let attrs = [NSFontAttributeName: UIFont.boldSystemFontOfSize(20), NSForegroundColorAttributeName: UIColor.whiteColor()]
         let range = NSString(string: comboWord).rangeOfString(searchStringForRange)
         attributedText.addAttributes(attrs, range: range)
         
         return attributedText
-        //        textField.attributedText = attributedText
     }
     
-    class func alertViewCustom(titleStr : NSString , messageStr : NSString) -> Void{
-        //loadingIndicator.stopAnimating()
+    
+    class func alertViewCustom(titleStr : NSString , messageStr : NSString) -> Void
+    {
         let alert = UIAlertView()
         alert.title = titleStr as String
         alert.message = messageStr as String
         alert.addButtonWithTitle("Ok")
         alert.show()
+    }
+    
+    
+    class func alertViewCustom(titleStr : NSString , messageStr : NSString , view : UIViewController?) -> Void
+    {
+        let alert = UIAlertController(title: titleStr as String, message: messageStr as String, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        view!.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    class func alert(title: String, message: String, view : UIViewController)
+    {
+        if let _: AnyClass = NSClassFromString("UIAlertController")                                                     // iOS 8 and above version
+        {
+            let myAlert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            myAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            view.presentViewController(myAlert, animated: true, completion: nil)
+        }
+        else                                                                                                            // iOS 7
+        {
+            let alert: UIAlertView = UIAlertView()
+            alert.title = title
+            alert.message = message
+            alert.addButtonWithTitle("OK")
+            alert.show()
+        }
     }
     
 //    class func isConnectedToNetwork()->Bool{
@@ -64,7 +95,9 @@ class AtlasCommonMethod: NSObject {
 //        return Status
 //    }
     
-    class func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
+    
+    class func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat
+    {
         let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.ByWordWrapping
@@ -74,6 +107,7 @@ class AtlasCommonMethod: NSObject {
         label.sizeToFit()
         return label.frame.height
     }
+    
     
     func dateTimeCampare(dateStar : String) -> NSString
     {
@@ -114,7 +148,6 @@ class AtlasCommonMethod: NSObject {
             let valueInt : Int = Int(elapsedTime)
             dateReturn = NSString(format: "%d Seconds ago",valueInt) as String
         }
-        //println(dateReturn)
         
         return dateReturn
     }

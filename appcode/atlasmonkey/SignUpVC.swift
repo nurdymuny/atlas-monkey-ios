@@ -58,7 +58,7 @@ class SignUpVC: UIViewController {
     func createUI()
     {
         let paddingView : UIView = UIView(frame: CGRectMake(0, 0, 40, 40))
-        var paddingViewEmail : UIImageView = UIImageView()
+        let paddingViewEmail : UIImageView = UIImageView()
         paddingViewEmail.frame = CGRectMake(10, 7, 20, 26)
         paddingViewEmail.image = UIImage(named: "emailUser")
         paddingView.addSubview(paddingViewEmail)
@@ -69,8 +69,8 @@ class SignUpVC: UIViewController {
         txtEmail.layer.cornerRadius = 2
         txtEmail.clipsToBounds = true
         
-        var paddingView1 : UIView = UIView(frame: CGRectMake(0, 0, 40, 40))
-        var paddingViewPassword : UIImageView = UIImageView()
+        let paddingView1 : UIView = UIView(frame: CGRectMake(0, 0, 40, 40))
+        let paddingViewPassword : UIImageView = UIImageView()
         paddingViewPassword.frame = CGRectMake(10, 7, 20, 26)
         paddingViewPassword.image = UIImage(named: "password")
         paddingView1.addSubview(paddingViewPassword)
@@ -82,8 +82,8 @@ class SignUpVC: UIViewController {
         txtPassword.clipsToBounds = true
         
         
-        var paddingView2 : UIView = UIView(frame: CGRectMake(0, 0, 40, 40))
-        var paddingViewConPassword : UIImageView = UIImageView()
+        let paddingView2 : UIView = UIView(frame: CGRectMake(0, 0, 40, 40))
+        let paddingViewConPassword : UIImageView = UIImageView()
         paddingViewConPassword.frame = CGRectMake(10, 7, 20, 26)
         paddingViewConPassword.image = UIImage(named: "password")
         paddingView2.addSubview(paddingViewConPassword)
@@ -100,41 +100,42 @@ class SignUpVC: UIViewController {
     
     // MARK: - Button Action
     
-    @IBAction func signUpAction(sender: UIButton) {
-        var email : NSString = AtlasCommonMethod.trim(txtEmail.text!) as NSString
+    @IBAction func signUpAction(sender: UIButton)
+    {
+        let email : NSString = AtlasCommonMethod.trim(txtEmail.text!) as NSString
         
-        var password : NSString = txtPassword.text! as NSString
+        let password : NSString = txtPassword.text! as NSString
         
-        var passwordConfirm : NSString = txtConfirmPassword.text! as NSString
+        let passwordConfirm : NSString = txtConfirmPassword.text! as NSString
         
         if email.length == 0 || password.length == 0 || passwordConfirm.length == 0
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "All fields are required.")
+            AtlasCommonMethod.alert("", message: "All fields are required.", view: self)
         }
         else if AtlasCommonMethod.isValidEmail(email as String) == false
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Please enter a valid email address.")
+            AtlasCommonMethod.alert("", message: "Please enter a valid email address.", view: self)
         }
         else if password.length == 0 || passwordConfirm.length == 0
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Password must be atleast 8 characters.")
+            AtlasCommonMethod.alert("", message: "Password must be atleast 8 characters.", view: self)
         }
         else if password.length < 8 || passwordConfirm.length < 8
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Password must be atleast 8 characters.")
+            AtlasCommonMethod.alert("", message: "Password must be atleast 8 characters.", view: self)
         }
         else if password != passwordConfirm
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Password must be match.Please enter again.")
+            AtlasCommonMethod.alert("", message: "Password must be match.Please enter again.", view: self)
         }
         else
         {
-            var dictUserInfo : NSMutableDictionary = NSMutableDictionary()
+            let dictUserInfo : NSMutableDictionary = NSMutableDictionary()
             dictUserInfo.setObject(email, forKey: "email")
             dictUserInfo.setObject(password, forKey: "password")
             dictUserInfo.setObject(passwordConfirm, forKey: "password_confirmation")
             
-            var finalDict : NSMutableDictionary = NSMutableDictionary()
+            let finalDict : NSMutableDictionary = NSMutableDictionary()
             finalDict.setObject(dictUserInfo, forKey: "user")
             
             self.signupAPI(finalDict)
@@ -166,9 +167,9 @@ class SignUpVC: UIViewController {
                 
                 if strResponse == true
                 {
-                    var authToken : String = getResponseDic.objectForKey("data")!.objectForKey("auth_token") as! String
-                    var emailId : String = getResponseDic.objectForKey("user")!.objectForKey("email") as! String
-                    var userId : Int = getResponseDic.objectForKey("user")!.objectForKey("id") as! Int
+                    let authToken : String = getResponseDic.objectForKey("data")!.objectForKey("auth_token") as! String
+                    let emailId : String = getResponseDic.objectForKey("user")!.objectForKey("email") as! String
+                    let userId : Int = getResponseDic.objectForKey("user")!.objectForKey("id") as! Int
                     
                     NSUserDefaults.standardUserDefaults().setValue(authToken, forKey: "auth_token")
                     NSUserDefaults.standardUserDefaults().setValue(emailId, forKey: "email_id")
@@ -182,15 +183,15 @@ class SignUpVC: UIViewController {
                 {
                     if let errors:NSArray = getResponseDic.objectForKey("errors") as? NSArray
                     {
-                        AtlasCommonMethod.alertViewCustom("", messageStr: errors.objectAtIndex(0) as! String)
+                        AtlasCommonMethod.alert("", message: errors.objectAtIndex(0) as! String, view: self)
                     }
                     else if let errors:String = getResponseDic.objectForKey("error") as? String
                     {
-                        AtlasCommonMethod.alertViewCustom("", messageStr: getResponseDic.objectForKey("error") as! String)
+                        AtlasCommonMethod.alert("", message: errors, view: self)
                     }
                     else
                     {
-                        AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong. Please try again later.")
+                        AtlasCommonMethod.alert("", message: "Something went wrong. Please try again later.", view: self)
                     }
                 }
             })
@@ -198,13 +199,14 @@ class SignUpVC: UIViewController {
             }, failure : { (error) -> Void in
                 print("Error : \(error)")
                 
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong!")
+                AtlasCommonMethod.alert("", message: "Something went wrong!", view: self)//ViewCustom("", messageStr: "Something went wrong!")
         })
     }
     
     
     // MARK: -prepareForSegue
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
         segue.destinationViewController as! ViewController
     }
     

@@ -1,12 +1,15 @@
 PODS:
+  - AprilSDK (2.0.3)
   - MBProgressHUD (0.9.2)
   - Reachability (3.1.1)
 
 DEPENDENCIES:
+  - AprilSDK
   - MBProgressHUD (~> 0.8)
   - Reachability (~> 3.1.1)
 
 SPEC CHECKSUMS:
+  AprilSDK: 55c85534d5e30bf6e82884038ce0e2541837c2f6
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   Reachability: dd9aa4fb6667b9f787690a74f53cb7634ce99893
 

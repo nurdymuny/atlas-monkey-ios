@@ -10,12 +10,27 @@ import UIKit
 import CoreLocation
 //import GoogleMaps
 
-class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManagerDelegate {
+class ViewController: UIViewController, ABBeaconManagerDelegate
+{
+    
+    @IBOutlet var scrollView: UIScrollView!
+    
+    @IBOutlet var btnBack: UIButton!
     
     var beaconManager: ABBeaconManager!
+    
     var arrBeaconUUID: NSMutableArray = NSMutableArray()
     
     var arrBeaconRange: NSMutableArray = NSMutableArray()
+    
+    var gridRow = 0
+    var gridColoumn = 0
+    var gridHeight = 50
+    var gridWidth = 50
+    var seatsArray:NSMutableArray = NSMutableArray()
+    
+    
+    
     
     var timer: NSTimer!
     
@@ -24,7 +39,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
     var arrAllSeat : NSMutableArray = NSMutableArray()
     
     var arrForAllPaths : NSMutableArray = NSMutableArray()
-    
     
     var user_seat_number : Int!
     
@@ -57,11 +71,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
     
     var levelId : NSString!
     
-    let locationManager = CLLocationManager()
-
-    
-//    var currentMarker : GMSMarker!
-    
     var shouldShowInfoWindow : Bool!
     
     var infoWindow : InfoWindow!
@@ -71,11 +80,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
     
     //MARK:- Life cycle of VC
     
-    
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
-        beaconManager = ABBeaconManager.init() //[[ABBeaconManager alloc] init];
+        beaconManager = ABBeaconManager.init()
         beaconManager.delegate = self
         
         beaconManager.requestAlwaysAuthorization()
@@ -95,54 +104,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         isGetFinalPath = "no"
         
         isUserSeatAvailable = false
-        
-        locationManager.requestAlwaysAuthorization()
-        
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled()
-        {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-        }
-        
-//        userLocation = CLLocation(latitude:30.671494026339 , longitude:76.7392091003361) // [[CLLocation alloc] initWithLatitude:-23.0002 longitude:-43.2438];
-//
-//        arrGetRightPath.addObject("\(30.671494026339),\(76.7392091003361)")
-
-//        self.setAllPaths()
-        
-//        self.googleMap()
-        
     }
     
-    override func viewWillAppear(animated: Bool) {
-        
+    override func viewWillAppear(animated: Bool)
+    {
         super.viewWillDisappear(true)
         
         //        isRepeat = false
         
-        self.startRangeBeacons()                                                       //
+//        self.startRangeBeacons()                                                       //
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        
-        self.stopRangeBeacons()                                                        //
+    override func viewWillDisappear(animated: Bool)
+    {
+//        self.stopRangeBeacons()                                                        //
         
         super.viewWillDisappear(true)
-        
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool)
+    {
+        btnBack.layer.cornerRadius = 3
+        btnBack.clipsToBounds = true
+        
+        scrollView.backgroundColor = UIColor.whiteColor()
+        scrollView.scrollEnabled = true
+        
+        self.getVenueLayout()
         
         actInd.frame = CGRectMake(0,0, screenWidth, screenHeight)
         actInd.center = self.view.center
@@ -152,7 +146,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         view.addSubview(actInd)
         actInd.stopAnimating()
         
-        var lblActInd : UILabel = UILabel()
+        let lblActInd : UILabel = UILabel()
         lblActInd.frame = CGRectMake(0, actInd.frame.size.height/2+50, actInd.frame.size.width, 50)
         lblActInd.text = "Please wait. Loading..."
         lblActInd.textAlignment = NSTextAlignment.Center
@@ -161,34 +155,80 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
     }
     
     
-    //MARK:- Update user location delegate
-    
-   /* func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        
-        //        print("didUpdateLocations Delegate")
-        //        var locValue:CLLocationCoordinate2D = manager.location.coordinate
-        //        print("locations = \(locValue.latitude) \(locValue.longitude)")
-        //
-        //        self.pathDraw(locValue.latitude, longitude: locValue.longitude)
-        //
-        //        manager.stopUpdatingLocation()
-        
-        
-        var location : CLLocation = locations.last as! CLLocation// lastObject
-        
-        
-    }*/
-    
-    
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        
-    }
-    
-    func updateMyLocation(locations : CLLocation)
+    @IBAction func btnBackAction(sender: UIButton)
     {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
+    func getVenueLayout(){
+        
+        UserViewManager.sharedInstance.getVenueLayOut({ (response) -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                let dict = response.valueForKey("levels")
+                print("dict : \(dict)")
+                let gridDict : NSDictionary = dict!.valueForKey("grid") as! NSDictionary
+                
+                self.gridRow = gridDict.valueForKey("x") as! Int
+                self.gridColoumn = gridDict.valueForKey("y") as! Int
+                
+                let width =  CGFloat(self.gridColoumn * self.gridWidth)
+                let height = CGFloat(self.gridRow * self.gridHeight)
+                self.scrollView.contentSize = CGSizeMake(width , height);
+                
+                self.seatsArray = (dict!.valueForKey("seats")?.mutableCopy())! as! NSMutableArray
+                
+                self.gridView()
+            })
+            
+            }) { (error) -> Void in
+                print(error)
+        }
+    }
+    
+    func gridView()
+    {
+        var row = 0
+        var coloumn = 0
+        var indexValue = 0;
+        
+        for(row = 0 ; row < gridRow ; row++)
+        {
+            for(coloumn = 0 ; coloumn < gridColoumn ; coloumn++)
+            {
+                let view:UIView = UIView()
+                view.frame = CGRectMake(CGFloat(coloumn * gridWidth), CGFloat(row * gridHeight), CGFloat(gridWidth), CGFloat(gridHeight))
+                view.backgroundColor = UIColor.whiteColor()
+                
+                if(indexValue < (gridRow * gridColoumn))
+                {
+                    let dict = seatsArray.objectAtIndex(indexValue)
+                    print(dict)
+                    
+                    if(dict.valueForKey("is_path")?.boolValue ==  false)
+                    {
+                        view.clipsToBounds = true
+//                        view.layer.borderWidth = 1.0
+//                         view.layer.borderColor = UIColor.blackColor().CGColor
+                        self.scrollView.addSubview(view)
+                        
+                        let imageView:UIImageView = UIImageView()
+                        imageView.frame = CGRectMake(10, 10, 30, 30)
+                        imageView.backgroundColor = UIColor.grayColor()
+                        imageView.layer.cornerRadius = 3
+                        imageView.clipsToBounds = true
+                        view.addSubview(imageView)
+                    }
+                    
+                    indexValue++
+                }
+                print("<-coloumn-> \(coloumn)")
+            }
+            print("\n <-row-> \(row)")
+        }
+    }
     
     
     //MARK: -  Custom methods
@@ -203,15 +243,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
             print("\(index) ------------ \(obj)")
             print(obj["uuid"])
             
-            let proximityUUID: NSUUID = NSUUID.init(UUIDString: obj["uuid"] as! String)!//(value["uuid"])//[[NSUUID alloc] initWithUUIDString:obj[@"uuid"]];
+            let proximityUUID: NSUUID = NSUUID.init(UUIDString: obj["uuid"] as! String)!
             
             let regionIdentifier: String = obj["uuid"] as! String
-            
             
             var beaconRegion : ABBeaconRegion!
             
             beaconRegion =  ABBeaconRegion.init(proximityUUID: proximityUUID, identifier: regionIdentifier)
-            //[[ABBeaconRegion alloc] initWithProximityUUID:proximityUUID identifier:regionIdentifier];
+            
             beaconRegion.notifyOnEntry = true
             
             beaconRegion.notifyOnExit = true
@@ -245,10 +284,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
     }
     
     
-    func beaconManager(manager: ABBeaconManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: ABBeaconRegion!) {
+    func beaconManager(manager: ABBeaconManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: ABBeaconRegion!)
+    {
         
         print("iBeacons : \(beacons)")
-        
         
         if(beacons.count != 0)
         {
@@ -287,13 +326,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
                 arrBeaconUUID.addObject(dictionary)
                 arrBeaconRange.addObject(closestBeacon.distance as Double)
             }
-            
         }
-        
-        
     }
     
-    func beaconManager(manager: ABBeaconManager!, rangingBeaconsDidFailForRegion region: ABBeaconRegion!, withError error: NSError!) {
+    
+    func beaconManager(manager: ABBeaconManager!, rangingBeaconsDidFailForRegion region: ABBeaconRegion!, withError error: NSError!)
+    {
         print("Error : \(error.description)")
     }
     
@@ -372,7 +410,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         
         let nearestBeaconMinor = arrBeaconUUID[Index!]["minor"]
         
-        print("nearestBeaconMajor : \(nearestBeaconMajor) ----- nearestBeaconMinor :\(nearestBeaconMinor)")
+        print("nearestBeaconUUID : \(nearestBeaconUUID) ---- nearestBeaconMajor : \(nearestBeaconMajor) ---- nearestBeaconMinor :\(nearestBeaconMinor)")
         
 //        lblNearestBeacon.text = nearestBeaconUUID
         
@@ -383,10 +421,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         self.startRangeBeacons()
         
     }
-    
-    
-    
-    
     
     
     //MARK:- Load google map
@@ -400,7 +434,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         
         print(dictForUserSeatInfo.valueForKey("seat_number") as! NSString)
         
-        var userSeatNumber : NSString = dictForUserSeatInfo.valueForKey("seat_number") as! NSString
+        let userSeatNumber : NSString = dictForUserSeatInfo.valueForKey("seat_number") as! NSString
         
         self.user_seat_number = userSeatNumber.integerValue
         
@@ -416,10 +450,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         
         let seatLatLong : CLLocation = CLLocation(latitude:lati , longitude:longi)
         
+        print("seatLatLong : \(seatLatLong)")
        
-        
-        
-        
         infoWindow = InfoWindow(frame: CGRectMake(20, screenHeight/2-50, screenWidth-40, 100))
         infoWindow.initWithFrameSize()
         infoWindow.backgroundColor = UIColor(red: 246.0/255.0, green: 0.0/255.0, blue: 147.0/255, alpha: 1.0)
@@ -428,7 +460,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         self.view.addSubview(infoWindow)
         infoWindow.hidden = true
         shouldShowInfoWindow = false
-        
     }
     
     func buttonRefreshAction(sender : UIButton)
@@ -448,9 +479,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         getDist_End = 0.0
         
         isGetFinalPath = "no"
-        
-    
-        
+       
         self.markAllSeats()
     }
     
@@ -458,14 +487,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
     func buttonBackAction(sender : UIButton)
     {
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    
     }
-    
-    
-    
+ 
     
     //MARK:- APIs
-    
     func getAllSeatsDetailOfUserLoggedIn()
     {
         self.actInd.startAnimating()
@@ -487,7 +512,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
                 {
                     print(((getResponseDic["data"] as! NSDictionary)["seats"] as! NSArray)[0]["seat_number"] as! NSString)
                     
-                    var userSeatNumber : NSString = ((getResponseDic["data"] as! NSDictionary)["seats"] as! NSArray)[0]["seat_number"] as! NSString
+                    let userSeatNumber : NSString = ((getResponseDic["data"] as! NSDictionary)["seats"] as! NSArray)[0]["seat_number"] as! NSString
                     
                     self.user_seat_number = userSeatNumber.integerValue
                     
@@ -518,17 +543,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         
         UserViewManager.sharedInstance.getAllLevelssDetail(venue_id, success: { (getResponseDic) -> Void in
             
-            //            print("All Blocks responseDict : \(getResponseDic)")
-            
             self.actInd.stopAnimating()
             
             let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
             
-            var arrForLevel : NSMutableArray = NSMutableArray()
+            let arrForLevel : NSMutableArray = NSMutableArray()
             
             if strResponse == true
             {
-                
                 arrForLevel.addObjectsFromArray(((getResponseDic["data"] as! NSDictionary)["venue"] as! NSDictionary)["levels"] as! NSArray as [AnyObject])
                 
                 print("arrForLevel : \(arrForLevel)")
@@ -538,7 +560,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
                     let levelId: String = String(arrForLevel.objectAtIndex(i).objectForKey("id") as! Int)
                     self.getAllBlocks(levelId)
                 }
-                
             }
             
             }, failure : { (error) -> Void in
@@ -548,7 +569,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
         })
     }
     
-    
+ 
     func getAllBlocks(levelId : String)
     {
         self.actInd.startAnimating()
@@ -561,7 +582,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
             
             let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
             
-            var arrForBlocks : NSMutableArray = NSMutableArray()
+            let arrForBlocks : NSMutableArray = NSMutableArray()
             
             if strResponse == true
             {
@@ -740,11 +761,5 @@ class ViewController: UIViewController, CLLocationManagerDelegate, ABBeaconManag
                 AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
         })
     }
-    
- 
-   
-
-    
-    
     
 }

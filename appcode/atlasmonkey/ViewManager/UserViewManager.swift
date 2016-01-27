@@ -399,4 +399,27 @@ class UserViewManager: NSObject {
         
     }
     
+    
+    func getVenueLayOut(success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
+    {
+        let UrlWithSearchKeyword = "http://112.196.19.154/api/v4/venue/layout/get"
+        webObj.getRequestWithEndPoint(UrlWithSearchKeyword, parameters: nil, success: {(data) -> Void in
+            
+            do
+            {
+                let getResponseDic: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                success(getResponseDic)
+            }
+            catch
+            {
+                print("error : getRestaurantLayout")
+            }
+            
+            }, failure: {(error) -> Void in
+                failure(error)
+                print("Error : \(error.localizedDescription)")
+        })
+        
+    }
+    
 }

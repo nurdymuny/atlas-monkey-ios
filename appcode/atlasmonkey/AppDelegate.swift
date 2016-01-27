@@ -24,25 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
-        //Network Reachability
-        /*reachability.startNotifier()
-        
-        reachability.whenReachable = { reachability in
-            self.updateWhenReachable(reachability)
-        }
-        reachability.whenUnreachable = { reachability in
-            self.updateWhenNotReachable(reachability)
-        }
-        
-        if reachability.currentReachabilityStatus != Reachability.NetworkStatus.NotReachable
-        {
-            
-        }
-        else
-        {
-            
-        }
-        */
         return true
     }
 
@@ -67,40 +48,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-    
-    
-    //MARK:- Reachability Methods
-    
-    //MARK: NetWorkStatus
-    
-//    func updateWhenReachable(reachability: Reachability)
-//    {
-//        if reachability.currentReachabilityStatus.description == "Cellular"
-//        {
-//            //            UIAlertView(title: "Internet Connection.", message: "your internet connection is celluler.", delegate: nil, cancelButtonTitle: "Ok").show()
-//            NSNotificationCenter.defaultCenter().postNotificationName("GetNotificationNet", object:nil)
-//        }
-//        else if reachability.currentReachabilityStatus.description == "WiFi"
-//        {
-//            //            UIAlertView(title: "Internet Connection.", message: "your internet connection is wifi.", delegate: nil, cancelButtonTitle: "Ok").show()
-//            NSNotificationCenter.defaultCenter().postNotificationName("GetNotificationNet", object:nil)
-//        }
-//    }
-//    
-//    func updateWhenNotReachable(reachability: Reachability)
-//    {
-//        NSNotificationCenter.defaultCenter().postNotificationName("GetNotificationNet", object:nil)
-//        UIAlertView(title: "NO Internet Connection.", message: "Please check your internet connection.", delegate: nil, cancelButtonTitle: "Ok").show()
-//    }
-//    
-//    //MARK: Application status functions
-//    
-//    func isInternetReachable() -> Bool
-//    {
-//        return self.reachability.isReachable()
-//    }
-
-
 }
 

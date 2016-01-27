@@ -7,9 +7,9 @@
 //
 
 import UIKit
-//import GoogleMaps
+import CoreLocation
 
-class LoginVC: UIViewController {
+class LoginVC: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet var txtEmail: UITextField!
     
@@ -20,6 +20,8 @@ class LoginVC: UIViewController {
     @IBOutlet var btnSignUp: UIButton!
     
     var actInd : UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    let locationManagerObj = CLLocationManager()
     
     // MARK: - Life Cycle
     
@@ -63,6 +65,20 @@ class LoginVC: UIViewController {
         lblActInd.textAlignment = NSTextAlignment.Center
         lblActInd.textColor = UIColor.whiteColor()
         actInd.addSubview(lblActInd)
+        
+        
+        print(CLLocationManager.locationServicesEnabled())
+        
+        locationManagerObj.requestAlwaysAuthorization()
+        
+        locationManagerObj.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled()
+        {
+            locationManagerObj.delegate = self
+            locationManagerObj.desiredAccuracy = kCLLocationAccuracyBest
+            locationManagerObj.startUpdatingLocation()
+        }
        
     }
     
@@ -115,11 +131,11 @@ class LoginVC: UIViewController {
         
         if email.length == 0 || password.length == 0
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "All fields are required.")
+            AtlasCommonMethod.alert("", message: "All fields are required.", view: self)
         }
         else if AtlasCommonMethod.isValidEmail(email as String) == false
         {
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Please enter a valid email address.")
+            AtlasCommonMethod.alert("", message: "Please enter a valid email address.", view: self)
         }
         else
         {
@@ -176,15 +192,68 @@ class LoginVC: UIViewController {
                 }
                 else
                 {
-                    AtlasCommonMethod.alertViewCustom("", messageStr: getResponseDic.objectForKey("info") as! String)
+                    AtlasCommonMethod.alert("", message: getResponseDic.objectForKey("info") as! String, view: self)
                 }
             })
             
         }, failure:{ (error) -> Void in
-            AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
+             AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
         })
     }
     
+    
+    //MARK:- Update user location delegate
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        manager.stopUpdatingLocation()
+        
+        print("location status : \(CLLocationManager.authorizationStatus())")
+        
+        let authstate = CLLocationManager.authorizationStatus()
+        
+        if(authstate == CLAuthorizationStatus.NotDetermined){
+            print("Not Authorised")
+            locationManagerObj.requestWhenInUseAuthorization()
+        }
+        else if(authstate == CLAuthorizationStatus.Denied){
+            print("Not Authorised")
+            locationManagerObj.requestWhenInUseAuthorization()
+        }
+        else if(authstate == CLAuthorizationStatus.Restricted){
+            print("Not Authorised")
+            locationManagerObj.requestWhenInUseAuthorization()
+        }
+        else if(authstate == CLAuthorizationStatus.AuthorizedAlways){
+            print("Authorised")
+            locationManagerObj.requestWhenInUseAuthorization()
+        }
+    }
+    
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("error : \(error.localizedDescription)")
+        
+        print(" location : \(CLLocationManager.locationServicesEnabled())")
+        
+        print("location status : \(CLLocationManager.authorizationStatus())")
+        
+        let authstate = CLLocationManager.authorizationStatus()
+        
+        if(authstate == CLAuthorizationStatus.NotDetermined){
+            print("Not Authorised")
+            locationManagerObj.requestWhenInUseAuthorization()
+        }
+        else if(authstate == CLAuthorizationStatus.Denied){
+            print("Not Authorised")
+            locationManagerObj.requestWhenInUseAuthorization()
+        }
+        else if(authstate == CLAuthorizationStatus.Restricted){
+            print("Not Authorised")
+            locationManagerObj.requestWhenInUseAuthorization()
+        }
+        
+    }
     
     // MARK: - Delegate textField
     

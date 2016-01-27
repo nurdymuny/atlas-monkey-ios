@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4325B021-9221-4CA0-8D08-1B6F14F15D24</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Concert monkey</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>A3F42A1F323B44502FA7B7CCE52DA69F5EC2A92B</key>
+		<string>https://github.com/nurdymuny/atlas-monkey-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>appcode/Concert monkey.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>A3F42A1F323B44502FA7B7CCE52DA69F5EC2A92B</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/nurdymuny/atlas-monkey-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>A3F42A1F323B44502FA7B7CCE52DA69F5EC2A92B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A3F42A1F323B44502FA7B7CCE52DA69F5EC2A92B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>atlas-monkey-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>
