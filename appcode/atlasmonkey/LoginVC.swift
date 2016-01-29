@@ -8,8 +8,10 @@
 
 import UIKit
 import CoreLocation
+import CoreBluetooth
 
-class LoginVC: UIViewController, CLLocationManagerDelegate {
+
+class LoginVC: UIViewController, CLLocationManagerDelegate, CBCentralManagerDelegate, alertProtocol {
 
     @IBOutlet var txtEmail: UITextField!
     
@@ -23,12 +25,17 @@ class LoginVC: UIViewController, CLLocationManagerDelegate {
     
     let locationManagerObj = CLLocationManager()
     
+    var centralManager: CBCentralManager!
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.createUI()
+        
+        // Start up the CBCentralManager
+        centralManager = CBCentralManager(delegate: self, queue: dispatch_get_main_queue())
 
 //        txtEmail.becomeFirstResponder()
         
@@ -79,6 +86,8 @@ class LoginVC: UIViewController, CLLocationManagerDelegate {
             locationManagerObj.desiredAccuracy = kCLLocationAccuracyBest
             locationManagerObj.startUpdatingLocation()
         }
+        
+        
        
     }
     
@@ -231,7 +240,8 @@ class LoginVC: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError)
+    {
         print("error : \(error.localizedDescription)")
         
         print(" location : \(CLLocationManager.locationServicesEnabled())")
@@ -255,6 +265,37 @@ class LoginVC: UIViewController, CLLocationManagerDelegate {
         
     }
     
+    
+    //MARK:- Bluetooth Delegate
+    //MARK: - delegates
+    func centralManagerDidUpdateState(central: CBCentralManager)
+    {
+        if central.state == CBCentralManagerState.PoweredOff
+        {
+            return
+//            self.checkBlueTooth()
+        }
+    }
+    
+//    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
+//        if peripheral.state == CBPeripheralManagerState.PoweredOff {
+//            print("Stopped")
+//            self.checkBlueTooth()
+//        } else if peripheral.state == CBPeripheralManagerState.Unsupported {
+//            print("Unsupported")
+//            self.checkBlueTooth()
+//        } else if peripheral.state == CBPeripheralManagerState.Unauthorized {
+//            print("This option is not allowed by your application")
+//            self.checkBlueTooth()
+//        }
+//    }
+    
+    func checkBlueTooth()
+    {
+        AtlasCommonMethod.sharedInstance.delegateAlert = self
+        AtlasCommonMethod.sharedInstance.getAlertMessage("Bluetooth Warning", messageStr: "Please turn on the bluetooth by tapping on setting, If it is turn off currently?", view: self)
+    }
+    
     // MARK: - Delegate textField
     
     func textFieldShouldReturn(textField: UITextField) -> Bool
@@ -269,6 +310,17 @@ class LoginVC: UIViewController, CLLocationManagerDelegate {
         }
         
         return true
+    }
+    
+    
+    //MARK:- delegate AtlasCommonMethod
+    func settingSelected()
+    {
+        UIApplication.sharedApplication().openURL(NSURL(string: "prefs:root=Bluetooth")!)
+    }
+    func cancelSelected()
+    {
+//        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -289,6 +341,8 @@ class LoginVC: UIViewController, CLLocationManagerDelegate {
             segue.destinationViewController as! UserSeatDetailVC
         }
     }
+    
+    
     
     
     /*

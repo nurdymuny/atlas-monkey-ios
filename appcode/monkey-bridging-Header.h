@@ -11,5 +11,6 @@
 
 #import "AprilBeaconSDK.h"
 #import "ABTransmitters.h"
+#import "Reachability.h"
 
 #endif /* monkey_bridging_Header_h */

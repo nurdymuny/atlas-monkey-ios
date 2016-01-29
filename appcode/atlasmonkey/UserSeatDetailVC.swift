@@ -89,13 +89,55 @@ class UserSeatDetailVC: UIViewController {
     
     func alertForWrning()
     {
-        UIAlertView(title: "Location not enabled.", message: "Concert monkey required to access your location. Please goto Setting -> Concert monkey -> Location -> Always", delegate: nil, cancelButtonTitle: "OK").show()
+        AtlasCommonMethod.alert("Location not enabled.", message: "Concert monkey required to access your location. Please goto Setting -> Concert monkey -> Location -> Always", view: self)
     }
     
     
     func getInfoOfSeat()
     {
         self.actInd.startAnimating()
+        
+        UserViewManager.sharedInstance.getUserSeatInfoWithUUID({ (getResponseDic) -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                print("getSeatsDetailUserLoggedIn responseDict : \(getResponseDic)")
+                
+                self.actInd.stopAnimating()
+                
+                if let strResponse :Bool = getResponseDic.objectForKey("success") as? Bool
+                {
+                    if strResponse == true
+                    {
+                        self.userSeatDict = getResponseDic["seats"] as! NSMutableDictionary
+                        
+                        let UserBlockId : String = String(self.userSeatDict["block_id"] as! Int)
+                        
+                        let userRowNumber : String = self.userSeatDict["row"] as! String
+                        
+                        let userSeatNumber : Int = self.userSeatDict["seat_number"] as! Int
+                        
+                        self.lblSeatNo.text = "\(userRowNumber)-\(userSeatNumber)"
+                        
+                        self.lblBlockNo.text = UserBlockId
+                    }
+                    else
+                    {
+                        AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
+                    }
+                }
+                else
+                {
+                    AtlasCommonMethod.alert("Server Response Error", message: "Something went wrong.Please try again!", view: self)
+                }
+                
+            })
+            
+            }, failure:  { (error) -> Void in
+                 AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
+        })
+        
+        /*
         
         let dictUserInfo : NSMutableDictionary = NSMutableDictionary()
         dictUserInfo.setObject(NSUserDefaults.standardUserDefaults().objectForKey("email_id") as! String, forKey: "email")
@@ -151,7 +193,7 @@ class UserSeatDetailVC: UIViewController {
             }, failure: { (error) -> Void in
                 
                 AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
-        })
+        }) */
     }
     
     
@@ -161,6 +203,7 @@ class UserSeatDetailVC: UIViewController {
         
         let vcObj = segue.destinationViewController as! ViewController
         
+        print(userSeatDict)
         vcObj.dictForUserSeatInfo = userSeatDict
         
     }

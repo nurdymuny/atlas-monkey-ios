@@ -1,9 +1,9 @@
 //
 //  WebRequestViewManager.swift
-//  Swoppler
+//  Atlas
 //
 //  Created by Brian on 27/03/15.
-//  Copyright (c) 2015 com.trend. All rights reserved.
+//  Copyright (c) 2015 com.nurdymuny. All rights reserved.
 //
 
 import UIKit

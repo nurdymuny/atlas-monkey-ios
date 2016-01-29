@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Reachability
 //import GoogleMaps
 
 
@@ -14,6 +15,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var internetReachable: Reachability?
 
 //    let reachability = Reachability.reachabilityForInternetConnection()
 
@@ -23,6 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
 //        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        
+        internetReachable = Reachability.reachabilityForInternetConnection()//[Reachability reachabilityForInternetConnection];
+        internetReachable?.startNotifier()
+//           [internetReachable startNotifie?r];
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNetworkStatus:", name: kReachabilityChangedNotification, object: nil)
+//             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+        
+        
+        UIApplication.sharedApplication().idleTimerDisabled = true
         
         return true
     }
@@ -47,6 +58,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func checkNetworkStatus(notice : NSNotification )
+    {
+        // called after network status changes
+        
+        let internetStatus : NetworkStatus = (internetReachable?.currentReachabilityStatus())!
+        
+        switch(internetStatus.rawValue)
+        {
+        case 0:
+            print("The internet is down.")
+            AtlasCommonMethod.alertViewCustom("", messageStr: "Your internet connection is down,Please check your internet connection!")
+        case 1:
+            AtlasCommonMethod.alertViewCustom("", messageStr: "Internet Connection is available.")
+            return
+        case 2:
+            AtlasCommonMethod.alertViewCustom("", messageStr: "Internet Connection is available.")
+            return
+        default:
+            print("Default")
+            
+        }
     }
 }
 

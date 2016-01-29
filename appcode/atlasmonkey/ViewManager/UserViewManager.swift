@@ -3,7 +3,7 @@
 //  Atlas
 //
 //  Created by Brian on 27/03/15.
-//  Copyright (c) 2015 com.trend. All rights reserved.
+//  Copyright (c) 2015 com.nurdymuny. All rights reserved.
 //
 //self.delegateDeshBoard?.getFeedsResultArr!(getFeedArr)
 
@@ -419,7 +419,28 @@ class UserViewManager: NSObject {
                 failure(error)
                 print("Error : \(error.localizedDescription)")
         })
-        
+    }
+    
+    
+    func getUserSeatInfoWithUUID(success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
+    {
+        let UrlWithSearchKeyword = "http://112.196.19.154/api/v4/venue/get_user_seat_info.json"
+        webObj.getRequestWithEndPoint(UrlWithSearchKeyword, parameters: nil, success: {(data) -> Void in
+            
+            do
+            {
+                let getResponseDic: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                success(getResponseDic)
+            }
+            catch
+            {
+                print("error : getRestaurantLayout")
+            }
+            
+            }, failure: {(error) -> Void in
+                failure(error)
+                print("Error : \(error.localizedDescription)")
+        })
     }
     
 }

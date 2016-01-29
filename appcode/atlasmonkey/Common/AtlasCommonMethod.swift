@@ -8,7 +8,29 @@
 
 import UIKit
 
+@objc protocol alertProtocol
+{
+    optional func settingSelected()
+    optional func cancelSelected()
+}
+
 class AtlasCommonMethod: NSObject {
+    
+    var delegateAlert:alertProtocol?
+    
+    
+    class var sharedInstance: AtlasCommonMethod {
+        struct Static {
+            static var instance: AtlasCommonMethod?
+            static var token: dispatch_once_t = 0
+        }
+        
+        dispatch_once(&Static.token) {
+            Static.instance = AtlasCommonMethod()
+        }
+        
+        return Static.instance!
+    }
     
     class func trim(stringVar : NSString) -> NSString
     {
@@ -150,6 +172,53 @@ class AtlasCommonMethod: NSObject {
         }
         
         return dateReturn
+    }
+    
+    
+    
+    func getAlertMessage(titleMsg: String , messageStr: String , view : UIViewController)
+    {
+        if let _: AnyClass = NSClassFromString("UIAlertController")
+        {
+            let myAlert : UIAlertController = UIAlertController(title: titleMsg, message: messageStr, preferredStyle: UIAlertControllerStyle.Alert)
+            
+            myAlert.addAction(UIAlertAction(title: "Setting", style: UIAlertActionStyle.Default, handler: { (UIAlertAction) -> Void in
+                
+                self.delegateAlert?.settingSelected!()
+            }))
+            
+            myAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { (UIAlertAction) -> Void in
+                self.delegateAlert?.cancelSelected!()
+            }))
+            
+            view.presentViewController(myAlert, animated: true, completion: nil)
+            
+        }
+        else
+        {
+            let myAlert = UIAlertView()
+            myAlert.title = titleMsg
+            myAlert.message = messageStr
+            myAlert.delegate = self
+            myAlert.addButtonWithTitle("Setting")
+            myAlert.addButtonWithTitle("Cancel")
+            myAlert.show()
+        }
+    }
+    
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int)
+    {
+        print("Button Index : \(buttonIndex)")
+        
+        if alertView.title == "Setting"
+        {
+            self.delegateAlert?.settingSelected!()
+        }
+        else
+        {
+            self.delegateAlert?.cancelSelected!()
+        }
     }
     
 }
