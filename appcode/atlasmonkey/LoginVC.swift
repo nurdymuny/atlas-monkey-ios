@@ -73,9 +73,6 @@ class LoginVC: UIViewController, CLLocationManagerDelegate, CBCentralManagerDele
         lblActInd.textColor = UIColor.whiteColor()
         actInd.addSubview(lblActInd)
         
-        
-        print(CLLocationManager.locationServicesEnabled())
-        
         locationManagerObj.requestAlwaysAuthorization()
         
         locationManagerObj.requestWhenInUseAuthorization()
@@ -86,9 +83,6 @@ class LoginVC: UIViewController, CLLocationManagerDelegate, CBCentralManagerDele
             locationManagerObj.desiredAccuracy = kCLLocationAccuracyBest
             locationManagerObj.startUpdatingLocation()
         }
-        
-        
-       
     }
     
     

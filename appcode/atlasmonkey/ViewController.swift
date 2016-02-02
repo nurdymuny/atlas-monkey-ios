@@ -26,17 +26,28 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     var seatsArray:NSMutableArray = NSMutableArray()
     var nearestEmptySeats:NSMutableArray = NSMutableArray()
     var mySeatDict:NSMutableDictionary = NSMutableDictionary()
+    var actualPathArray : NSMutableArray = NSMutableArray()
+    var userNearestDict:NSDictionary = NSDictionary()
+
     
     var gridRow = 0
     var gridColoumn = 0
     var gridHeight = 50
     var gridWidth = 50
     
+    var orignal_x:Int = 0
+    var orignal_y:Int = 0
+    
+
+
+    
     var IndexOfNearestSeat : Int = -1
     
     var numberOfBeacons : Int = 0
     
     var startDate: NSDate!
+    
+    var isSuccess:Bool =  false
     
     //////////////////////////////
     
@@ -84,6 +95,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     var infoWindow : InfoWindow!
     
     var isRepeat : Bool?
+    
+    
     
     
     
@@ -208,9 +221,15 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 }
             })
             
-            }) { (error) -> Void in
-                print(error)
-        }
+            },failure:  { (error) -> Void in
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.actInd.stopAnimating()
+                    
+                    AtlasCommonMethod.alert("", message: "Something Went wrong", view: self)
+                })
+               
+        })
     }
     
     func gridView()
@@ -225,23 +244,18 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             {
                 if(indexValue < (gridRow * gridColoumn))
                 {
-                    let view:UIView = UIView()
-                    view.frame = CGRectMake(CGFloat(coloumn * gridWidth), CGFloat(row * gridHeight), CGFloat(gridWidth), CGFloat(gridHeight))
-                    view.backgroundColor = UIColor.whiteColor()
-                    view.tag = 1000+indexValue
+                    let seatView:UIView = UIView()
+                    seatView.frame = CGRectMake(CGFloat(coloumn * gridWidth), CGFloat(row * gridHeight), CGFloat(gridWidth), CGFloat(gridHeight))
+                    seatView.backgroundColor = UIColor.blackColor()
+                    seatView.tag = 1000+indexValue
                     
+                    seatView.clipsToBounds = true
+                    self.scrollView.addSubview(seatView)
                     let dict = seatsArray.objectAtIndex(indexValue)
-
-//                    arrForSeatsView.addObject(view)
-                    
                     if(dict.valueForKey("is_path")?.boolValue ==  false)
                     {
                         
-                        view.clipsToBounds = true
-//                        view.layer.borderWidth = 1.0
-//                         view.layer.borderColor = UIColor.blackColor().CGColor
-                        self.scrollView.addSubview(view)
-                        
+                       
                         let imageView:UIImageView = UIImageView()
                         imageView.frame = CGRectMake(10, 10, 30, 30)
                         
@@ -257,35 +271,38 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         imageView.layer.cornerRadius = 3
                         imageView.clipsToBounds = true
                         imageView.tag = 999
-                        view.addSubview(imageView)
+                        seatView.addSubview(imageView)
                     }
+                    else
+                    {
+                        seatView.backgroundColor = UIColor.whiteColor()
+                    }
+
                     
                     indexValue++
                 }
-//                print("<-coloumn-> \(coloumn)")
             }
-//            print("\n <-row-> \(row)")
         }
         
         self.startRangeBeacons()
-        
-
-        
     }
     
     
-    func getMySeats(nearestDict:NSDictionary){
+    func getMySeats(nearestDict:NSDictionary)
+    {
+        isSuccess = false
+        self.mySeatDict.removeAllObjects()
         self.mySeatDict = dictForUserSeatInfo.mutableCopy() as! NSMutableDictionary
         self.getNearestEmptySeat(nearestDict)
     }
     
     
-
-    
-    func getNearestEmptySeat(nearestDict:NSDictionary){
-        
-        
-        let userNearestDict = nearestDict
+    func getNearestEmptySeat(nearestDict:NSDictionary)
+    {
+        userNearestDict = nearestDict
+        print(seatsArray)
+        print(mySeatDict)
+        print(userNearestDict);
         
         let dict = userNearestDict.valueForKey("grid")
         let nearestXCordinate = dict?.valueForKey("x")
@@ -312,12 +329,13 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let y3:Int = Int((nearestYCordinate?.integerValue)!) - 1
         
         self.getpathUsingMinusY(x3, y: y3)
-        
-        
-        
     }
     
-    func getpathUsingAddX( x:Int, y:Int){
+    
+    func getpathUsingAddX( x:Int, y:Int)
+    {
+        nearestEmptySeats.removeAllObjects()
+        
         
         let resultPredicate = NSPredicate(format: "is_path = 1")
         let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
@@ -325,16 +343,11 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let yPredicate = NSPredicate(format: "grid.y = %d",y)
         let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
         let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
-        print(resultY)
         if(resultY.count > 0){
             
             nearestEmptySeats.addObject(resultY.objectAtIndex(0))
         }
-        //        else{
-        //
-        //            x = x + 1
-        //            self.getpathUsingAddX(x , y: y)
-        //        }
+        
         
     }
     
@@ -346,16 +359,11 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let yPredicate = NSPredicate(format: "grid.y = %d",y)
         let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
         let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
-        print(resultY)
         if(resultY.count > 0){
             
             nearestEmptySeats.addObject(resultY.objectAtIndex(0))
         }
-        //        else{
-        //
-        //            x = x - 1
-        //            self.getpathUsingMinusX(x , y: y)
-        //        }
+        
         
     }
     
@@ -367,7 +375,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let yPredicate = NSPredicate(format: "grid.y = %d",y)
         let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
         let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
-        print(resultY)
         if(resultY.count > 0){
             
             nearestEmptySeats.addObject(resultY.objectAtIndex(0))
@@ -389,10 +396,10 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let yPredicate = NSPredicate(format: "grid.y = %d",y)
         let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
         let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
-        print(resultY)
         if(resultY.count > 0){
             
             nearestEmptySeats.addObject(resultY.objectAtIndex(0))
+            self.makingPath()
         }
         else{
             
@@ -400,9 +407,268 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             self.getpathUsingMinusY(x , y: y)
         }
         
+    }
+    
+    func makingPath(){
         
-        print(nearestEmptySeats)
-        //  self.getUserPathByUsingNearestEmptySeats()
+        
+        
+        
+        self.clearOldPath()
+
+        print("userDict\(self.mySeatDict)")
+        print("userNearestDict\(userNearestDict)")
+        
+        let mainDict = userNearestDict.valueForKey("grid")
+        let nearestXCordinate = (mainDict!.valueForKey("x")?.integerValue)! - 1
+        let nearestYCordinate = mainDict!.valueForKey("y")?.integerValue
+        
+        
+        let resultPredicate = NSPredicate(format: "is_path = 1")
+        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+        let xPredicate = NSPredicate(format: "grid.x = %d",nearestXCordinate)
+        let yPredicate = NSPredicate(format: "grid.y = %d",nearestYCordinate!)
+        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+        
+        if(resultY.count > 0){
+            
+            actualPathArray.addObject(resultY.objectAtIndex(0))
+        }
+        
+        print("actualPathArray :\(actualPathArray)")
+        
+        print("Called")
+        
+        self.getNextStep(nearestXCordinate, y: nearestYCordinate!)
+        
+    }
+    
+    func getNextStep(var x:Int, var y:Int){
+        
+        
+        //  print("my path\(actualPathArray)")
+        
+        
+        let userDict = dictForUserSeatInfo.valueForKey("grid")
+        let userXCordinate = userDict!.valueForKey("x")
+        let userYCordinate = userDict!.valueForKey("y")
+        
+        let destiantionX:Int = Int(((userXCordinate?.integerValue)! - 1))
+        let destiantionY:Int = Int((userYCordinate?.integerValue)!)
+        
+//        print("My step\(x)")
+//        print("My step\(y)")
+//
+//        print("My destination Path\(destiantionX)")
+//        print("My destination Path\(destiantionY)")
+        
+        
+        if(destiantionX == x && destiantionY == y){
+            
+            isSuccess = true
+            print("this is my, path")
+            print(actualPathArray)
+            self.drawPathOnFloar()
+            
+        }
+        else
+        {
+            if(isSuccess){
+                return
+            }
+            else{
+                
+                if(x > destiantionX)
+                {
+                    let resultPredicate = NSPredicate(format: "is_path = 1")
+                    let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                    let xPredicate = NSPredicate(format: "grid.x = %d",x - 1)
+                    let yPredicate = NSPredicate(format: "grid.y = %d",y)
+                    let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                    let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                    
+                    if(resultY.count > 0){
+                        
+                        orignal_x = x
+                        x = x - 1
+                        actualPathArray.addObject(resultY.objectAtIndex(0))
+                        self.getNextStep(x, y: y)
+                    }
+                    
+                    
+                    
+                }
+                
+                if(x < destiantionX){
+                    
+                    let resultPredicate = NSPredicate(format: "is_path = 1")
+                    let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                    let xPredicate = NSPredicate(format: "grid.x = %d",x + 1 )
+                    let yPredicate = NSPredicate(format: "grid.y = %d",y)
+                    let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                    let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                    
+                    if(resultY.count > 0){
+                        
+                        orignal_x = x
+                        x = x + 1
+                        actualPathArray.addObject(resultY.objectAtIndex(0))
+                        self.getNextStep(x, y: y)
+                        
+                        
+                    }
+                    
+                }
+                
+                if(y > destiantionY){
+                    
+                    let resultPredicate = NSPredicate(format: "is_path = 1")
+                    let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                    let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                    let yPredicate = NSPredicate(format: "grid.y = %d",y - 1)
+                    let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                    let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                    
+                    if(resultY.count > 0){
+                        
+                        orignal_y = y
+                        y = y - 1
+                        actualPathArray.addObject(resultY.objectAtIndex(0))
+                        self.getNextStep(x, y: y)
+                        
+                        
+                    }
+                    
+                }
+                
+                if(y < destiantionY){
+                    
+                    let resultPredicate = NSPredicate(format: "is_path = 1")
+                    let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                    let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                    let yPredicate = NSPredicate(format: "grid.y = %d",y + 1)
+                    let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                    let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                    
+                    if(resultY.count > 0){
+                        
+                        orignal_y = y
+                        y = y + 1
+                        actualPathArray.addObject(resultY.objectAtIndex(0))
+                        self.getNextStep(x, y: y)
+                    }
+                    
+                }
+                
+                if(x == destiantionX){
+                    
+                    if (orignal_x < x){
+                        
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x + 1)
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            x = x + 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            self.getNextStep(x, y: y)
+                        }
+                        
+                    }
+                    else{
+                        
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x - 1)
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            x = x - 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            self.getNextStep(x, y: y)
+                        }
+                        
+                    }
+                    
+                }
+                if(y == destiantionY){
+                    
+                    if (orignal_y < y){
+                        
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x )
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y + 1)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            y = y + 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            self.getNextStep(x, y: y)
+                        }
+                        
+                    }
+                    else{
+                        
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y - 1)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            y = y - 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            self.getNextStep(x, y: y)
+                        }
+                        
+                    }
+                }
+
+                
+            }
+        }
+    }
+
+    
+    //MARK:- Path Draw & Clear
+    func clearOldPath()
+    {
+        for (index,obj) in actualPathArray.enumerate()
+        {
+            print("\(index) - \(obj)")
+            
+            let index = seatsArray.indexOfObject(obj)
+            
+            let pathView = scrollView.viewWithTag(1000+index)
+            
+            pathView?.backgroundColor = UIColor.clearColor()
+        }
+        
+        actualPathArray.removeAllObjects()
+    }
+    
+    
+    func drawPathOnFloar()
+    {
+        for (index,obj) in actualPathArray.enumerate()
+        {
+            print("\(index) - \(obj)")
+            
+            let index = seatsArray.indexOfObject(obj)
+            
+            let pathView = scrollView.viewWithTag(1000+index)
+            
+            pathView?.backgroundColor = UIColor.redColor()
+        }
     }
     
     
@@ -468,6 +734,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 }
             }
         }
+        return
     }
     
     
@@ -489,7 +756,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
 //
 //        let dateComponents: NSDateComponents = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian).components(NSCalendarUnit.CalendarUnitNanosecond, fromDate: startDate, toDate: endDate, options: NSCalendarOptions(0))
         print("runtime is nanosecs : \(dateComponents.nanosecond)")
-        
         
         print("iBeacons : \(beacons)")
         
@@ -541,6 +807,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                     dictionary.setValue(closestBeacon.minor, forKey: "minor")
                     
                     arrBeaconUUID.addObject(dictionary)
+                    
                     arrBeaconRange.addObject(closestBeacon.distance as Double)
                 }
             }
@@ -550,7 +817,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func beaconManager(manager: ABBeaconManager!, rangingBeaconsDidFailForRegion region: ABBeaconRegion!, withError error: NSError!)
     {
-        
         if error != nil
         {
             print("Error : \(error.description)")
@@ -635,6 +901,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 let viewSeat : UIView = scrollView.viewWithTag(1000+IndexOfSeat)! //arrForSeatsView.objectAtIndex(IndexOfSeat) as! UIView
                 
                 let seatColor = viewSeat.viewWithTag(999)
+        
                 if resultArr.objectAtIndex(0).objectForKey("uuid") as! String == dictForUserSeatInfo.objectForKey("uuid") as! String
                 {
                     seatColor?.backgroundColor = UIColor.purpleColor()
@@ -644,10 +911,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                     seatColor?.backgroundColor = UIColor.redColor()
                 }
                 
-                
                 IndexOfNearestSeat = IndexOfSeat
                 
-               
                 dispatch_async(dispatch_get_main_queue()) { [unowned self] in
                     
                     self.getMySeats(resultArr.objectAtIndex(0) as! NSDictionary)
@@ -737,6 +1002,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         self.actInd.startAnimating()
         
         let dictUserInfo : NSMutableDictionary = NSMutableDictionary()
+        
         dictUserInfo.setObject(NSUserDefaults.standardUserDefaults().objectForKey("email_id") as! String, forKey: "email")
         
         UserViewManager.sharedInstance.getAllSeatsDetailUserLoggedIn(dictUserInfo, success: { (getResponseDic) -> Void in
@@ -768,7 +1034,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 else
                 {
                     self.getAllLevelsOfVenue()
-                    
                 }
             })
             }, failure: { (error) -> Void in

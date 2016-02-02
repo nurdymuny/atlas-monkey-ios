@@ -105,6 +105,8 @@ class UserSeatDetailVC: UIViewController {
                 
                 self.actInd.stopAnimating()
                 
+//                self.btnViewSeat.userInteractionEnabled = false
+                
                 if let strResponse :Bool = getResponseDic.objectForKey("success") as? Bool
                 {
                     if strResponse == true
@@ -120,6 +122,8 @@ class UserSeatDetailVC: UIViewController {
                         self.lblSeatNo.text = "\(userRowNumber)-\(userSeatNumber)"
                         
                         self.lblBlockNo.text = UserBlockId
+                        
+//                        self.btnViewSeat.userInteractionEnabled = true
                     }
                     else
                     {
@@ -134,7 +138,14 @@ class UserSeatDetailVC: UIViewController {
             })
             
             }, failure:  { (error) -> Void in
-                 AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
+                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+//                    self.btnViewSeat.userInteractionEnabled = false
+                    
+                    self.actInd.stopAnimating()
+                    
+                    AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
+                })
         })
         
         /*

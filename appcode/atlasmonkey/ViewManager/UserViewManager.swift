@@ -400,6 +400,30 @@ class UserViewManager: NSObject {
     }
     
     
+    func getUserSeatInfoWithUUID(success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
+    {
+//        let UrlWithSearchKeyword = "http://112.196.19.154/api/v4/venue/get_user_seat_info.json"
+        let UrlWithSearchKeyword = "\(baseURL)get_user_seat_info.json"
+        webObj.getRequestWithEndPoint(UrlWithSearchKeyword, parameters: nil, success: {(data) -> Void in
+            
+            do
+            {
+                let getResponseDic: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                success(getResponseDic)
+            }
+            catch
+            {
+                print("error : getRestaurantLayout")
+                failure(error as NSError)
+            }
+            
+            }, failure: {(error) -> Void in
+                failure(error)
+                print("Error : \(error.localizedDescription)")
+        })
+    }
+    
+    
     func getVenueLayOut(success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
     {
         let UrlWithSearchKeyword = "http://112.196.19.154/api/v4/venue/layout/get"
@@ -413,28 +437,7 @@ class UserViewManager: NSObject {
             catch
             {
                 print("error : getRestaurantLayout")
-            }
-            
-            }, failure: {(error) -> Void in
-                failure(error)
-                print("Error : \(error.localizedDescription)")
-        })
-    }
-    
-    
-    func getUserSeatInfoWithUUID(success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
-    {
-        let UrlWithSearchKeyword = "http://112.196.19.154/api/v4/venue/get_user_seat_info.json"
-        webObj.getRequestWithEndPoint(UrlWithSearchKeyword, parameters: nil, success: {(data) -> Void in
-            
-            do
-            {
-                let getResponseDic: NSDictionary = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                success(getResponseDic)
-            }
-            catch
-            {
-                print("error : getRestaurantLayout")
+                failure(error as NSError)
             }
             
             }, failure: {(error) -> Void in
