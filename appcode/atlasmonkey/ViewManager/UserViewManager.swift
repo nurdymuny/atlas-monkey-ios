@@ -400,10 +400,10 @@ class UserViewManager: NSObject {
     }
     
     
-    func getUserSeatInfoWithUUID(success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
+    func getUserSeatInfoWithUUID(user_id: String,success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
     {
-//        let UrlWithSearchKeyword = "http://112.196.19.154/api/v4/venue/get_user_seat_info.json"
-        let UrlWithSearchKeyword = "\(baseURL)get_user_seat_info.json"
+        let UrlWithSearchKeyword = "http://192.168.0.104:3000/api/v1/venue/get_user_seat_info.json?user_id=3" //"\(baseURL)get_user_seat_info.json?user_id=3"//\(user_id)"
+//        let UrlWithSearchKeyword = "\(baseURL)get_user_seat_info.json"
         webObj.getRequestWithEndPoint(UrlWithSearchKeyword, parameters: nil, success: {(data) -> Void in
             
             do
@@ -426,7 +426,8 @@ class UserViewManager: NSObject {
     
     func getVenueLayOut(success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
     {
-        let UrlWithSearchKeyword = "http://112.196.19.154/api/v4/venue/layout/get"
+        let UrlWithSearchKeyword = "http://192.168.0.104:3000/api/v1/layout/seat_layout.json?venue_id=1&level_id=6"//"\(baseURL)venue/layout/get"
+        
         webObj.getRequestWithEndPoint(UrlWithSearchKeyword, parameters: nil, success: {(data) -> Void in
             
             do

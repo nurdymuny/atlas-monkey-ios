@@ -524,7 +524,7 @@
 					"$(PROJECT_DIR)/atlasmonkey/AprilSDK",
 				);
 				PRODUCT_NAME = "Concert monkey";
-				PROVISIONING_PROFILE = "0dff4de7-8f7c-48d7-a12d-1e4ee8cb7d8f";
+				PROVISIONING_PROFILE = "984be82f-a548-4757-9ed4-e2dc86a57c30";
 				SWIFT_OBJC_BRIDGING_HEADER = "monkey-bridging-Header.h";
 			};
 			name = Debug;
@@ -544,7 +544,7 @@
 					"$(PROJECT_DIR)/atlasmonkey/AprilSDK",
 				);
 				PRODUCT_NAME = "Concert monkey";
-				PROVISIONING_PROFILE = "0dff4de7-8f7c-48d7-a12d-1e4ee8cb7d8f";
+				PROVISIONING_PROFILE = "984be82f-a548-4757-9ed4-e2dc86a57c30";
 				SWIFT_OBJC_BRIDGING_HEADER = "monkey-bridging-Header.h";
 			};
 			name = Release;

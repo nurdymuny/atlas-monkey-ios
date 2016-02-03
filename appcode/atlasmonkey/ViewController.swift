@@ -32,8 +32,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     var gridRow = 0
     var gridColoumn = 0
-    var gridHeight = 50
-    var gridWidth = 50
+    var gridHeight = 20
+    var gridWidth = 20
     
     var orignal_x:Int = 0
     var orignal_y:Int = 0
@@ -199,8 +199,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         print("dict : \(dict)")
                         let gridDict : NSDictionary = dict!.valueForKey("grid") as! NSDictionary
                         
-                        self.gridRow = gridDict.valueForKey("x") as! Int
-                        self.gridColoumn = gridDict.valueForKey("y") as! Int
+                        self.gridRow = (gridDict.valueForKey("x")?.integerValue)!
+                        self.gridColoumn = gridDict.valueForKey("y")!.integerValue
                         
                         let width =  CGFloat(self.gridColoumn * self.gridWidth)
                         let height = CGFloat(self.gridRow * self.gridHeight)
@@ -246,7 +246,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 {
                     let seatView:UIView = UIView()
                     seatView.frame = CGRectMake(CGFloat(coloumn * gridWidth), CGFloat(row * gridHeight), CGFloat(gridWidth), CGFloat(gridHeight))
-                    seatView.backgroundColor = UIColor.blackColor()
+                    //seatView.backgroundColor = UIColor.blackColor()
                     seatView.tag = 1000+indexValue
                     
                     seatView.clipsToBounds = true
@@ -257,7 +257,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         
                        
                         let imageView:UIImageView = UIImageView()
-                        imageView.frame = CGRectMake(10, 10, 30, 30)
+                        imageView.frame = CGRectMake(3, 3, 14, 14)
                         
                         if dictForUserSeatInfo["uuid"] as! String == dict.valueForKey("uuid") as! String
                         {
@@ -430,16 +430,13 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let yPredicate = NSPredicate(format: "grid.y = %d",nearestYCordinate!)
         let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
         let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+       
         
         if(resultY.count > 0){
             
             actualPathArray.addObject(resultY.objectAtIndex(0))
         }
-        
-        print("actualPathArray :\(actualPathArray)")
-        
-        print("Called")
-        
+
         self.getNextStep(nearestXCordinate, y: nearestYCordinate!)
         
     }
@@ -457,20 +454,23 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let destiantionX:Int = Int(((userXCordinate?.integerValue)! - 1))
         let destiantionY:Int = Int((userYCordinate?.integerValue)!)
         
-//        print("My step\(x)")
-//        print("My step\(y)")
-//
-//        print("My destination Path\(destiantionX)")
-//        print("My destination Path\(destiantionY)")
+        print("My step\(x)")
+        print("My step\(y)")
+
+        print("My destination Path\(destiantionX)")
+        print("My destination Path\(destiantionY)")
         
         
         if(destiantionX == x && destiantionY == y){
-            
-            isSuccess = true
-            print("this is my, path")
-            print(actualPathArray)
-            self.drawPathOnFloar()
-            
+
+            if(!isSuccess){
+                isSuccess = true
+                print("this is my, path")
+                print(actualPathArray)
+                self.drawPathOnFloar()
+                
+            }
+
         }
         else
         {
@@ -493,7 +493,37 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         orignal_x = x
                         x = x - 1
                         actualPathArray.addObject(resultY.objectAtIndex(0))
-                        self.getNextStep(x, y: y)
+                        
+                        if(!isSuccess){
+                            self.getNextStep(x, y: y)}
+                        else{
+                        return
+                        }
+                    }
+                    else{
+                        
+                        if(y > orignal_y){
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y + 1)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            
+                            orignal_y = y
+                            y = y + 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)}
+                            else{
+                                return
+                            }
+
+                            }
+                    }
                     }
                     
                     
@@ -514,9 +544,44 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         orignal_x = x
                         x = x + 1
                         actualPathArray.addObject(resultY.objectAtIndex(0))
-                        self.getNextStep(x, y: y)
                         
                         
+                        if(!isSuccess){
+                            self.getNextStep(x, y: y)
+                          }
+                            else{
+                                return
+                            }
+                        
+                        
+                    }
+                    else
+                    {
+                        if(y < orignal_y){
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y - 1)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            
+                            orignal_y = y
+                            y = y - 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            
+                            
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)
+                            }
+                            else{
+                                return
+                            }
+                            
+                            
+                        }
+                        }
                     }
                     
                 }
@@ -535,9 +600,37 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         orignal_y = y
                         y = y - 1
                         actualPathArray.addObject(resultY.objectAtIndex(0))
-                        self.getNextStep(x, y: y)
                         
                         
+                        if(!isSuccess){
+                            self.getNextStep(x, y: y)
+                        }
+                        else{
+                            return
+                        }
+                        
+                        
+                    }
+                    else{
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x + 1)
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            
+                            orignal_x = x
+                            x = x + 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)
+                            }
+                            else{
+                                return
+                            }
+                    }
                     }
                     
                 }
@@ -556,7 +649,34 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         orignal_y = y
                         y = y + 1
                         actualPathArray.addObject(resultY.objectAtIndex(0))
-                        self.getNextStep(x, y: y)
+                        if(!isSuccess){
+                            self.getNextStep(x, y: y)
+                        }
+                        else{
+                            return
+                        }
+                    }
+                    else{
+                        
+                        let resultPredicate = NSPredicate(format: "is_path = 1")
+                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                        let xPredicate = NSPredicate(format: "grid.x = %d",x - 1)
+                        let yPredicate = NSPredicate(format: "grid.y = %d",y)
+                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                        
+                        if(resultY.count > 0){
+                            
+                            orignal_x = x
+                            x = x - 1
+                            actualPathArray.addObject(resultY.objectAtIndex(0))
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)
+                            }
+                            else{
+                                return
+                            }
+                        }
                     }
                     
                 }
@@ -575,7 +695,12 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         if(resultY.count > 0){
                             x = x + 1
                             actualPathArray.addObject(resultY.objectAtIndex(0))
-                            self.getNextStep(x, y: y)
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)
+                            }
+                            else{
+                                return
+                            }
                         }
                         
                     }
@@ -591,7 +716,12 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         if(resultY.count > 0){
                             x = x - 1
                             actualPathArray.addObject(resultY.objectAtIndex(0))
-                            self.getNextStep(x, y: y)
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)
+                            }
+                            else{
+                                return
+                            }
                         }
                         
                     }
@@ -611,7 +741,12 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         if(resultY.count > 0){
                             y = y + 1
                             actualPathArray.addObject(resultY.objectAtIndex(0))
-                            self.getNextStep(x, y: y)
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)
+                            }
+                            else{
+                                return
+                            }
                         }
                         
                     }
@@ -627,7 +762,12 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         if(resultY.count > 0){
                             y = y - 1
                             actualPathArray.addObject(resultY.objectAtIndex(0))
-                            self.getNextStep(x, y: y)
+                            if(!isSuccess){
+                                self.getNextStep(x, y: y)
+                            }
+                            else{
+                                return
+                            }
                         }
                         
                     }
@@ -651,6 +791,10 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             let pathView = scrollView.viewWithTag(1000+index)
             
             pathView?.backgroundColor = UIColor.clearColor()
+            
+            let imgView = pathView?.viewWithTag(20000+index)
+            imgView?.removeFromSuperview()
+            
         }
         
         actualPathArray.removeAllObjects()
@@ -659,15 +803,80 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func drawPathOnFloar()
     {
+        print(actualPathArray);
+        
+        let obj = actualPathArray.objectAtIndex(0)
+        let dict = obj.valueForKey("grid")
+        var orignal_x = (dict!.valueForKey("x")?.integerValue)! - 1
+        var orignal_y = dict!.valueForKey("y")?.integerValue
+        
         for (index,obj) in actualPathArray.enumerate()
         {
-            print("\(index) - \(obj)")
+            
+            
+            
+            let dict = obj.valueForKey("grid")
+            let x =  dict!.valueForKey("x")?.integerValue
+            let y =  dict!.valueForKey("y")?.integerValue
             
             let index = seatsArray.indexOfObject(obj)
-            
             let pathView = scrollView.viewWithTag(1000+index)
             
-            pathView?.backgroundColor = UIColor.redColor()
+
+            
+            if(x < orignal_x){
+                
+                orignal_x = x!
+                
+                let imgView:UIImageView = UIImageView()
+                imgView.frame = CGRectMake(5, 5, 10, 10)
+                imgView.tag = 20000 + index
+               // imgView.backgroundColor = UIColor.blueColor()
+                imgView.image = UIImage(named: "arrowup")
+                pathView?.addSubview(imgView)
+                
+                
+            }
+            else if (x > orignal_x){
+                
+                orignal_x = x!
+                
+                let imgView:UIImageView = UIImageView()
+                imgView.frame = CGRectMake(5, 5, 10, 10)
+                 imgView.tag = 20000 + index
+                imgView.image = UIImage(named: "arrowdown")
+                pathView?.addSubview(imgView)
+
+                
+            }
+            else if (y < orignal_y){
+                
+                orignal_y = y
+                
+                let imgView:UIImageView = UIImageView()
+                imgView.frame = CGRectMake(5, 5, 10, 10)
+                 imgView.tag = 20000 + index
+                imgView.image = UIImage(named: "arrowleft")
+                pathView?.addSubview(imgView)
+                
+            }
+            else if (y > orignal_y){
+                
+                orignal_y = y
+                
+                let imgView:UIImageView = UIImageView()
+                imgView.frame = CGRectMake(5, 5, 10, 10)
+                 imgView.tag = 20000 + index
+                imgView.image = UIImage(named: "arrowright")
+                pathView?.addSubview(imgView)
+                
+            }
+            
+           
+            
+            
+            //pathView?.backgroundColor = UIColor.blueColor()
+            
         }
     }
     
@@ -676,18 +885,14 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func startRangeBeacons()
     {
-//        let tran: ABTransmitters = ABTransmitters.sharedTransmitters()
-//        
-//        for (index, obj) in tran.transmitters().enumerate()
-//        {
-//            print("\(index) - \(obj)")
-//        }
+
         for (_, obj) in seatsArray.enumerate()
         {
             if let isUUID : String = obj["uuid"] as? String
             {
                 if isUUID != ""
                 {
+
                     let proximityUUID: NSUUID = NSUUID.init(UUIDString: obj["uuid"] as! String)!
                     
                     let regionIdentifier: String = obj["uuid"] as! String

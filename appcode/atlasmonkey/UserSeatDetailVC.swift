@@ -96,16 +96,17 @@ class UserSeatDetailVC: UIViewController {
     func getInfoOfSeat()
     {
         self.actInd.startAnimating()
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let user_id = defaults.objectForKey("user_id") as? String
         
-        UserViewManager.sharedInstance.getUserSeatInfoWithUUID({ (getResponseDic) -> Void in
-            
+        UserViewManager.sharedInstance.getUserSeatInfoWithUUID(user_id!, success: { (getResponseDic) -> Void in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
                 print("getSeatsDetailUserLoggedIn responseDict : \(getResponseDic)")
                 
                 self.actInd.stopAnimating()
                 
-//                self.btnViewSeat.userInteractionEnabled = false
+                //                self.btnViewSeat.userInteractionEnabled = false
                 
                 if let strResponse :Bool = getResponseDic.objectForKey("success") as? Bool
                 {
@@ -123,7 +124,7 @@ class UserSeatDetailVC: UIViewController {
                         
                         self.lblBlockNo.text = UserBlockId
                         
-//                        self.btnViewSeat.userInteractionEnabled = true
+                        //                        self.btnViewSeat.userInteractionEnabled = true
                     }
                     else
                     {
@@ -137,16 +138,18 @@ class UserSeatDetailVC: UIViewController {
                 
             })
             
-            }, failure:  { (error) -> Void in
-                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            }) { (error) -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
-//                    self.btnViewSeat.userInteractionEnabled = false
+                    //                    self.btnViewSeat.userInteractionEnabled = false
                     
                     self.actInd.stopAnimating()
                     
                     AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
                 })
-        })
+        }
+        
+
         
         /*
         
