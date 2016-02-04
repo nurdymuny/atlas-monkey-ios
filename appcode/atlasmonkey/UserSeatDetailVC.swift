@@ -116,15 +116,16 @@ class UserSeatDetailVC: UIViewController {
                         
                         let UserBlockId : String = String(self.userSeatDict["block_id"] as! Int)
                         
-                        let userRowNumber : String = self.userSeatDict["row"] as! String
                         
-                        let userSeatNumber : Int = self.userSeatDict["seat_number"] as! Int
+                        let userSeatNumber : Int = self.userSeatDict["seat_id"] as! Int
                         
-                        self.lblSeatNo.text = "\(userRowNumber)-\(userSeatNumber)"
+                        
+                        let xNSNumber = userSeatNumber as NSNumber
+                        let xString : String = xNSNumber.stringValue
+                         self.lblSeatNo.text =  xString
                         
                         self.lblBlockNo.text = UserBlockId
                         
-                        //                        self.btnViewSeat.userInteractionEnabled = true
                     }
                     else
                     {

@@ -187,7 +187,14 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func getVenueLayout()
     {
-        UserViewManager.sharedInstance.getVenueLayOut({ (response) -> Void in
+        
+        print(dictForUserSeatInfo)
+        
+       let venue_id = String(dictForUserSeatInfo.valueForKey("venue_id") as! NSNumber)
+        
+        let level_Id = String(dictForUserSeatInfo.valueForKey("level_id") as! NSNumber)
+        
+        UserViewManager.sharedInstance.getVenueLayOut(venue_id, level_id: level_Id as String, success: { (response) -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
@@ -207,6 +214,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         self.scrollView.contentSize = CGSizeMake(width , height);
                         
                         self.seatsArray = (dict!.valueForKey("seats")?.mutableCopy())! as! NSMutableArray
+                        print(self.seatsArray)
                         
                         self.gridView()
                     }
@@ -221,15 +229,15 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 }
             })
             
-            },failure:  { (error) -> Void in
+            }) { (NSError) -> Void in
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.actInd.stopAnimating()
                     
                     AtlasCommonMethod.alert("", message: "Something Went wrong", view: self)
                 })
-               
-        })
+        }
+
     }
     
     func gridView()
@@ -524,6 +532,30 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
 
                             }
                     }
+                        else{
+                            
+                            let resultPredicate = NSPredicate(format: "is_path = 1")
+                            let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                            let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                            let yPredicate = NSPredicate(format: "grid.y = %d",y - 1)
+                            let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                            let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                            
+                            if(resultY.count > 0){
+                                
+                                orignal_y = y
+                                y = y - 1
+                                actualPathArray.addObject(resultY.objectAtIndex(0))
+                                
+                                if(!isSuccess){
+                                    self.getNextStep(x, y: y)}
+                                else{
+                                    return
+                                }
+                                
+                            }
+
+                        }
                     }
                     
                     
@@ -581,6 +613,29 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                             
                             
                         }
+                        }
+                        else{
+                            
+                            let resultPredicate = NSPredicate(format: "is_path = 1")
+                            let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                            let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                            let yPredicate = NSPredicate(format: "grid.y = %d",y + 1)
+                            let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                            let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
+                            
+                            if(resultY.count > 0){
+                                
+                                orignal_y = y
+                                y = y + 1
+                                actualPathArray.addObject(resultY.objectAtIndex(0))
+                                
+                                if(!isSuccess){
+                                    self.getNextStep(x, y: y)}
+                                else{
+                                    return
+                                }
+                                
+                            }
                         }
                     }
                     
@@ -792,6 +847,13 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             
             pathView?.backgroundColor = UIColor.clearColor()
             
+            
+            let viewUserShow = pathView?.viewWithTag(666)
+            let viewUserBlueDotShow = pathView?.viewWithTag(555)
+            
+            viewUserShow?.removeFromSuperview()
+            viewUserBlueDotShow?.removeFromSuperview()
+            
             let imgView = pathView?.viewWithTag(20000+index)
             imgView?.removeFromSuperview()
             
@@ -807,10 +869,10 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         
         let obj = actualPathArray.objectAtIndex(0)
         let dict = obj.valueForKey("grid")
-        var orignal_x = (dict!.valueForKey("x")?.integerValue)! - 1
+        var orignal_x = (dict!.valueForKey("x")?.integerValue)! + 1
         var orignal_y = dict!.valueForKey("y")?.integerValue
         
-        for (index,obj) in actualPathArray.enumerate()
+        for (indexObj,obj) in actualPathArray.enumerate()
         {
             
             
@@ -872,6 +934,55 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 
             }
             
+            
+            if indexObj == 0
+            {
+                let userView : UIView = UIView()
+                
+                userView.frame = CGRectMake((pathView?.frame.size.width)!/2-5, (pathView?.frame.size.height)!/2-5, 10, 10)
+                
+                //                userView.backgroundColor = UIColor.greenColor()
+                
+                userView.tag = 666
+                
+                userView.layer.cornerRadius = userView.frame.size.width / 2
+                
+                userView.clipsToBounds = true
+                
+                userView.layer.borderColor = UIColor.greenColor().CGColor
+                
+                userView.layer.borderWidth = 2.0
+                
+                pathView?.addSubview(userView)
+                
+                let userBlueDotView : UIView = UIView()
+                
+                userBlueDotView.frame = CGRectMake((pathView!.frame.size.width)/2-5, (pathView!.frame.size.height)/2-5, 10, 10)
+                
+                userBlueDotView.backgroundColor = UIColor.blueColor()
+                
+                userBlueDotView.tag = 555
+                
+                userBlueDotView.layer.cornerRadius = userBlueDotView.frame.size.width / 2
+                
+                userBlueDotView.clipsToBounds = true
+                
+                pathView!.addSubview(userBlueDotView)
+                
+        
+                
+                UIView.animateWithDuration(2.0, delay:0, options: [.Repeat], animations: {
+                    
+                    userView.frame = CGRect(x: 0, y: 0, width: (pathView?.frame.size.width)!, height: (pathView?.frame.size.height)!)
+                    
+                    userView.layer.cornerRadius = userView.frame.size.width / 2
+                    
+                    userView.clipsToBounds = true
+                    
+                    userView.alpha = 0.3
+                    
+                    }, completion: nil)
+            }
            
             
             
