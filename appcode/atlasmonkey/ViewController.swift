@@ -8,9 +8,8 @@
 
 import UIKit
 import CoreLocation
-//import GoogleMaps
 
-class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
+class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, delegateAlertForSeatInfo
 {
     
     @IBOutlet var scrollView: UIScrollView!
@@ -28,7 +27,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     var mySeatDict:NSMutableDictionary = NSMutableDictionary()
     var actualPathArray : NSMutableArray = NSMutableArray()
     var userNearestDict:NSDictionary = NSDictionary()
-
     
     var gridRow = 0
     var gridColoumn = 0
@@ -38,9 +36,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     var orignal_x:Int = 0
     var orignal_y:Int = 0
     
-
-
-    
     var IndexOfNearestSeat : Int = -1
     
     var numberOfBeacons : Int = 0
@@ -49,59 +44,13 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     var isSuccess:Bool =  false
     
-    //////////////////////////////
-    
-    var timer: NSTimer!
-    
-    var dictForUserSeatInfo : NSDictionary = NSDictionary()
-    
-    var arrAllSeat : NSMutableArray = NSMutableArray()
-    
-    var arrForAllPaths : NSMutableArray = NSMutableArray()
-    
-    var user_seat_number : Int!
-    
-    var user_seat_numberStr: String!
-    
-    var user_block_number : Int!
-    
-    var userLocation : CLLocation!
-    
-    var userChairLocation : CLLocation!
-    
-    var dist_a : CLLocationDistance!
-    var dist_b : CLLocationDistance!
-    
-    var getDist_Start : Double!
-    var getDist_End : Double!
-    var getDist_Total : Double!
-    
-    var arrGetRightPath : NSMutableArray = NSMutableArray()
-    
-    var getStartLatLongOfPath : NSString!
-    
-    var getEndtLatLongOfPath : NSString!
-    
-    var isGetFinalPath : String!
-    
-    var isUserSeatAvailable : Bool!
-    
     var actInd : UIActivityIndicatorView = UIActivityIndicatorView()
     
-    var levelId : NSString!
-    
-    var shouldShowInfoWindow : Bool!
-    
-    var infoWindow : InfoWindow!
-    
-    var isRepeat : Bool?
-    
-    
+    var dictForUserSeatInfo : NSDictionary = NSDictionary()
     
     
     
     //MARK:- Life cycle of VC
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -109,48 +58,35 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         startDate = NSDate()
         
         beaconManager = ABBeaconManager.init()
+        
         beaconManager.delegate = self
         
         beaconManager.requestAlwaysAuthorization()
-        
-        isRepeat = true
-        
-        getDist_Start = 0.0
-        
-        getDist_End = 0.0
-        
-        user_seat_number = 0
-        
-        user_seat_numberStr = "0"
-        
-        user_block_number = 0
-        
-        isGetFinalPath = "no"
-        
-        isUserSeatAvailable = false
     }
+    
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillDisappear(true)
         
-        //        isRepeat = false
-        
-//        self.startRangeBeacons()                                                       //
+        //        self.startRangeBeacons()                                                       //
     }
+    
     
     override func viewWillDisappear(animated: Bool)
     {
-//        self.stopRangeBeacons()                                                        //
+        //        self.stopRangeBeacons()                                                        //
         
         super.viewWillDisappear(true)
     }
+    
     
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     override func viewDidAppear(animated: Bool)
     {
@@ -159,8 +95,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         
         scrollView.backgroundColor = UIColor.whiteColor()
         scrollView.scrollEnabled = true
-        
-        self.getVenueLayout()
         
         actInd.frame = CGRectMake(0,0, screenWidth, screenHeight)
         actInd.center = self.view.center
@@ -176,6 +110,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         lblActInd.textAlignment = NSTextAlignment.Center
         lblActInd.textColor = UIColor.grayColor()
         actInd.addSubview(lblActInd)
+        
+        self.getVenueLayout()
     }
     
     
@@ -184,43 +120,49 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
+    //MARK:- API get seats layout
     func getVenueLayout()
     {
+        //        print(dictForUserSeatInfo)
         
-        print(dictForUserSeatInfo)
-        
-       let venue_id = String(dictForUserSeatInfo.valueForKey("venue_id") as! NSNumber)
+        let venue_id = String(dictForUserSeatInfo.valueForKey("venue_id") as! NSNumber)
         
         let level_Id = String(dictForUserSeatInfo.valueForKey("level_id") as! NSNumber)
+        
+        actInd.startAnimating()
         
         UserViewManager.sharedInstance.getVenueLayOut(venue_id, level_id: level_Id as String, success: { (response) -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.actInd.stopAnimating()
                 
                 if let success : Int = response.valueForKey("success") as? Int
                 {
                     if success == 1
                     {
                         let dict = response.valueForKey("levels")
-                        print("dict : \(dict)")
+                        
                         let gridDict : NSDictionary = dict!.valueForKey("grid") as! NSDictionary
                         
                         self.gridRow = (gridDict.valueForKey("x")?.integerValue)!
+                        
                         self.gridColoumn = gridDict.valueForKey("y")!.integerValue
                         
                         let width =  CGFloat(self.gridColoumn * self.gridWidth)
+                        
                         let height = CGFloat(self.gridRow * self.gridHeight)
+                        
                         self.scrollView.contentSize = CGSizeMake(width , height);
                         
                         self.seatsArray = (dict!.valueForKey("seats")?.mutableCopy())! as! NSMutableArray
-                        print(self.seatsArray)
+                        //                        print(self.seatsArray)
                         
                         self.gridView()
                     }
                     else
                     {
-                        AtlasCommonMethod.alert("", message: "Something Went wrong", view: self)
+                        AtlasCommonMethod.alert("", message: response.valueForKey("message") as! String, view: self)
                     }
                 }
                 else
@@ -232,14 +174,17 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             }) { (NSError) -> Void in
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
                     self.actInd.stopAnimating()
                     
                     AtlasCommonMethod.alert("", message: "Something Went wrong", view: self)
                 })
         }
-
+        
     }
     
+    
+    //MARK:- Plot all seat in layout
     func gridView()
     {
         var row = 0
@@ -263,7 +208,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                     if(dict.valueForKey("is_path")?.boolValue ==  false)
                     {
                         
-                       
+                        
                         let imageView:UIImageView = UIImageView()
                         imageView.frame = CGRectMake(3, 3, 14, 14)
                         
@@ -280,12 +225,19 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         imageView.clipsToBounds = true
                         imageView.tag = 999
                         seatView.addSubview(imageView)
+                        
+                        
+                        let btnSeatInfo : UIButton = UIButton(type: UIButtonType.Custom)
+                        btnSeatInfo.frame = seatView.bounds
+                        btnSeatInfo.tag = indexValue+3000
+                        btnSeatInfo.addTarget(self, action: "getSeatInfo:", forControlEvents: UIControlEvents.TouchUpInside)
+                        seatView.addSubview(btnSeatInfo)
                     }
                     else
                     {
                         seatView.backgroundColor = UIColor.whiteColor()
                     }
-
+                    
                     
                     indexValue++
                 }
@@ -308,9 +260,9 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     func getNearestEmptySeat(nearestDict:NSDictionary)
     {
         userNearestDict = nearestDict
-        print(seatsArray)
-        print(mySeatDict)
-        print(userNearestDict);
+        //        print(seatsArray)
+        //        print(mySeatDict)
+        //        print(userNearestDict);
         
         let dict = userNearestDict.valueForKey("grid")
         let nearestXCordinate = dict?.valueForKey("x")
@@ -419,18 +371,14 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func makingPath(){
         
-        
-        
-        
         self.clearOldPath()
-
-        print("userDict\(self.mySeatDict)")
-        print("userNearestDict\(userNearestDict)")
+        
+        //        print("userDict\(self.mySeatDict)")
+        //        print("userNearestDict\(userNearestDict)")
         
         let mainDict = userNearestDict.valueForKey("grid")
         let nearestXCordinate = (mainDict!.valueForKey("x")?.integerValue)! - 1
         let nearestYCordinate = mainDict!.valueForKey("y")?.integerValue
-        
         
         let resultPredicate = NSPredicate(format: "is_path = 1")
         let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
@@ -438,23 +386,19 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let yPredicate = NSPredicate(format: "grid.y = %d",nearestYCordinate!)
         let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
         let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
-       
         
         if(resultY.count > 0){
             
             actualPathArray.addObject(resultY.objectAtIndex(0))
         }
-
+        
         self.getNextStep(nearestXCordinate, y: nearestYCordinate!)
         
     }
     
     func getNextStep(var x:Int, var y:Int){
         
-        
         //  print("my path\(actualPathArray)")
-        
-        
         let userDict = dictForUserSeatInfo.valueForKey("grid")
         let userXCordinate = userDict!.valueForKey("x")
         let userYCordinate = userDict!.valueForKey("y")
@@ -462,23 +406,22 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let destiantionX:Int = Int(((userXCordinate?.integerValue)! - 1))
         let destiantionY:Int = Int((userYCordinate?.integerValue)!)
         
-        print("My step\(x)")
-        print("My step\(y)")
-
-        print("My destination Path\(destiantionX)")
-        print("My destination Path\(destiantionY)")
-        
-        
+        //        print("My step\(x)")
+        //        print("My step\(y)")
+        //
+        //        print("My destination Path\(destiantionX)")
+        //        print("My destination Path\(destiantionY)")
+        //
+        //
         if(destiantionX == x && destiantionY == y){
-
+            
             if(!isSuccess){
                 isSuccess = true
                 print("this is my, path")
-                print(actualPathArray)
+                //                print(actualPathArray)
                 self.drawPathOnFloar()
                 
             }
-
         }
         else
         {
@@ -505,33 +448,31 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         if(!isSuccess){
                             self.getNextStep(x, y: y)}
                         else{
-                        return
+                            return
                         }
                     }
                     else{
-                        
                         if(y > orignal_y){
-                        let resultPredicate = NSPredicate(format: "is_path = 1")
-                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
-                        let xPredicate = NSPredicate(format: "grid.x = %d",x)
-                        let yPredicate = NSPredicate(format: "grid.y = %d",y + 1)
-                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
-                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
-                        
-                        if(resultY.count > 0){
+                            let resultPredicate = NSPredicate(format: "is_path = 1")
+                            let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                            let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                            let yPredicate = NSPredicate(format: "grid.y = %d",y + 1)
+                            let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                            let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
                             
-                            orignal_y = y
-                            y = y + 1
-                            actualPathArray.addObject(resultY.objectAtIndex(0))
-                            
-                            if(!isSuccess){
-                                self.getNextStep(x, y: y)}
-                            else{
-                                return
+                            if(resultY.count > 0){
+                                
+                                orignal_y = y
+                                y = y + 1
+                                actualPathArray.addObject(resultY.objectAtIndex(0))
+                                
+                                if(!isSuccess){
+                                    self.getNextStep(x, y: y)}
+                                else{
+                                    return
+                                }
                             }
-
-                            }
-                    }
+                        }
                         else{
                             
                             let resultPredicate = NSPredicate(format: "is_path = 1")
@@ -552,14 +493,9 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                                 else{
                                     return
                                 }
-                                
                             }
-
                         }
                     }
-                    
-                    
-                    
                 }
                 
                 if(x < destiantionX){
@@ -577,42 +513,36 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         x = x + 1
                         actualPathArray.addObject(resultY.objectAtIndex(0))
                         
-                        
                         if(!isSuccess){
                             self.getNextStep(x, y: y)
-                          }
-                            else{
-                                return
-                            }
-                        
-                        
+                        }
+                        else{
+                            return
+                        }
                     }
                     else
                     {
                         if(y < orignal_y){
-                        let resultPredicate = NSPredicate(format: "is_path = 1")
-                        let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
-                        let xPredicate = NSPredicate(format: "grid.x = %d",x)
-                        let yPredicate = NSPredicate(format: "grid.y = %d",y - 1)
-                        let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
-                        let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
-                        
-                        if(resultY.count > 0){
+                            let resultPredicate = NSPredicate(format: "is_path = 1")
+                            let searchResults:NSArray = seatsArray.filteredArrayUsingPredicate(resultPredicate)
+                            let xPredicate = NSPredicate(format: "grid.x = %d",x)
+                            let yPredicate = NSPredicate(format: "grid.y = %d",y - 1)
+                            let compound  = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [yPredicate, xPredicate])
+                            let resultY:NSArray = searchResults.filteredArrayUsingPredicate(compound)
                             
-                            orignal_y = y
-                            y = y - 1
-                            actualPathArray.addObject(resultY.objectAtIndex(0))
-                            
-                            
-                            if(!isSuccess){
-                                self.getNextStep(x, y: y)
+                            if(resultY.count > 0){
+                                
+                                orignal_y = y
+                                y = y - 1
+                                actualPathArray.addObject(resultY.objectAtIndex(0))
+                                
+                                if(!isSuccess){
+                                    self.getNextStep(x, y: y)
+                                }
+                                else{
+                                    return
+                                }
                             }
-                            else{
-                                return
-                            }
-                            
-                            
-                        }
                         }
                         else{
                             
@@ -638,7 +568,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                             }
                         }
                     }
-                    
                 }
                 
                 if(y > destiantionY){
@@ -663,8 +592,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         else{
                             return
                         }
-                        
-                        
                     }
                     else{
                         let resultPredicate = NSPredicate(format: "is_path = 1")
@@ -685,9 +612,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                             else{
                                 return
                             }
+                        }
                     }
-                    }
-                    
                 }
                 
                 if(y < destiantionY){
@@ -733,7 +659,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                             }
                         }
                     }
-                    
                 }
                 
                 if(x == destiantionX){
@@ -780,8 +705,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         }
                         
                     }
-                    
                 }
+                
                 if(y == destiantionY){
                     
                     if (orignal_y < y){
@@ -803,7 +728,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                                 return
                             }
                         }
-                        
                     }
                     else{
                         
@@ -827,12 +751,9 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                         
                     }
                 }
-
-                
             }
         }
     }
-
     
     //MARK:- Path Draw & Clear
     func clearOldPath()
@@ -847,7 +768,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             
             pathView?.backgroundColor = UIColor.clearColor()
             
-            
             let viewUserShow = pathView?.viewWithTag(666)
             let viewUserBlueDotShow = pathView?.viewWithTag(555)
             
@@ -856,7 +776,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             
             let imgView = pathView?.viewWithTag(20000+index)
             imgView?.removeFromSuperview()
-            
         }
         
         actualPathArray.removeAllObjects()
@@ -865,7 +784,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func drawPathOnFloar()
     {
-        print(actualPathArray);
+        //        print(actualPathArray);
         
         let obj = actualPathArray.objectAtIndex(0)
         let dict = obj.valueForKey("grid")
@@ -874,17 +793,12 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         
         for (indexObj,obj) in actualPathArray.enumerate()
         {
-            
-            
-            
             let dict = obj.valueForKey("grid")
             let x =  dict!.valueForKey("x")?.integerValue
             let y =  dict!.valueForKey("y")?.integerValue
             
             let index = seatsArray.indexOfObject(obj)
             let pathView = scrollView.viewWithTag(1000+index)
-            
-
             
             if(x < orignal_x){
                 
@@ -893,7 +807,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 let imgView:UIImageView = UIImageView()
                 imgView.frame = CGRectMake(5, 5, 10, 10)
                 imgView.tag = 20000 + index
-               // imgView.backgroundColor = UIColor.blueColor()
+                // imgView.backgroundColor = UIColor.blueColor()
                 imgView.image = UIImage(named: "arrowup")
                 pathView?.addSubview(imgView)
                 
@@ -905,10 +819,10 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 
                 let imgView:UIImageView = UIImageView()
                 imgView.frame = CGRectMake(5, 5, 10, 10)
-                 imgView.tag = 20000 + index
+                imgView.tag = 20000 + index
                 imgView.image = UIImage(named: "arrowdown")
                 pathView?.addSubview(imgView)
-
+                
                 
             }
             else if (y < orignal_y){
@@ -917,7 +831,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 
                 let imgView:UIImageView = UIImageView()
                 imgView.frame = CGRectMake(5, 5, 10, 10)
-                 imgView.tag = 20000 + index
+                imgView.tag = 20000 + index
                 imgView.image = UIImage(named: "arrowleft")
                 pathView?.addSubview(imgView)
                 
@@ -928,7 +842,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 
                 let imgView:UIImageView = UIImageView()
                 imgView.frame = CGRectMake(5, 5, 10, 10)
-                 imgView.tag = 20000 + index
+                imgView.tag = 20000 + index
                 imgView.image = UIImage(named: "arrowright")
                 pathView?.addSubview(imgView)
                 
@@ -969,8 +883,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                 
                 pathView!.addSubview(userBlueDotView)
                 
-        
-                
                 UIView.animateWithDuration(2.0, delay:0, options: [.Repeat], animations: {
                     
                     userView.frame = CGRect(x: 0, y: 0, width: (pathView?.frame.size.width)!, height: (pathView?.frame.size.height)!)
@@ -983,9 +895,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                     
                     }, completion: nil)
             }
-           
-            
-            
             //pathView?.backgroundColor = UIColor.blueColor()
             
         }
@@ -996,15 +905,14 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func startRangeBeacons()
     {
-
+        
         for (_, obj) in seatsArray.enumerate()
         {
             if let isUUID : String = obj["uuid"] as? String
             {
                 if isUUID != ""
                 {
-
-                    let proximityUUID: NSUUID = NSUUID.init(UUIDString: obj["uuid"] as! String)!
+                    let proximityUUID: NSUUID = NSUUID.init(UUIDString: AtlasCommonMethod.trim(obj["uuid"] as! NSString) as String)!
                     
                     let regionIdentifier: String = obj["uuid"] as! String
                     
@@ -1029,9 +937,9 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func stopRangeBeacons()
     {
-//        let tran: ABTransmitters = ABTransmitters.sharedTransmitters()
-//        
-//        for (index, obj) in tran.transmitters().enumerate()
+        //        let tran: ABTransmitters = ABTransmitters.sharedTransmitters()
+        //
+        //        for (index, obj) in tran.transmitters().enumerate()
         for (_, obj) in seatsArray.enumerate()
         {
             if let isUUID : String = obj["uuid"] as? String
@@ -1058,10 +966,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     
     func beaconManager(manager: ABBeaconManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: ABBeaconRegion!)
     {
-//        let timerr = RunningTimer.init()
-//        print("Running: \(timerr) ")
-//        let startDate: NSDate = NSDate()
-        
         // your long procedure
         
         let endDate: NSDate = NSDate()
@@ -1069,8 +973,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         let dateComponents: NSDateComponents = (NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)?.components(NSCalendarUnit.Nanosecond, fromDate: startDate, toDate: endDate, options:[]))!
         
         startDate = NSDate()
-//
-//        let dateComponents: NSDateComponents = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian).components(NSCalendarUnit.CalendarUnitNanosecond, fromDate: startDate, toDate: endDate, options: NSCalendarOptions(0))
+        
         print("runtime is nanosecs : \(dateComponents.nanosecond)")
         
         print("iBeacons : \(beacons)")
@@ -1089,7 +992,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             
             if success
             {
-                print("numberOfBeacons : \(numberOfBeacons) - arrBeaconRange count : \(arrBeaconRange.count) - \(arrBeaconRange) arrBeaconRange count :\(arrBeaconUUID.count) - \(arrBeaconUUID)")
+                //                print("numberOfBeacons : \(numberOfBeacons) - arrBeaconRange count : \(arrBeaconRange.count) - \(arrBeaconRange) arrBeaconRange count :\(arrBeaconUUID.count) - \(arrBeaconUUID)")
                 
                 if arrBeaconRange.count >= numberOfBeacons
                 {
@@ -1146,7 +1049,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     {
         arrBeaconRange.removeAllObjects()
         arrBeaconUUID.removeAllObjects()
-        //        arrBeacon.removeAllObjects()
         
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "startRangeBeacons", userInfo: nil, repeats: false)
     }
@@ -1162,8 +1064,6 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
             
             if (myObje as! Double) < (nextObj as! Double)
             {
-//                print(myObje)
-                
                 return true
             }
             return false
@@ -1175,11 +1075,11 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         
         let nearestBeaconUUID : String = (arrBeaconUUID[Index!]["uuid"] as? String)!
         
-        let nearestBeaconMajor = arrBeaconUUID[Index!]["major"]
-        
-        let nearestBeaconMinor = arrBeaconUUID[Index!]["minor"]
-        
-        print("nearestBeaconUUID : \(nearestBeaconUUID) ---- nearestBeaconMajor : \(nearestBeaconMajor) ---- nearestBeaconMinor :\(nearestBeaconMinor)")
+        //        let nearestBeaconMajor = arrBeaconUUID[Index!]["major"]
+        //
+        //        let nearestBeaconMinor = arrBeaconUUID[Index!]["minor"]
+        //
+        //        print("nearestBeaconUUID : \(nearestBeaconUUID) ---- nearestBeaconMajor : \(nearestBeaconMajor) ---- nearestBeaconMinor :\(nearestBeaconMinor)")
         
         let uuidNearest = nearestBeaconUUID
         
@@ -1193,7 +1093,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         {
             let IndexOfSeat = seatsArray.indexOfObject(resultArr.objectAtIndex(0))
             
-            print("User Beacon Info successObj : \(successObj) - \(resultArr) - Index :\(IndexOfSeat) - IndexOfNearestSeat :\(IndexOfNearestSeat)")
+            //            print("User Beacon Info successObj : \(successObj) - \(resultArr) - Index :\(IndexOfSeat) - IndexOfNearestSeat :\(IndexOfNearestSeat)")
             
             if IndexOfNearestSeat != IndexOfSeat
             {
@@ -1211,20 +1111,20 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
                     {
                         seatColor?.backgroundColor = UIColor.grayColor()
                     }
-//                    IndexOfNearestSeat = IndexOfSeat
+                    //                    IndexOfNearestSeat = IndexOfSeat
                 }
                 
-                let viewSeat : UIView = scrollView.viewWithTag(1000+IndexOfSeat)! //arrForSeatsView.objectAtIndex(IndexOfSeat) as! UIView
+                let viewSeat : UIView = scrollView.viewWithTag(1000+IndexOfSeat)!   //arrForSeatsView.objectAtIndex(IndexOfSeat) as! UIView
                 
                 let seatColor = viewSeat.viewWithTag(999)
-        
+                
                 if resultArr.objectAtIndex(0).objectForKey("uuid") as! String == dictForUserSeatInfo.objectForKey("uuid") as! String
                 {
-                    seatColor?.backgroundColor = UIColor.purpleColor()
+                    seatColor?.backgroundColor = UIColor.greenColor()               //purpleColor()
                 }
                 else
                 {
-                    seatColor?.backgroundColor = UIColor.redColor()
+                    seatColor?.backgroundColor = UIColor.grayColor()                //seatColor?.backgroundColor = UIColor.redColor()
                 }
                 
                 IndexOfNearestSeat = IndexOfSeat
@@ -1241,347 +1141,54 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
         //        arrBeacon.removeAllObjects()
         
         NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "startRangeBeacons", userInfo: nil, repeats: false)
-//        self.startRangeBeacons()
+        //        self.startRangeBeacons()
     }
     
     
-    //MARK:- Load google map
-    
-    func googleMap()
+    //MARK:- Seat pop-up methods
+    func getSeatInfo(sender : UIButton)
     {
-        //        var camera = GMSCameraPosition.cameraWithLatitude(30.671555,
-        //            longitude:76.7391794, zoom:25)
+        print(sender.tag)
         
-        print("dictForUserSeatInfo : \(dictForUserSeatInfo)")
+        let tagIndex = sender.tag-3000
         
-        print(dictForUserSeatInfo.valueForKey("seat_number") as! NSString)
+        print(tagIndex)
         
-        let userSeatNumber : NSString = dictForUserSeatInfo.valueForKey("seat_number") as! NSString
+        let dictSeatInfo : NSMutableDictionary = seatsArray.objectAtIndex(tagIndex) as! NSMutableDictionary
         
-        self.user_seat_number = userSeatNumber.integerValue
-        
-        self.user_seat_numberStr = userSeatNumber as String
-        
-        self.user_block_number = (dictForUserSeatInfo.valueForKey("block_id") as! Int)
-        
-        self.levelId = String(dictForUserSeatInfo.valueForKey("level_id") as! Int)
-        
-        let lati : Double = (dictForUserSeatInfo.valueForKey("latitude") as! NSString).doubleValue
-        
-        let longi : Double = (dictForUserSeatInfo.valueForKey("longitude") as! NSString).doubleValue
-        
-        let seatLatLong : CLLocation = CLLocation(latitude:lati , longitude:longi)
-        
-        print("seatLatLong : \(seatLatLong)")
-       
-        infoWindow = InfoWindow(frame: CGRectMake(20, screenHeight/2-50, screenWidth-40, 100))
-        infoWindow.initWithFrameSize()
-        infoWindow.backgroundColor = UIColor(red: 246.0/255.0, green: 0.0/255.0, blue: 147.0/255, alpha: 1.0)
-        infoWindow.layer.cornerRadius = 3.0
-        infoWindow.clipsToBounds = true
-        self.view.addSubview(infoWindow)
-        infoWindow.hidden = true
-        shouldShowInfoWindow = false
+        self.seatInfoWithPopup(dictSeatInfo)
     }
     
-    func buttonRefreshAction(sender : UIButton)
+    
+    func seatInfoWithPopup(dict : NSMutableDictionary)
     {
-        self.refreshMapView()
+        //        print("Seat dict : \(dict)")
+        
+        let infoWindowObj : InfoWindow = InfoWindow(frame: self.view.bounds)
+        
+        infoWindowObj.delegate = self
+        
+        infoWindowObj.initWithFrameSize(dict)
+        
+        self.view.addSubview(infoWindowObj)
+        
+        let block_Id = String(dict.valueForKey("block_id") as! Int)
+        
+        let seat_Id = String(dict.valueForKey("seat_number") as! Int)
+        
+        infoWindowObj.lblVenue.attributedText = AtlasCommonMethod.getAttributeString("Venue : \(venue_name)", searchStringForRange: "Venue :")
+        
+        infoWindowObj.lblBlock.attributedText = AtlasCommonMethod.getAttributeString("Block : \(block_Id)", searchStringForRange: "Block :")
+        
+        infoWindowObj.lblSeat.attributedText = AtlasCommonMethod.getAttributeString("Seat : \(seat_Id)", searchStringForRange: "Seat :")
+        
     }
     
     
-    func refreshMapView()
+    //MARK:- delegate of InfoWindow
+    func hideInfoWindow(viewObj : UIView)
     {
-        dist_a = nil
-        
-        dist_b = nil
-        
-        getDist_Start = 0.0
-        
-        getDist_End = 0.0
-        
-        isGetFinalPath = "no"
-       
-        self.markAllSeats()
-    }
-    
-    
-    func buttonBackAction(sender : UIButton)
-    {
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
- 
-    
-    //MARK:- APIs
-    func getAllSeatsDetailOfUserLoggedIn()
-    {
-        self.actInd.startAnimating()
-        
-        let dictUserInfo : NSMutableDictionary = NSMutableDictionary()
-        
-        dictUserInfo.setObject(NSUserDefaults.standardUserDefaults().objectForKey("email_id") as! String, forKey: "email")
-        
-        UserViewManager.sharedInstance.getAllSeatsDetailUserLoggedIn(dictUserInfo, success: { (getResponseDic) -> Void in
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
-                print("getAllSeatsDetailUserLoggedIn responseDict : \(getResponseDic)")
-                
-                self.actInd.stopAnimating()
-                
-                let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
-                
-                if strResponse == true
-                {
-                    print(((getResponseDic["data"] as! NSDictionary)["seats"] as! NSArray)[0]["seat_number"] as! NSString)
-                    
-                    let userSeatNumber : NSString = ((getResponseDic["data"] as! NSDictionary)["seats"] as! NSArray)[0]["seat_number"] as! NSString
-                    
-                    self.user_seat_number = userSeatNumber.integerValue
-                    
-                    self.user_seat_numberStr = userSeatNumber as String
-                    
-                    self.user_block_number = (((getResponseDic["data"] as! NSDictionary)["seats"] as! NSArray)[0]["block_id"] as! Int)
-                    
-                    self.levelId = String(((getResponseDic["data"] as! NSDictionary)["seats"] as! NSArray)[0]["level_id"] as! Int)
-                    
-                    self.getAllLevelsOfVenue()
-                }
-                else
-                {
-                    self.getAllLevelsOfVenue()
-                }
-            })
-            }, failure: { (error) -> Void in
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
-                
-        })
-    }
-
-    
-    func getAllLevelsOfVenue()
-    {
-        self.actInd.startAnimating()
-        
-        UserViewManager.sharedInstance.getAllLevelssDetail(venue_id, success: { (getResponseDic) -> Void in
-            
-            self.actInd.stopAnimating()
-            
-            let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
-            
-            let arrForLevel : NSMutableArray = NSMutableArray()
-            
-            if strResponse == true
-            {
-                arrForLevel.addObjectsFromArray(((getResponseDic["data"] as! NSDictionary)["venue"] as! NSDictionary)["levels"] as! NSArray as [AnyObject])
-                
-                print("arrForLevel : \(arrForLevel)")
-                
-                for var i=0;i<arrForLevel.count;i++
-                {
-                    let levelId: String = String(arrForLevel.objectAtIndex(i).objectForKey("id") as! Int)
-                    self.getAllBlocks(levelId)
-                }
-            }
-            
-            }, failure : { (error) -> Void in
-                
-                print("Error : \(error)")
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
-        })
-    }
-    
- 
-    func getAllBlocks(levelId : String)
-    {
-        self.actInd.startAnimating()
-        
-        UserViewManager.sharedInstance.getAllBlocksDetail(venue_id, level_id: levelId, success: { (getResponseDic) -> Void in
-            
-            self.actInd.stopAnimating()
-            
-            print("All Blocks responseDict : \(getResponseDic)")
-            
-            let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
-            
-            let arrForBlocks : NSMutableArray = NSMutableArray()
-            
-            if strResponse == true
-            {
-                
-                arrForBlocks.addObjectsFromArray(((getResponseDic["data"] as! NSDictionary)["level"] as! NSDictionary)["blocks"] as! NSArray as [AnyObject])
-                
-                for var i=0;i<arrForBlocks.count;i++
-                {
-                    let blockId: String = String(arrForBlocks.objectAtIndex(i).objectForKey("id") as! Int)
-                    
-                    print("levelId :\(levelId), blockId: \(blockId)")
-                    
-                    self.getAllSeats(levelId, blockId: blockId)
-                }
-            }
-            
-            }, failure : { (error) -> Void in
-                
-                print("Error : \(error)")
-                
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
-        })
-    }
-    
-    
-    func getAllSeats(levelId : String, blockId : String)
-    {
-        self.actInd.startAnimating()
-        
-        UserViewManager.sharedInstance.getAllSeatsDetail("\(venue_id)", level_id: levelId, block_id: blockId, success: { (getResponseDic) -> Void in
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
-                self.actInd.stopAnimating()
-                
-                let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
-                
-                if strResponse == true
-                {
-                    self.arrAllSeat.addObjectsFromArray(((getResponseDic["data"] as! NSDictionary)["block"] as! NSDictionary)["seats"] as! NSArray as [AnyObject])
-                    
-                    self.markAllSeats()
-                }
-            })
-            
-            }, failure : { (error) -> Void in
-                print("Error : \(error)")
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
-        })
-    }
-    
-    
-    
-    //MARK:- Marker on google map for ploting the all chairs
-    
-    func markAllSeats()
-    {   
-        /*print(mapView)
-        
-        print(mapView.myLocation)
-        
-        if mapView.myLocation == nil
-        {
-            UIAlertView(title: "Location not enabled.", message: "Concert monkey required to access your location. Please goto Setting -> Concert monkey -> Location -> Always", delegate: nil, cancelButtonTitle: "OK").show()
-            
-            self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-            
-            return
-        }
-
-        if arrAllSeat.count > 0
-        {
-            for var i=0; i<arrAllSeat.count; i++
-            {
-                var chairLatitude : String = arrAllSeat.objectAtIndex(i).objectForKey("latitude") as! String
-                var chairLongitude : String = arrAllSeat.objectAtIndex(i).objectForKey("longitude") as! String
-                
-                var seatNumber : NSString = arrAllSeat.objectAtIndex(i).objectForKey("seat_number") as! NSString
-                
-                var blockIdNumber : Int = arrAllSeat.objectAtIndex(i).objectForKey("block_id") as! Int
-                
-                var marker = GMSMarker()
-                
-                marker.position = CLLocationCoordinate2DMake((chairLatitude as NSString).doubleValue, (chairLongitude as NSString).doubleValue)
-                
-                marker.title = "Seat : \(seatNumber)"
-                
-                marker.snippet = "Block : \(blockIdNumber)"
-                
-            
-                if user_seat_numberStr != "0"
-                {
-//                    if seatNumber.integerValue == user_seat_number && blockIdNumber == user_block_number
-                    if seatNumber == user_seat_numberStr && blockIdNumber == user_block_number
-                    {
-                        marker.icon = UIImage(named: "chair_green")
-                        
-                        marker.infoWindowAnchor = CGPointMake(0.3, 0.3)
-                        
-                        userChairLocation = CLLocation(latitude: (chairLatitude as NSString).doubleValue, longitude: (chairLongitude as NSString).doubleValue)
-                        
-                        arrGetRightPath.removeAllObjects()
-                        
-                        print(mapView)
-                        
-                        print(mapView.myLocation)
-                        
-                        print(mapView.myLocation.coordinate)
-                        
-                        arrGetRightPath.addObject("\(mapView.myLocation.coordinate.latitude),\(mapView.myLocation.coordinate.longitude)")
-                        
-                        userLocation = CLLocation(latitude:mapView.myLocation.coordinate.latitude , longitude:mapView.myLocation.coordinate.longitude)
-                        
-                        ////////UserLocationAssign
-                        
-//                        userLocation = CLLocation(latitude:34.06134 , longitude:-118.308757)
-//
-//                        arrGetRightPath.addObject("\(34.06134),\(-118.308757)")
-                        
-                        isUserSeatAvailable = true
-                    }
-                    else
-                    {
-                        marker.icon = UIImage(named: "chair_gray")
-                    }
-                }
-                else
-                {
-                    marker.icon = UIImage(named: "chair_gray")
-                }
-                
-                marker.map = mapView
-            }
-            
-            if isUserSeatAvailable == true
-            {
-                self.getAllPathsOfVenue()
-                
-            }
-            
-        }
-*/
-        self.getAllPathsOfVenue()
-    }
-    
-    
-    func getAllPathsOfVenue()
-    {
-        self.actInd.startAnimating()
-        
-        UserViewManager.sharedInstance.getAllPathsOfDetail("\(venue_id)", level_id: "\(levelId)", success: { (getResponseDic) -> Void in
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
-                print("getAllPathsOfDetail responseDict : \(getResponseDic)")
-                
-                self.actInd.stopAnimating()
-                
-                let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
-                
-                if strResponse == true
-                {
-                    self.arrForAllPaths.removeAllObjects()
-                    
-                    self.arrForAllPaths.addObjectsFromArray(((getResponseDic["data"] as! NSDictionary)["level"] as! NSDictionary)["lat_longs"] as! NSArray as [AnyObject])
-                    
-                    self.timer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "update", userInfo: nil, repeats: false)
-                    
-//                    self.timer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "allPathOnMap", userInfo: nil, repeats: false)
-                }
-            })
-            }, failure: { (error) -> Void in
-                
-                print("Error : \(error.description)")
-                
-                AtlasCommonMethod.alertViewCustom("", messageStr: "Something went wrong.Please try again!")
-        })
+        viewObj.removeFromSuperview()
     }
     
     
@@ -1590,66 +1197,11 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol
     {
         UIApplication.sharedApplication().openURL(NSURL(string: "prefs:root=Bluetooth")!)
     }
+    
+    
     func cancelSelected()
     {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-}
-
-
-struct RunningTimer: CustomStringConvertible {
-    var begin:CFAbsoluteTime
-    var end:CFAbsoluteTime
-    
-    init() {
-        begin = CFAbsoluteTimeGetCurrent()
-        end = 0
-    }
-    mutating func start() {
-        begin = CFAbsoluteTimeGetCurrent()
-        end = 0
-    }
-    mutating func stop() -> Double {
-        if (end == 0) { end = CFAbsoluteTimeGetCurrent() }
-        return Double(end - begin)
-    }
-    var duration:CFAbsoluteTime {
-        get {
-            if (end == 0) { return CFAbsoluteTimeGetCurrent() - begin }
-            else { return end - begin }
-        }
-    }
-    var description:String {
-        let time = duration
-        if (time > 100) {return " \(time/60) min"}
-        else if (time < 1e-6) {return " \(time*1e9) ns"}
-        else if (time < 1e-3) {return " \(time*1e6) µs"}
-        else if (time < 1) {return " \(time*1000) ms"}
-        else {return " \(time) s"}
-    }
-}
-
-class ParkBenchTimer {
-    
-    let startTime:CFAbsoluteTime
-    var endTime:CFAbsoluteTime?
-    
-    init() {
-        startTime = CFAbsoluteTimeGetCurrent()
-    }
-    
-    func stop() -> CFAbsoluteTime {
-        endTime = CFAbsoluteTimeGetCurrent()
-        
-        return duration!
-    }
-    
-    var duration:CFAbsoluteTime? {
-        if let endTime = endTime {
-            return endTime - startTime
-        } else {
-            return nil
-        }
-    }
 }

@@ -70,19 +70,26 @@ class UserSeatDetailVC: UIViewController {
     
     @IBAction func btnShowUserSeatAction(sender: UIButton) {
         
-        let authstate = CLLocationManager.authorizationStatus()
-        
-        if(authstate == CLAuthorizationStatus.NotDetermined || authstate == CLAuthorizationStatus.Denied || authstate == CLAuthorizationStatus.Restricted)
+        if sender.tag == 25
         {
-            print("Not Authorised")
-            
-            self.alertForWrning()
+            AtlasCommonMethod.alert("Warning", message: "Seat not allocate to you by admin.", view: self)
         }
-        else if(authstate == CLAuthorizationStatus.AuthorizedAlways)
+        else
         {
-            print("Authorised")
+            let authstate = CLLocationManager.authorizationStatus()
             
-            self.performSegueWithIdentifier("MapVCSegue", sender: self)
+            if(authstate == CLAuthorizationStatus.NotDetermined || authstate == CLAuthorizationStatus.Denied || authstate == CLAuthorizationStatus.Restricted)
+            {
+                print("Not Authorised")
+                
+                self.alertForWrning()
+            }
+            else if(authstate == CLAuthorizationStatus.AuthorizedAlways)
+            {
+                print("Authorised")
+                
+                self.performSegueWithIdentifier("MapVCSegue", sender: self)
+            }
         }
     }
     
@@ -93,6 +100,8 @@ class UserSeatDetailVC: UIViewController {
     }
     
     
+    //MARK:- API for getting user seat info
+    
     func getInfoOfSeat()
     {
         self.actInd.startAnimating()
@@ -100,6 +109,7 @@ class UserSeatDetailVC: UIViewController {
         let user_id = defaults.objectForKey("user_id") as? String
         
         UserViewManager.sharedInstance.getUserSeatInfoWithUUID(user_id!, success: { (getResponseDic) -> Void in
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
                 print("getSeatsDetailUserLoggedIn responseDict : \(getResponseDic)")
@@ -107,6 +117,8 @@ class UserSeatDetailVC: UIViewController {
                 self.actInd.stopAnimating()
                 
                 //                self.btnViewSeat.userInteractionEnabled = false
+                
+                self.btnViewSeat.tag = 25
                 
                 if let strResponse :Bool = getResponseDic.objectForKey("success") as? Bool
                 {
@@ -116,16 +128,23 @@ class UserSeatDetailVC: UIViewController {
                         
                         let UserBlockId : String = String(self.userSeatDict["block_id"] as! Int)
                         
-                        
                         let userSeatNumber : Int = self.userSeatDict["seat_id"] as! Int
                         
-                        
                         let xNSNumber = userSeatNumber as NSNumber
+                        
                         let xString : String = xNSNumber.stringValue
-                         self.lblSeatNo.text =  xString
+                        
+                        self.lblSeatNo.text =  xString
                         
                         self.lblBlockNo.text = UserBlockId
                         
+                        venue_name = self.userSeatDict["venue_name"] as! String
+                        
+                        self.lblVenue.text = venue_name as String
+                        
+                        //                        self.btnViewSeat.userInteractionEnabled = true
+                        
+                        self.btnViewSeat.tag = 50
                     }
                     else
                     {
@@ -144,71 +163,14 @@ class UserSeatDetailVC: UIViewController {
                     
                     //                    self.btnViewSeat.userInteractionEnabled = false
                     
+                    self.btnViewSeat.tag = 25
+                    
                     self.actInd.stopAnimating()
                     
                     AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
                 })
         }
         
-
-        
-        /*
-        
-        let dictUserInfo : NSMutableDictionary = NSMutableDictionary()
-        dictUserInfo.setObject(NSUserDefaults.standardUserDefaults().objectForKey("email_id") as! String, forKey: "email")
-        
-        UserViewManager.sharedInstance.getSeatsDetailUserLoggedIn(dictUserInfo, success: { (getResponseDic) -> Void in
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
-                print("getSeatsDetailUserLoggedIn responseDict : \(getResponseDic)")
-                
-                self.actInd.stopAnimating()
-//                
-                let strResponse :Bool = getResponseDic.objectForKey("success")! as! Bool
-                
-                if strResponse == true
-                {
-                    self.userSeatDict = (getResponseDic["data"] as! NSMutableDictionary)["seat"] as! NSMutableDictionary
-                    
-                    print("userSeatDict :\(self.userSeatDict)")
-                    
-                    self.btnViewSeat.userInteractionEnabled = true
-                    
-                    print(((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["seat_number"] as! NSString)
-                    
-                    let userSeatNumber : NSString = ((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["seat_number"] as! NSString
-                    
-                    self.seat_id = userSeatNumber
-                    
-                    self.lblSeatNo.text = userSeatNumber as String
-                    
-                    let user_block_number = (((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["block_id"] as! Int)
-                    
-                    self.block_id = String(user_block_number)
-                    
-                    self.lblBlockNo.text = String(user_block_number)
-                    
-                    venue_name = ((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["venue_name"] as! String
-                    
-                    self.lblVenue.text = venue_name as String
-                    
-                    venue_id = String(((getResponseDic["data"] as! NSDictionary)["seat"] as! NSDictionary)["venue_id"] as! Int)
-                    
-                }
-                else
-                {
-//                    self.btnViewSeat.userInteractionEnabled = false
-                    
-                    self.btnViewSeat.userInteractionEnabled = true
-                    
-                    AtlasCommonMethod.alert("", message: "No ticket found.", view: self)
-                }
-            })
-            }, failure: { (error) -> Void in
-                
-                AtlasCommonMethod.alert("", message: "Something went wrong.Please try again!", view: self)
-        }) */
     }
     
     
@@ -223,15 +185,15 @@ class UserSeatDetailVC: UIViewController {
         
     }
     
-
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

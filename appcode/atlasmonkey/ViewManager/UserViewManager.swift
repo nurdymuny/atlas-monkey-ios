@@ -34,8 +34,8 @@ class UserViewManager: NSObject {
     
     let baseURL = "http://52.5.49.148/api/v1/"
     
-//    var delegateLogin:logInProtocol?
-//    var delegateSignup:signupProtocol?
+    //    var delegateLogin:logInProtocol?
+    //    var delegateSignup:signupProtocol?
     
     
     class var sharedInstance: UserViewManager {
@@ -153,13 +153,13 @@ class UserViewManager: NSObject {
         
         let UrlWithSearchKeyword = "\(baseURL)update"
         webObj.requestWithMethodAndParameter("PATCH", urlString: UrlWithSearchKeyword, parameters: usrInfoDic, success: { (data) -> Void in
-//
-//            let getResponseDic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-//            
-//            //            print(getResponseDic)
-//            
-//            var responseArr : NSArray = NSArray(object: getResponseDic)
-//            success(responseArr)
+            //
+            //            let getResponseDic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+            //
+            //            //            print(getResponseDic)
+            //
+            //            var responseArr : NSArray = NSArray(object: getResponseDic)
+            //            success(responseArr)
             
             do
             {
@@ -189,11 +189,11 @@ class UserViewManager: NSObject {
         let UrlWithSearchKeyword = "\(baseURL)add_ticket_detail"
         webObj.requestWithMethodAndParameter("POST", urlString: UrlWithSearchKeyword, parameters: userInfoDict, success: {(data) -> Void in
             
-//            let getResponseDic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-//            
-//            //            print(getResponseDic)
-//            let getResponse : NSArray = NSArray(object: getResponseDic)
-//            success(getResponse)
+            //            let getResponseDic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+            //
+            //            //            print(getResponseDic)
+            //            let getResponse : NSArray = NSArray(object: getResponseDic)
+            //            success(getResponse)
             
             
             do
@@ -265,7 +265,7 @@ class UserViewManager: NSObject {
     
     func getSeatsDetailUserLoggedIn(userInfoDict : NSDictionary, success:(NSDictionary)-> Void, failure:(NSError) -> Void) -> Void
     {
-//        var email_id : String = userInfoDict.objectForKey("email") as! String
+        //        var email_id : String = userInfoDict.objectForKey("email") as! String
         let UrlWithSearchKeyword = "\(baseURL)get_seat_detail.json"
         
         webObj.requestWithMethodAndParameter("GET", urlString: UrlWithSearchKeyword, parameters: userInfoDict, success: {(data) -> Void in
@@ -404,7 +404,7 @@ class UserViewManager: NSObject {
     {
         
         
-      // let UrlWithSearchKeyword = "http://192.168.0.104:3000/api/v1/venue/get_user_seat_info.json?user_id=2"
+        // let UrlWithSearchKeyword = "http://192.168.0.104:3000/api/v1/venue/get_user_seat_info.json?user_id=2"
         
         let UrlWithSearchKeyword = "\(baseURL)venue/get_user_seat_info.json?user_id=\(user_id)"
         
@@ -432,7 +432,7 @@ class UserViewManager: NSObject {
     {
         let UrlWithSearchKeyword = "\(baseURL)layout/seat_layout.json?venue_id=\(venue_id)&level_id=\(level_id)"
         
-         //  let UrlWithSearchKeyword = "http://192.168.0.104:3000/api/v1/layout/seat_layout.json?venue_id=3&level_id=7"
+        //  let UrlWithSearchKeyword = "http://192.168.0.104:3000/api/v1/layout/seat_layout.json?venue_id=3&level_id=7"
         
         webObj.getRequestWithEndPoint(UrlWithSearchKeyword, parameters: nil, success: {(data) -> Void in
             
