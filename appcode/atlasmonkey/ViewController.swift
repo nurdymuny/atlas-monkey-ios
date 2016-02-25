@@ -417,7 +417,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
             
             if(!isSuccess){
                 isSuccess = true
-                print("this is my, path")
+               // print("this is my, path")
                 //                print(actualPathArray)
                 self.drawPathOnFloar()
                 
@@ -760,7 +760,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     {
         for (index,obj) in actualPathArray.enumerate()
         {
-            print("\(index) - \(obj)")
+           // print("\(index) - \(obj)")
             
             let index = seatsArray.indexOfObject(obj)
             
@@ -898,6 +898,9 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
             //pathView?.backgroundColor = UIColor.blueColor()
             
         }
+        
+        
+        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "startRangeBeacons", userInfo: nil, repeats: false)
     }
     
     
@@ -966,71 +969,131 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     
     func beaconManager(manager: ABBeaconManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: ABBeaconRegion!)
     {
-        // your long procedure
-        
-        let endDate: NSDate = NSDate()
-        
-        let dateComponents: NSDateComponents = (NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)?.components(NSCalendarUnit.Nanosecond, fromDate: startDate, toDate: endDate, options:[]))!
         
         startDate = NSDate()
         
-        print("runtime is nanosecs : \(dateComponents.nanosecond)")
+        print("beacons:-\(beacons)")
         
-        print("iBeacons : \(beacons)")
-        
-        if(beacons.count != 0)
-        {
-            let closestBeacon = beacons[0] as! ABBeacon
+        for(var i = 0 ; i < beacons.count ; i++){
             
-            let strUUID: NSString = closestBeacon.proximityUUID.UUIDString
+            let beacon = beacons[i] as! ABBeacon
             
+            
+            print(beacons)
+            
+            let dictionary : NSMutableDictionary = NSMutableDictionary()
+            dictionary.setValue(beacon.proximityUUID.UUIDString, forKey: "uuid")
+            dictionary.setValue(beacon.distance, forKey: "distance")
+            dictionary.setValue(beacon.major, forKey: "major")
+            dictionary.setValue(beacon.minor, forKey: "minor")
+            
+            let strUUID: NSString = beacon.proximityUUID.UUIDString
             let pred: NSPredicate = NSPredicate(format: "uuid==%@", strUUID)
-            
             let result: NSArray = arrBeaconUUID.filteredArrayUsingPredicate(pred)
-            
-            let success : Bool = result.count > 0
-            
-            if success
-            {
-                //                print("numberOfBeacons : \(numberOfBeacons) - arrBeaconRange count : \(arrBeaconRange.count) - \(arrBeaconRange) arrBeaconRange count :\(arrBeaconUUID.count) - \(arrBeaconUUID)")
+            if (result.count == 0){
                 
-                if arrBeaconRange.count >= numberOfBeacons
-                {
-                    numberOfBeacons = 0
-                    
-                    self.stopRangeBeacons()
-                    
-                    self.getNearestBeacon()
-                }
-                else
-                {
-                    numberOfBeacons = 0
-                    
-                    self.stopRangeBeacons()
-                    
-                    self.clearBeaconInfo()
-                }
-            }
-            else
-            {
-                if closestBeacon.distance as Double > 0.0
-                {
-                    let dictionary : NSMutableDictionary = NSMutableDictionary()
-                    
-                    dictionary.setValue(closestBeacon.proximityUUID.UUIDString, forKey: "uuid")
-                    
-                    dictionary.setValue(closestBeacon.distance, forKey: "distance")
-                    
-                    dictionary.setValue(closestBeacon.major, forKey: "major")
-                    
-                    dictionary.setValue(closestBeacon.minor, forKey: "minor")
-                    
                     arrBeaconUUID.addObject(dictionary)
-                    
-                    arrBeaconRange.addObject(closestBeacon.distance as Double)
-                }
+            }
+            else{
+                
+                
+                   let dict = result.objectAtIndex(0)
+                    arrBeaconUUID.removeObject(dict)
+                    arrBeaconUUID.addObject(dictionary)
+            
             }
         }
+        
+        arrBeaconRange.removeAllObjects()
+        
+         for(var i = 0 ; i < arrBeaconUUID.count ; i++){
+            let dict = arrBeaconUUID.objectAtIndex(i)
+            let distaceFloat:Double = dict.valueForKey("distance") as! Double
+            arrBeaconRange.addObject(distaceFloat)
+        }
+        
+        
+        print(arrBeaconUUID)
+        
+        print(arrBeaconRange)
+        let arr : Array = arrBeaconRange as Array
+        let numMin = arr.minElement { (myObje, nextObj) -> Bool in
+            
+            if (myObje as! Double) < (nextObj as! Double)
+            {
+                return true
+            }
+            return false
+        }
+        
+
+        if(arrBeaconRange.count > 0){
+            
+            let checkValue:Int = (numMin?.integerValue)!
+            if(checkValue != -1){
+                
+                print(numMin)
+                let Index = arr.indexOf{$0 === numMin}
+                let nearestBeaconUUID : String = (arrBeaconUUID[Index!]["uuid"] as? String)!
+                let uuidNearest = nearestBeaconUUID
+                let predicateForNearestUUID: NSPredicate = NSPredicate(format: "uuid==%@", uuidNearest)
+                let resultArr: NSArray = seatsArray.filteredArrayUsingPredicate(predicateForNearestUUID)
+                let successObj : Bool = resultArr.count > 0
+                if successObj
+                {
+                    let IndexOfSeat = seatsArray.indexOfObject(resultArr.objectAtIndex(0))
+                    if IndexOfNearestSeat != IndexOfSeat
+                    {
+                        if IndexOfNearestSeat != -1
+                        {
+                            let viewSeat : UIView = scrollView.viewWithTag(1000+IndexOfNearestSeat)!
+                            let seatColor = viewSeat.viewWithTag(999)
+                            
+                            if seatsArray.objectAtIndex(IndexOfNearestSeat).objectForKey("uuid") as! String == dictForUserSeatInfo.objectForKey("uuid") as! String
+                            {
+                                seatColor?.backgroundColor = UIColor.greenColor()
+                            }
+                            else
+                            {
+                                seatColor?.backgroundColor = UIColor.grayColor()
+                            }
+                        }
+                        
+                        let viewSeat : UIView = scrollView.viewWithTag(1000+IndexOfSeat)!
+                        let seatColor = viewSeat.viewWithTag(999)
+                        
+                        if resultArr.objectAtIndex(0).objectForKey("uuid") as! String == dictForUserSeatInfo.objectForKey("uuid") as! String
+                        {
+                            seatColor?.backgroundColor = UIColor.greenColor()
+                        }
+                        else
+                        {
+                            seatColor?.backgroundColor = UIColor.grayColor()                               }
+                        
+                        IndexOfNearestSeat = IndexOfSeat
+                        
+                        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+                            
+                            self.stopRangeBeacons()
+                            self.getMySeats(resultArr.objectAtIndex(0) as! NSDictionary)
+                        }
+                    }
+                }
+            }
+            
+            else{
+                
+                print("By Pass")
+            }
+            
+            
+            
+            
+            
+
+            
+        }
+
     }
     
     
@@ -1038,7 +1101,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     {
         if error != nil
         {
-            print("Error : \(error.description)")
+            //print("Error : \(error.description)")
             
             AtlasCommonMethod.sharedInstance.delegateAlert = self
             AtlasCommonMethod.sharedInstance.getAlertMessage("Bluetooth Warning", messageStr: "Please turn on the bluetooth by tapping on setting, If it is turn off currently?", view: self)
@@ -1055,7 +1118,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     
     func getNearestBeacon()
     {
-        print("Repeat getNearestBeacon")
+        //print("Repeat getNearestBeacon")
         
         //****************************    Find Nearest iBeacon    ****************************//
         let arr : Array = arrBeaconRange as Array
@@ -1069,78 +1132,9 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
             return false
         }
         
-        print("numMin : \(numMin)")
+       // print("numMin : \(numMin)")
         
-        let Index = arr.indexOf{$0 === numMin}
         
-        let nearestBeaconUUID : String = (arrBeaconUUID[Index!]["uuid"] as? String)!
-        
-        //        let nearestBeaconMajor = arrBeaconUUID[Index!]["major"]
-        //
-        //        let nearestBeaconMinor = arrBeaconUUID[Index!]["minor"]
-        //
-        //        print("nearestBeaconUUID : \(nearestBeaconUUID) ---- nearestBeaconMajor : \(nearestBeaconMajor) ---- nearestBeaconMinor :\(nearestBeaconMinor)")
-        
-        let uuidNearest = nearestBeaconUUID
-        
-        let predicateForNearestUUID: NSPredicate = NSPredicate(format: "uuid==%@", uuidNearest)
-        
-        let resultArr: NSArray = seatsArray.filteredArrayUsingPredicate(predicateForNearestUUID)
-        
-        let successObj : Bool = resultArr.count > 0
-        
-        if successObj
-        {
-            let IndexOfSeat = seatsArray.indexOfObject(resultArr.objectAtIndex(0))
-            
-            //            print("User Beacon Info successObj : \(successObj) - \(resultArr) - Index :\(IndexOfSeat) - IndexOfNearestSeat :\(IndexOfNearestSeat)")
-            
-            if IndexOfNearestSeat != IndexOfSeat
-            {
-                if IndexOfNearestSeat != -1
-                {
-                    let viewSeat : UIView = scrollView.viewWithTag(1000+IndexOfNearestSeat)! //arrForSeatsView.objectAtIndex(IndexOfNearestSeat) as! UIView
-                    
-                    let seatColor = viewSeat.viewWithTag(999)
-                    
-                    if seatsArray.objectAtIndex(IndexOfNearestSeat).objectForKey("uuid") as! String == dictForUserSeatInfo.objectForKey("uuid") as! String
-                    {
-                        seatColor?.backgroundColor = UIColor.greenColor()
-                    }
-                    else
-                    {
-                        seatColor?.backgroundColor = UIColor.grayColor()
-                    }
-                    //                    IndexOfNearestSeat = IndexOfSeat
-                }
-                
-                let viewSeat : UIView = scrollView.viewWithTag(1000+IndexOfSeat)!   //arrForSeatsView.objectAtIndex(IndexOfSeat) as! UIView
-                
-                let seatColor = viewSeat.viewWithTag(999)
-                
-                if resultArr.objectAtIndex(0).objectForKey("uuid") as! String == dictForUserSeatInfo.objectForKey("uuid") as! String
-                {
-                    seatColor?.backgroundColor = UIColor.greenColor()               //purpleColor()
-                }
-                else
-                {
-                    seatColor?.backgroundColor = UIColor.grayColor()                //seatColor?.backgroundColor = UIColor.redColor()
-                }
-                
-                IndexOfNearestSeat = IndexOfSeat
-                
-                dispatch_async(dispatch_get_main_queue()) { [unowned self] in
-                    
-                    self.getMySeats(resultArr.objectAtIndex(0) as! NSDictionary)
-                }
-            }
-        }
-        
-        arrBeaconRange.removeAllObjects()
-        arrBeaconUUID.removeAllObjects()
-        //        arrBeacon.removeAllObjects()
-        
-        NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "startRangeBeacons", userInfo: nil, repeats: false)
         //        self.startRangeBeacons()
     }
     
@@ -1148,11 +1142,11 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     //MARK:- Seat pop-up methods
     func getSeatInfo(sender : UIButton)
     {
-        print(sender.tag)
+        //print(sender.tag)
         
         let tagIndex = sender.tag-3000
         
-        print(tagIndex)
+       // print(tagIndex)
         
         let dictSeatInfo : NSMutableDictionary = seatsArray.objectAtIndex(tagIndex) as! NSMutableDictionary
         

@@ -38,6 +38,7 @@ class UserViewManager: NSObject {
     //    var delegateSignup:signupProtocol?
     
     
+    
     class var sharedInstance: UserViewManager {
         struct Static {
             static var instance: UserViewManager?

@@ -10,23 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "atlasmonkey/ViewController.swift"
-            timestampString = "476279312.213742"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "868"
-            endingLineNumber = "868"
-            landmarkName = "drawPathOnFloar()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "atlasmonkey/ViewController.swift"
-            timestampString = "476269210.05799"
+            timestampString = "478080213.219336"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "477"
@@ -42,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "atlasmonkey/ViewController.swift"
-            timestampString = "476269283.357311"
+            timestampString = "478080213.219336"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "490"
@@ -54,65 +38,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "atlasmonkey/ViewController.swift"
-            timestampString = "476280650.578576"
+            timestampString = "478100115.906014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
-            landmarkName = "getVenueLayout()"
+            startingLineNumber = "1101"
+            endingLineNumber = "1101"
+            landmarkName = "beaconManager(_:didRangeBeacons:inRegion:)"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "atlasmonkey/ViewController.swift"
-            timestampString = "476280757.855902"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "getVenueLayout()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "atlasmonkey/ViewController.swift"
-            timestampString = "476280807.353737"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
-            landmarkName = "gridView()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "atlasmonkey/ViewController.swift"
-            timestampString = "476280833.594721"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "gridView()"
-            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Concert_monkey.ViewController.beaconManager (Concert_monkey.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.ABBeaconManager&gt;, didRangeBeacons : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;, inRegion : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.ABBeaconRegion&gt;) -&gt; ()"
+                  moduleName = "Concert monkey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ishaan/Documents/OfficeProject/Git/AtlasMonkey/ibeacon/atlas-monkey-ios/appcode/atlasmonkey/ViewController.swift"
+                  timestampString = "478097966.599755"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1093"
+                  endingLineNumber = "1093"
+                  offsetFromSymbolStart = "14428">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Concert_monkey.ViewController.beaconManager (Concert_monkey.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.ABBeaconManager&gt;, didRangeBeacons : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;, inRegion : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.ABBeaconRegion&gt;) -&gt; ()"
+                  moduleName = "Concert monkey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ishaan/Documents/OfficeProject/Git/AtlasMonkey/ibeacon/atlas-monkey-ios/appcode/atlasmonkey/ViewController.swift"
+                  timestampString = "478097966.599908"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1093"
+                  endingLineNumber = "1093"
+                  offsetFromSymbolStart = "14520">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
