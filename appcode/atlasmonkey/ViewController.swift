@@ -17,6 +17,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     @IBOutlet var btnBack: UIButton!
     
     var beaconManager: ABBeaconManager!
+
     
     var arrBeaconUUID: NSMutableArray = NSMutableArray()
     
@@ -49,6 +50,14 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     var dictForUserSeatInfo : NSDictionary = NSDictionary()
     
     
+    let label:UILabel = UILabel()
+    let label1:UILabel = UILabel()
+    let label2:UILabel = UILabel()
+    let label3:UILabel = UILabel()
+    let label4:UILabel = UILabel()
+    let label5:UILabel = UILabel()
+    
+    
     
     //MARK:- Life cycle of VC
     override func viewDidLoad()
@@ -69,13 +78,12 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     {
         super.viewWillDisappear(true)
         
-        //        self.startRangeBeacons()                                                       //
     }
     
     
     override func viewWillDisappear(animated: Bool)
     {
-        //        self.stopRangeBeacons()                                                        //
+        //        self.stopRangeBeacons()
         
         super.viewWillDisappear(true)
     }
@@ -243,6 +251,42 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
                 }
             }
         }
+        
+        
+        let view:UIView = UIView()
+        view.frame = CGRectMake(0, 300, 320, 100)
+        view.backgroundColor = UIColor.whiteColor()
+       // self.scrollView.addSubview(view)
+        
+        
+        label.frame = CGRectMake(0, 0, 320, 14)
+        label.text = "E23"
+        view.addSubview(label)
+        
+        
+        label1.frame = CGRectMake(0, 18, 320, 14)
+        label1.text = "E23"
+        view.addSubview(label1)
+        
+       
+        label2.frame = CGRectMake(0, 40, 320, 14)
+        label2.text = "E23"
+        view.addSubview(label2)
+        
+        
+        label3.frame = CGRectMake(0, 55, 320, 14)
+        label3.text = "E23"
+        view.addSubview(label3)
+        
+        
+        label4.frame = CGRectMake(0, 70, 320, 14)
+        label4.text = "E23"
+        view.addSubview(label4)
+        
+        
+        label5.frame = CGRectMake(0, 92, 320, 14)
+        label5.text = "E23"
+        view.addSubview(label5)
         
         self.startRangeBeacons()
     }
@@ -899,8 +943,8 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
             
         }
         
-        
-        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "startRangeBeacons", userInfo: nil, repeats: false)
+       
+        //NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "startRangeBeacons", userInfo: nil, repeats: false)
     }
     
     
@@ -908,6 +952,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     
     func startRangeBeacons()
     {
+         self.stopRangeBeacons()
         
         for (_, obj) in seatsArray.enumerate()
         {
@@ -940,9 +985,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     
     func stopRangeBeacons()
     {
-        //        let tran: ABTransmitters = ABTransmitters.sharedTransmitters()
-        //
-        //        for (index, obj) in tran.transmitters().enumerate()
+ 
         for (_, obj) in seatsArray.enumerate()
         {
             if let isUUID : String = obj["uuid"] as? String
@@ -967,8 +1010,16 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
     
     //MARK:- iBeacon Delegates
     
-    func beaconManager(manager: ABBeaconManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: ABBeaconRegion!)
+    
+
+    
+    
+    func beaconManager(manager: ABBeaconManager!, didRangeBeacons beacons:[AnyObject]!, inRegion region: ABBeaconRegion!)
     {
+        
+        
+        print(beacons)
+        
         
         startDate = NSDate()
         
@@ -983,9 +1034,35 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
             
             let dictionary : NSMutableDictionary = NSMutableDictionary()
             dictionary.setValue(beacon.proximityUUID.UUIDString, forKey: "uuid")
-            dictionary.setValue(beacon.distance, forKey: "distance")
+            dictionary.setValue(beacon.rssi, forKey: "rssi")
             dictionary.setValue(beacon.major, forKey: "major")
             dictionary.setValue(beacon.minor, forKey: "minor")
+            
+            
+            if(dictionary.valueForKey("uuid") as!String == "999557E7-23E4-4BED-988A-A02FE47F9001"){
+                
+                label.text = "E2E"
+                let distaceFloat:Int = dictionary.valueForKey("rssi") as! Int
+                label1.text = String(distaceFloat)
+            }
+            
+            if(dictionary.valueForKey("uuid") as!String == "B9407F30-F5F8-466E-AFF9-25556B57FE6D"){
+                
+                label2.text = "E25"
+                let distaceFloat:Int = dictionary.valueForKey("rssi") as! Int
+                label3.text = String(distaceFloat)
+                
+            }
+            
+            if(dictionary.valueForKey("uuid") as!String == "74278BDA-B644-4520-8F0C-720EAF059935"){
+                
+                label4.text = "E78"
+                let distaceFloat:Int = dictionary.valueForKey("rssi") as! Int
+                label5.text = String(distaceFloat)
+                
+            }
+
+            
             
             let strUUID: NSString = beacon.proximityUUID.UUIDString
             let pred: NSPredicate = NSPredicate(format: "uuid==%@", strUUID)
@@ -1008,18 +1085,49 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
         
          for(var i = 0 ; i < arrBeaconUUID.count ; i++){
             let dict = arrBeaconUUID.objectAtIndex(i)
-            let distaceFloat:Double = dict.valueForKey("distance") as! Double
-            arrBeaconRange.addObject(distaceFloat)
+            let distaceFloat:Int = dict.valueForKey("rssi") as! Int
+            
+            if(distaceFloat != 0){
+                
+                arrBeaconRange.addObject(distaceFloat)
+
+            }
+            
+            else{
+                
+                print("By Pass Distance float")
+                
+                let nearestBeaconUUID : String = dict.valueForKey("uuid") as!String
+                let uuidNearest = nearestBeaconUUID
+                let predicateForNearestUUID: NSPredicate = NSPredicate(format: "uuid==%@", uuidNearest)
+                let resultArr: NSArray = arrBeaconUUID.filteredArrayUsingPredicate(predicateForNearestUUID)
+                
+                if(resultArr.count > 0){
+                    
+                    let dict = resultArr.objectAtIndex(0)
+                    arrBeaconUUID.removeObject(dict)
+                    
+                }
+                
+            }
         }
         
         
-        print(arrBeaconUUID)
+
         
+
+        
+        
+        
+        print(arrBeaconUUID)
         print(arrBeaconRange)
+        
+        
+        
         let arr : Array = arrBeaconRange as Array
         let numMin = arr.minElement { (myObje, nextObj) -> Bool in
             
-            if (myObje as! Double) < (nextObj as! Double)
+            if (myObje as! Int) > (nextObj as! Int)
             {
                 return true
             }
@@ -1029,8 +1137,10 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
 
         if(arrBeaconRange.count > 0){
             
+            print("Minimum Value\(numMin)")
+            
             let checkValue:Int = (numMin?.integerValue)!
-            if(checkValue != -1){
+            if(checkValue != 0){
                 
                 print(numMin)
                 let Index = arr.indexOf{$0 === numMin}
@@ -1074,7 +1184,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
                         
                         dispatch_async(dispatch_get_main_queue()) { [unowned self] in
                             
-                            self.stopRangeBeacons()
+                            //self.stopRangeBeacons()
                             self.getMySeats(resultArr.objectAtIndex(0) as! NSDictionary)
                         }
                     }
@@ -1085,13 +1195,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
                 
                 print("By Pass")
             }
-            
-            
-            
-            
-            
 
-            
         }
 
     }
@@ -1107,14 +1211,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
             AtlasCommonMethod.sharedInstance.getAlertMessage("Bluetooth Warning", messageStr: "Please turn on the bluetooth by tapping on setting, If it is turn off currently?", view: self)
         }
     }
-    
-    func clearBeaconInfo()
-    {
-        arrBeaconRange.removeAllObjects()
-        arrBeaconUUID.removeAllObjects()
-        
-        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "startRangeBeacons", userInfo: nil, repeats: false)
-    }
+
     
     func getNearestBeacon()
     {
@@ -1132,10 +1229,7 @@ class ViewController: UIViewController, ABBeaconManagerDelegate, alertProtocol, 
             return false
         }
         
-       // print("numMin : \(numMin)")
-        
-        
-        //        self.startRangeBeacons()
+   
     }
     
     
